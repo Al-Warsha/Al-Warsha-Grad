@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "553601907929",
+    "project_id": "warshadb",
+    "storage_bucket": "warshadb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553601907929:android:e4ddc46d39c1d8696ed2c8",
+        "android_client_info": {
+          "package_name": "com.example.myapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "553601907929-ov0uhjibglfs55hlkt3ujmmgh64g4j1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMiuWYLQNZVC4S5F5H4pLgJtaG68nibcE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "553601907929-ov0uhjibglfs55hlkt3ujmmgh64g4j1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
