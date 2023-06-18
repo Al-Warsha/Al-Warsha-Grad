@@ -7,6 +7,9 @@ import 'package:myapp/Models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myapp/Screens/user_profile_screen.dart';
 
+import '../Screens/ServicesScreen.dart';
+import '../Screens/admin-homepage.dart';
+
 //import 'admin_home_page.dart';
 
 class AuthController extends GetxController {
@@ -27,9 +30,9 @@ class AuthController extends GetxController {
     if (user == null) {
       print("login page");
       Get.offAll(() => LoginPage());
-    } /*else {
-      Get.offAll(() => HomePageScreen());
-    }*/
+    } else {
+      Get.offAll(() => ServicesScreen());
+    }
   }
 
   Future<void> register(String fullName, String email, String password, String phoneNumber) async {
@@ -112,7 +115,7 @@ class AuthController extends GetxController {
     try {
       if (email == "admin@email.com" && password == "123") {
         // Successful login as admin
-       // Get.offAll(() => AdminHomePageScreen()); // Replace AdminHomePage with your admin homepage screen
+       Get.offAll(() => AdminHomepage()); // Replace AdminHomePage with your admin homepage screen
         return;
       }
 

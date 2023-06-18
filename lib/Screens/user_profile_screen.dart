@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 //import 'package:myapp/homepage.dart';
 import '../Controller/auth_controller.dart';
 import '../Repositories/user_repository.dart';
+import 'ServicesScreen.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
@@ -83,10 +84,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () {
-            /*Navigator.push(
+            Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomePageScreen()),
-            );*/
+              MaterialPageRoute(builder: (context) => ServicesScreen()),
+            );
           },
           icon: Icon(Icons.arrow_back),
           color: Colors.black,
