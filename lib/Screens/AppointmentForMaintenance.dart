@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Models/scheduleAppointment.dart';
 import '../Shared/network/local/firebase_utils.dart';
+import 'add_car.dart';
 
 
 class AppointmentForMaintenance extends StatefulWidget {
@@ -81,7 +82,10 @@ class _AppointmentForMaintenance extends State<AppointmentForMaintenance> {
                     .toList(),
                 onChanged: (String? car) {
                   if(car == 'add new car')
-                    Navigator.pushNamed(context, 'Car');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddCar()),
+                    );
                   setState(() {
                     selectedcar = car;
                   });

@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/Screens/add_car.dart';
 import '../Models/emegencyAppointment.dart';
 import '../Shared/network/local/firebase_utils.dart';
 import 'Google_map.dart';
+import 'car_page.dart';
 
 
 
@@ -81,7 +83,10 @@ class _EmergencyRoadHelp extends State<EmergencyRoadHelp> {
                         .toList(),
                     onChanged: (String? car) {
                       if(car == 'add new car')
-                        Navigator.pushNamed(context, 'Car');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AddCar()),
+                        );
                       setState(() {
                         selectedcar = car;
                       });

@@ -42,8 +42,8 @@ class MyApp extends StatelessWidget {
         viewMechanicsForAppointment.routeName: (c)=> viewMechanicsForAppointment(),
         //Try.routeName: (c)=>Try(),
       },
-      // debugShowCheckedModeBanner: false,
-      // home: SplashScreenPage(),
+      debugShowCheckedModeBanner: false,
+      home: SplashScreenPage(),
     );
   }
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/Screens/car_page.dart';
+import 'package:myapp/Screens/user_profile_screen.dart';
 
 import 'ServicesScreen.dart';
 
@@ -19,21 +21,15 @@ class _BottomNavigationBarExampleState
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'screen 1',
-      style: optionStyle,
-    ),
-    Text(
-      'screen 2',
-      style: optionStyle,
-    ),
+    CarPage(),
+    UserProfileScreen(),
     ServicesScreen(),
     Text(
-      'screen 4',
+      'old requests',
       style: optionStyle,
     ),
     Text(
-      'screen 5',
+      'notification',
       style: optionStyle,
     ),
   ];
