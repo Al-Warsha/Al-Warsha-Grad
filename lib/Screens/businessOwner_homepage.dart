@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../Controller/auth_controller.dart';
+
 class BusinessOwnerHomepage extends StatefulWidget {
   static const String routeName = 'businessOwnerHomepage';
 
@@ -34,6 +36,7 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
             child: ElevatedButton(
             onPressed: () {
                       // Perform logout action here
+              AuthController.instance.logout();
                    },
                   child: Text('Logout', style: TextStyle(color: Colors.white)),
                    style: ButtonStyle(

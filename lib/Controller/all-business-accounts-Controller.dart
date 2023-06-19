@@ -7,8 +7,8 @@ import '../Models/businessOwner_model.dart';
 import '../Repositories/businessOwner_repository.dart';
 
 
-class AdminHomepageController extends GetxController {
-  static AdminHomepageController get instance => Get.find();
+class AllBusinessOwnersPageController extends GetxController {
+  static AllBusinessOwnersPageController get instance => Get.find();
 
   final BusinessOwnerRepository _businessOwnerRepo = Get.put(BusinessOwnerRepository());
 
@@ -18,13 +18,13 @@ class AdminHomepageController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    fetchBusinessOwners();
+    fetchAllBusinessOwners();
   }
 
-  Future<void> fetchBusinessOwners() async {
+  Future<void> fetchAllBusinessOwners() async {
     try {
       isLoading.value = true;
-      List<BusinessOwnerModel> owners = await _businessOwnerRepo.getAllUnverifiedBusinessOwners();
+      List<BusinessOwnerModel> owners = await _businessOwnerRepo.getAllBusinessOwners();
       businessOwners.value = owners;
     } catch (error, stackTrace) {
       print(error);
