@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/Controller/auth_controller.dart';
 import 'package:myapp/Screens/viewMechanicsForEmergency.dart';
 
 class ServicesScreen extends StatefulWidget {
@@ -33,12 +34,30 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 Row(
                   children: [
                     BackButton(color: Colors.black),
-                    Text(
-                      'Services',
-                      style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20, color: Colors.black),
+                    Container(
+                      margin: EdgeInsets.only(right:150), // Adjust the margin as needed
+                      child: Text(
+                        'Services',
+                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.topRight,
+                      margin: EdgeInsets.only(right: 40, top: 20),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Perform logout action here
+                          AuthController.instance.logout();
+                        },
+                        child: Text('Logout', style: TextStyle(color: Colors.white)),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Color(0xFFFC5448)),
+                        ),
+                      ),
                     ),
                   ],
                 ),
+
                 Container(
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(left: 40, top: 35), // Adjust the left margin as needed

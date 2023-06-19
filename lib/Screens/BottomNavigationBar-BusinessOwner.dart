@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'businessOwner_homepage.dart';
 
-class BottomNavigationBarExample extends StatefulWidget {
+class BottomNavigationBarBusinessOwner extends StatefulWidget {
   static const String routeName = 'BottomNavigationBarExample';
 
-  const BottomNavigationBarExample({Key? key}) : super(key: key);
+  const BottomNavigationBarBusinessOwner({Key? key}) : super(key: key);
 
   @override
-  _BottomNavigationBarExampleState createState() =>
-      _BottomNavigationBarExampleState();
+  _BottomNavigationBarBusinessOwnerState createState() =>
+      _BottomNavigationBarBusinessOwnerState();
 }
 
-class _BottomNavigationBarExampleState
-    extends State<BottomNavigationBarExample> {
+class _BottomNavigationBarBusinessOwnerState
+    extends State<BottomNavigationBarBusinessOwner> {
   int _selectedIndex = 0;
 
   static const TextStyle optionStyle =
