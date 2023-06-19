@@ -169,7 +169,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: h * 0.04),
               Container(
                 width: w * 0.7,
                 height: h * 0.07,
@@ -190,7 +189,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     prefixIcon: Icon(Icons.person, color: Color(0xFFFC5448)),
                     hintText: "Full-Name",
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                    contentPadding: EdgeInsets.symmetric(vertical: 16), // Adjust the padding value as needed
                   ),
                 ),
               ),
@@ -209,13 +208,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ),
                   ],
                 ),
-                child: TextField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.email, color: Color(0xFFFC5448)),
-                    hintText: "Email",
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                child: Center(
+                  child: TextField(
+                    controller: _emailController,
+                    textAlignVertical: TextAlignVertical.center,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.email, color: Color(0xFFFC5448)),
+                      hintText: "Email",
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                    ),
                   ),
                 ),
               ),
@@ -234,14 +236,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ),
                   ],
                 ),
-                child: TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.lock, color: Color(0xFFFC5448)),
-                    hintText: "Password",
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                child: Center(
+                  child: TextField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    textAlignVertical: TextAlignVertical.center,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.lock, color: Color(0xFFFC5448)),
+                      hintText: "Password",
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                    ),
                   ),
                 ),
               ),
@@ -260,16 +265,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ),
                   ],
                 ),
-                child: TextField(
-                  controller: _phoneNumberController,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.phone, color: Color(0xFFFC5448)),
-                    hintText: "Phone Number",
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                child: Center(
+                  child: TextField(
+                    controller: _phoneNumberController,
+                    textAlignVertical: TextAlignVertical.center,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.phone, color: Color(0xFFFC5448)),
+                      hintText: "Phone Number",
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                    ),
                   ),
                 ),
               ),
+
               SizedBox(height: h * 0.04),
               GestureDetector(
                 onTap: () {
