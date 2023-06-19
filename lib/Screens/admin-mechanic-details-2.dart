@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../Controller/adminHomepageController.dart';
-import '../Controller/adminMechaniDetailsController.dart';
-import '../Models/businessOwner_model.dart';
 import 'dart:ui';
 
+import '../Controller/adminMechanicDetailsController2.dart';
+import '../Controller/all-business-accounts-Controller.dart';
+import '../Models/businessOwner_model.dart';
 
-class MechanicDetails extends StatelessWidget {
+
+class MechanicDetails2 extends StatelessWidget {
   final String? mechanicId;
-  final AdminMechanicDetailsController _controller = Get.put(AdminMechanicDetailsController());
-  final AdminHomepageController _controller2 = Get.put(AdminHomepageController());
-  MechanicDetails({required this.mechanicId});
+  final AdminMechanicDetailsController2 _controller = Get.put(AdminMechanicDetailsController2());
+  final AllBusinessOwnersPageController _controller2 = Get.put(AllBusinessOwnersPageController());
+  MechanicDetails2({required this.mechanicId});
 
   @override
   Widget build(BuildContext context) {
@@ -20,22 +21,14 @@ class MechanicDetails extends StatelessWidget {
       businessOwner.value = owner;
     });
 
-    void handleRejectedIconClick() async {
-      businessOwner.value?.setRejected(true);
-      await _controller.updateBusinessOwner(businessOwner.value!, isVerification: false);
-      await _controller2.fetchBusinessOwners();
+    void handleDeleteIconClick() async {
+      if (businessOwner.value != null) {
+        _controller.deleteBusinessOwner(businessOwner.value!);
+
+      }
+      await _controller2.fetchAllBusinessOwners();
       Navigator.pop(context);
     }
-
-    void handleVerifiedIconClick() async {
-      businessOwner.value?.setVerified(true);
-      await _controller.updateBusinessOwner(businessOwner.value!, isVerification: true);
-      await _controller2.fetchBusinessOwners();
-      Navigator.pop(context);
-    }
-
-
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -118,47 +111,33 @@ class MechanicDetails extends StatelessWidget {
                   : CircularProgressIndicator(),
             ),
             Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: handleRejectedIconClick,
-                    child: Container(
-                      margin: EdgeInsets.only(right: 10),
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.red,
-                      ),
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.white,
-                        size: 30,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: handleDeleteIconClick,
+                  child: Container(
+                    width: 150,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Delete Account',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: handleVerifiedIconClick,
-                    child: Container(
-                      margin: EdgeInsets.only(left: 100),
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.green,
-                      ),
-                      child: Icon(
-                        Icons.check,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
-      );
+      ),
+    );
   }
 }

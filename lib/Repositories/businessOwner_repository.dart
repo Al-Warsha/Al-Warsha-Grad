@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-
-import '../Models/businessOwner_model.dart';
-
+import 'businessOwner_model.dart';
 
 class BusinessOwnerRepository extends GetxController {
   static BusinessOwnerRepository get instance => Get.find();
@@ -10,6 +8,15 @@ class BusinessOwnerRepository extends GetxController {
   final _db = FirebaseFirestore.instance;
 
   Future<List<BusinessOwnerModel>> getAllBusinessOwners() async {
+    final snapshot = await _db.collection("BusinessOwners").get();
+    final businessOwnerData = snapshot.docs
+        .map((e) => BusinessOwnerModel.fromSnapshot(e))
+        .toList();
+    return businessOwnerData.cast<BusinessOwnerModel>();
+  }
+
+
+  Future<List<BusinessOwnerModel>> getAllUnverifiedBusinessOwners() async {
     final snapshot = await _db
         .collection("BusinessOwners")
         .where("verified", isEqualTo: false)
@@ -48,6 +55,17 @@ class BusinessOwnerRepository extends GetxController {
     } catch (error) {
       print("Error updating business owner rejection: $error");
       // Handle the error accordingly
+    }
+  }
+  Future<void> deleteBusinessOwner(BusinessOwnerModel owner) async {
+    try {
+      final ownerRef = _db.collection("BusinessOwners").doc(owner.id);
+      await ownerRef.delete();
+    } catch (error, stackTrace) {
+      print(error);
+      print(stackTrace);
+      // Handle the error as per your requirement (show error message, log, etc.)
+      throw error;
     }
   }
 }
