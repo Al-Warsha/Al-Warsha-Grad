@@ -297,6 +297,39 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
               ),
               SizedBox(height: h * 0.04),
+              Container(
+                width: w * 0.7,
+                height: h * 0.07,
+                decoration: BoxDecoration(
+                  color: Color(0xFFFC5448),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Perform logout action here
+                    AuthController.instance.logout();
+                  },
+                  child: Center(
+                    child: Text(
+                      "Logout",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Color(0xFFFC5448)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: h * 0.04),
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/Controller/auth_controller.dart';
+import 'package:myapp/Screens/search.dart';
 import 'package:myapp/Screens/viewMechanicsForEmergency.dart';
 
 class ServicesScreen extends StatefulWidget {
@@ -42,19 +43,18 @@ class _ServicesScreenState extends State<ServicesScreen> {
                       ),
                     ),
                     Container(
+
                       alignment: Alignment.topRight,
                       margin: EdgeInsets.only(right: 40, top: 20),
-                      child: ElevatedButton(
+                      child: IconButton(
+                        icon: Icon(Icons.manage_search, size: 32),
                         onPressed: () {
-                          // Perform logout action here
-                          AuthController.instance.logout();
+                          // Redirect to the search page
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
                         },
-                        child: Text('Logout', style: TextStyle(color: Colors.white)),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Color(0xFFFC5448)),
-                        ),
                       ),
-                    ),
+                    )
+
                   ],
                 ),
 
