@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'car_page.dart';
 
 class AddCar extends StatefulWidget {
@@ -50,11 +52,27 @@ class _AddCarState extends State<AddCar> {
       'make': _makeController.text,
       'year': _yearController.text,
       'mileage': _mileageController.text,
+      'userId': FirebaseAuth.instance.currentUser?.uid,
     };
 
     try {
       await FirebaseFirestore.instance.collection('cars').add(carInfo);
-      Navigator.push(
+
+      // Show a snackbar message or perform any desired action
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Car information saved.'),
+        ),
+      );
+
+      // Clear the text fields
+      _modelController.clear();
+      _makeController.clear();
+      _yearController.clear();
+      _mileageController.clear();
+
+      // Redirect to carPage()
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => CarPage()),
       );
@@ -176,3 +194,4 @@ class _AddCarState extends State<AddCar> {
     );
   }
 }
+

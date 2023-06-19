@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'search.dart';
+import 'package:myapp/Screens/search.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+
 import 'add_car.dart';
 
 class CarPage extends StatefulWidget {
@@ -16,6 +19,8 @@ class _CarPageState extends State<CarPage> {
     'assets/images/car3.jpg',
     'assets/images/car4.jpg',
   ];
+
+  final String adminEmail = 'admin@email.com';
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +230,9 @@ class _CarPageState extends State<CarPage> {
                             icon: Icon(Icons.home, color: const Color(0xFF6F6F6F)),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _launchEmail(adminEmail);
+                            },
                             icon: Icon(Icons.all_inbox_sharp, color: const Color(0xFF6F6F6F)),
                           ),
                           IconButton(
@@ -248,5 +255,20 @@ class _CarPageState extends State<CarPage> {
         ),
       ),
     );
+  }
+
+  _launchEmail(String email) async {
+    final Uri params = Uri(
+      scheme: 'mailto',
+      path: email,
+    );
+
+    String url = params.toString();
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch email';
+    }
   }
 }
