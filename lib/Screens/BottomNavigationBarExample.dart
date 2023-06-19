@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/Screens/user_profile_screen.dart';
 
 import 'ServicesScreen.dart';
+import 'car_page.dart';
 
 class BottomNavigationBarExample extends StatefulWidget {
   static const String routeName = 'BottomNavigationBarExample';
@@ -14,19 +16,14 @@ class BottomNavigationBarExample extends StatefulWidget {
 
 class _BottomNavigationBarExampleState
     extends State<BottomNavigationBarExample> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'screen 1',
-      style: optionStyle,
-    ),
-    Text(
-      'screen 2',
-      style: optionStyle,
-    ),
+
+    CarPage(),
+    UserProfileScreen(),
     ServicesScreen(),
     Text(
       'screen 4',

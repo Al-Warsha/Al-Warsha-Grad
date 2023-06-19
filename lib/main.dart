@@ -1,36 +1,29 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:myapp/Screens/splash_screen.dart';
-import 'Screens/admin-homepage.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'Controller/auth_controller.dart';
+import 'Screens/splash_screen.dart';
 
-
-
-void main() async {
-
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-
-  await Firebase.initializeApp();
-  // Get.put(AdminHomepageController());
-
-  runApp(MyApp());
+  await Firebase.initializeApp().then((value) => Get.put(AuthController()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter',
-      debugShowCheckedModeBanner: false,
+    return GetMaterialApp(
+      title: 'AlWarsha app',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        body: SingleChildScrollView(
-          child:SplashScreenPage(),
-        ),
-      ),
+      debugShowCheckedModeBanner: false,
+      home: SplashScreenPage(),
     );
   }
+
+
 }
