@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-//import 'package:myapp/homepage.dart';
 import '../Controller/auth_controller.dart';
 import '../Repositories/user_repository.dart';
 import 'ServicesScreen.dart';
@@ -107,7 +105,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: h * 0.05),
+              SizedBox(height: h * 0.021),
               Align(
                 alignment: Alignment.topCenter,
                 child: Stack(
@@ -171,7 +169,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: h * 0.04),
               Container(
                 width: w * 0.7,
                 height: h * 0.07,
@@ -192,7 +189,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     prefixIcon: Icon(Icons.person, color: Color(0xFFFC5448)),
                     hintText: "Full-Name",
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                    contentPadding: EdgeInsets.symmetric(vertical: 16), // Adjust the padding value as needed
                   ),
                 ),
               ),
@@ -211,13 +208,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ),
                   ],
                 ),
-                child: TextField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.email, color: Color(0xFFFC5448)),
-                    hintText: "Email",
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                child: Center(
+                  child: TextField(
+                    controller: _emailController,
+                    textAlignVertical: TextAlignVertical.center,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.email, color: Color(0xFFFC5448)),
+                      hintText: "Email",
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                    ),
                   ),
                 ),
               ),
@@ -236,14 +236,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ),
                   ],
                 ),
-                child: TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.lock, color: Color(0xFFFC5448)),
-                    hintText: "Password",
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                child: Center(
+                  child: TextField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    textAlignVertical: TextAlignVertical.center,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.lock, color: Color(0xFFFC5448)),
+                      hintText: "Password",
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                    ),
                   ),
                 ),
               ),
@@ -262,40 +265,83 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ),
                   ],
                 ),
-                child: TextField(
-                  controller: _phoneNumberController,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.phone, color: Color(0xFFFC5448)),
-                    hintText: "Phone Number",
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                child: Center(
+                  child: TextField(
+                    controller: _phoneNumberController,
+                    textAlignVertical: TextAlignVertical.center,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.phone, color: Color(0xFFFC5448)),
+                      hintText: "Phone Number",
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                    ),
                   ),
                 ),
               ),
+
               SizedBox(height: h * 0.04),
               GestureDetector(
                 onTap: () {
                   updateUserProfile();
                 },
-                child: Container(
-                  width: w * 0.7,
-                  height: h * 0.07,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFC5448),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Update",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: w * 0.25),  // Add horizontal margin
+                  child: Container(
+                    width: w * 0.4,
+                    height: h * 0.06,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFC5448),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Update",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
+              SizedBox(height: h * 0.02),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: w * 0.25),  // Add horizontal margin
+                child: Container(
+                  width: w * 0.4,
+                  height: h * 0.06,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Perform logout action here
+                      AuthController.instance.logout();
+                    },
+                    child: Center(
+                      child: Text(
+                        "Logout",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Color(0xFFFC5448)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
               SizedBox(height: h * 0.04),
             ],
           ),
