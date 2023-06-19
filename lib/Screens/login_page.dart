@@ -45,10 +45,11 @@ class LoginPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: h * 0.18,
+            top: h * 0.25,
             left: w * 0.05,
             right: w * 0.05,
-            child: Column(
+
+           child: Column(
               children: [
                 Text(
                   "Login",
@@ -74,13 +75,16 @@ class LoginPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: TextField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email, color: Color(0xFFFC5448)),
-                      hintText: "Email",
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: h * 0.014),
+                    child: TextField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.email, color: Color(0xFFFC5448)),
+                        hintText: "Email",
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      ),
                     ),
                   ),
                 ),
@@ -99,23 +103,26 @@ class LoginPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: TextField(
-                    controller: passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock, color: Color(0xFFFC5448)),
-                      hintText: "Password",
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: h * 0.014),
+                    child: TextField(
+                      controller: passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock, color: Color(0xFFFC5448)),
+                        hintText: "Password",
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      ),
                     ),
                   ),
                 ),
+                SizedBox(height: h * 0.02),
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
                       Get.to(() => ForgotPasswordPage());
-
                     },
                     child: Text(
                       "Forgot Your Password?",
@@ -128,9 +135,10 @@ class LoginPage extends StatelessWidget {
                 ),
               ],
             ),
+
           ),
           Positioned(
-            top: h * 0.65,
+            top: h * 0.7,
             left: w * 0.05,
             right: w * 0.05,
             child: Column(
