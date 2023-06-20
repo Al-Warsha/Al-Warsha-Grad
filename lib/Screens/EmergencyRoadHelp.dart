@@ -18,7 +18,7 @@ class EmergencyRoadHelp extends StatefulWidget {
 class _EmergencyRoadHelp extends State<EmergencyRoadHelp> {
 
   List<String> cars = ['car1', 'car2', 'add new car'];
-  String? selectedcar = 'car1';
+  String? selectedcar;
   var descriptionController= TextEditingController();
   //GeoPoint? currentLocation;
 
@@ -34,14 +34,6 @@ class _EmergencyRoadHelp extends State<EmergencyRoadHelp> {
         body:
         Stack(
             children:[
-              // Positioned(
-              //   top: 0,
-              //   left: 0,
-              //   child: Image.asset(
-              //     'assets/images/Picture1.jpg',
-              //   ),
-              //   width: 250,
-              // ),
               Positioned(
                 bottom: 0,
                 right: 0,
@@ -82,7 +74,7 @@ class _EmergencyRoadHelp extends State<EmergencyRoadHelp> {
                           if(car == 'add new car')
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => AddCar()),
+                              MaterialPageRoute(builder: (context) => AddCar(fromSchedule: false,)),
                             );
                           setState(() {
                             selectedcar = car;
@@ -141,7 +133,6 @@ class _EmergencyRoadHelp extends State<EmergencyRoadHelp> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () async{
-                      //if(descriptionController.text.isNotEmpty && selectedcar != null && currentLocation != null) {
                       emergencyAppointment appointment = emergencyAppointment(
                         description: descriptionController.text,
                         car: selectedcar!,
@@ -149,7 +140,6 @@ class _EmergencyRoadHelp extends State<EmergencyRoadHelp> {
                         longitude: currentLongitude!,
                         hour: selectedtime.hour, minute: selectedtime.minute,);
                       addemergencyToFireStore(appointment);
-                      //}
                       await showDialog<String>(
                       context: context,
                       builder: (BuildContext context) => AlertDialog(

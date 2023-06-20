@@ -28,6 +28,8 @@ class Google_map extends StatefulWidget {
 class _Google_mapState extends State<Google_map> {
   late String? userId;
   late String? businessOwnerId;
+
+
   @override
   void initState() { //bttndh awal ma screen ttndh
     super.initState();
@@ -89,12 +91,6 @@ class _Google_mapState extends State<Google_map> {
                 userid: userId, mechanicid: businessOwnerId!
             );
             addWinchToFireStore(appointment);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ServicesScreen(),
-              ),
-            );
             await showDialog<String>(
               context: context,
               builder: (BuildContext context) => AlertDialog(

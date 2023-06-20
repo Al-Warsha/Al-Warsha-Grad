@@ -177,7 +177,7 @@ class _CarPageState extends State<CarPage> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => AddCar()),
+                            MaterialPageRoute(builder: (context) => AddCar(fromSchedule: false,)),
                           );
                         },
                         style: ElevatedButton.styleFrom(

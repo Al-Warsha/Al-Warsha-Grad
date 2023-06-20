@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class _AppointmentForMaintenance extends State<AppointmentForMaintenance> {
 
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedtime = TimeOfDay.now();
-  List<String> cars = ['car1', 'car2', 'add new car'];
+  List<String> cars = [];
   String? selectedcar;
   var reasonController = TextEditingController();
   var timeController = TextEditingController();
@@ -47,6 +48,41 @@ class _AppointmentForMaintenance extends State<AppointmentForMaintenance> {
     //     });
     //   });
     // }
+    fetchUserCars().then((userCars) {
+      setState(() {
+        cars = [...userCars, 'add new car'];
+        selectedcar = userCars.isNotEmpty ? userCars[0] : null;
+      });
+    });
+  }
+  Future<List<String>> fetchUserCars() async {
+    List<String> userCars = [];
+
+    try {
+      // Retrieve the current user ID
+      User? user = FirebaseAuth.instance.currentUser;
+      String? userId = user?.uid;
+
+      // Fetch the user's cars from Firestore
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('cars')
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      querySnapshot.docs.forEach((doc) {
+        // Add each car to the list
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        String? carName = data['model'];
+        if (carName != null) {
+          userCars.add(carName);
+        }
+      });
+    } catch (error) {
+      // Handle any errors that occur during the fetch process
+      print('Error fetching user cars: $error');
+    }
+
+    return userCars;
   }
 
 
@@ -59,14 +95,6 @@ class _AppointmentForMaintenance extends State<AppointmentForMaintenance> {
       body:
       Stack(
         children: [
-          //   Positioned(
-          //   top: 0,
-          //   left: 0,
-          //   child: Image.asset(
-          //     'assets/images/Picture1.jpg',
-          //   ),
-          //   width: 250,
-          // ),
           Positioned(
             bottom: 0,
             right: 0,
@@ -104,21 +132,20 @@ class _AppointmentForMaintenance extends State<AppointmentForMaintenance> {
               Container(
                 alignment: Alignment.center,
                 child: DropdownButton<String>(
-                    value: selectedcar,
-                    items: cars.map((car) => DropdownMenuItem(value: car,
-                        child: Text(car, style: TextStyle(fontSize: 22),)))
-                        .toList(),
-                    onChanged: (String? car) {
-                      if(car == 'add new car')
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => AddCar()),
-                        );
-                      setState(() {
-                        selectedcar = car;
-                      });
-                    }
-                ),
+                  value: selectedcar,
+                  items: cars.map((car) => DropdownMenuItem(value: car, child: Text(car, style: TextStyle(fontSize: 22)))).toList(),
+                  onChanged: (String? car) {
+                    if (car == 'add new car')
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AddCar(fromSchedule: true,)),
+                      );
+                    setState(() {
+                      selectedcar = car;
+                    });
+                  },
+                )
+
               ),
               const SizedBox(height: 10),
               Padding(

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:myapp/Screens/AppointmentForMaintenance.dart';
 
 import 'car_page.dart';
 
 class AddCar extends StatefulWidget {
-  const AddCar({Key? key}) : super(key: key);
+  bool fromSchedule;
+  AddCar({Key? key, required this.fromSchedule}) : super(key: key);
 
   @override
   State<AddCar> createState() => _AddCarState();
@@ -72,10 +74,21 @@ class _AddCarState extends State<AddCar> {
       _mileageController.clear();
 
       // Redirect to carPage()
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => CarPage()),
-      );
+      if(widget.fromSchedule)
+        {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => AppointmentForMaintenance(mechanicId: '', businessOwnerId: ''),
+          ));
+        }
+      else{
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => CarPage()),
+        );
+      }
+
+
     } catch (e) {
       // Handle any errors that occurred while saving the car info
       print('Error saving car info: $e');
