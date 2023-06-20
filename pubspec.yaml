@@ -49,9 +49,9 @@ dependencies:
   mailer: ^5.0.0
   image_picker: ^0.8.4
   location: ^4.4.0
-  geolocator: ^7.0.3
   google_maps_flutter: ^2.2.0
-
+  geolocator: ^7.0.3
+  url_launcher: ^6.1.11
 
 dev_dependencies:
   flutter_test:

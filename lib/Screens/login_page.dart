@@ -49,7 +49,7 @@ class LoginPage extends StatelessWidget {
             left: w * 0.05,
             right: w * 0.05,
 
-           child: Column(
+            child: Column(
               children: [
                 Text(
                   "Login",

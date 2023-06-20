@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'businessOwner_model.dart';
+
+import '../Models/businessOwner_model.dart';
+
 
 class BusinessOwnerRepository extends GetxController {
   static BusinessOwnerRepository get instance => Get.find();

@@ -1,23 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myapp/Screens/EmergencyRoadHelp.dart';
 import 'dart:ui';
 import '../Controller/viewMechanicsForAppointmentController.dart';
 import '../Models/businessOwner_model.dart';
+import 'AppointmentForMaintenance.dart';
+import 'Google_map.dart';
 
 
-class MechanicDetails extends StatelessWidget {
+class MechanicDetails extends StatefulWidget {
   final String? mechanicId;
-  MechanicDetails({required this.mechanicId});
+  bool isEmergency;
+  bool winch;
+  MechanicDetails({Key? key, required this.mechanicId, required this.isEmergency, required this.winch }) : super(key: key);
 
+
+  //MechanicDetails({required this.mechanicId, required this.isEmergency, required this.winch });
+  @override
+  State<MechanicDetails> createState() => _MechanicDetails();
+}
+
+class _MechanicDetails extends State<MechanicDetails> {
   viewMechanicsForAppointmentController vm = new viewMechanicsForAppointmentController();
+
+  //viewMechanicsForEmergencyController vmm = new viewMechanicsForEmergencyController();
+  double? currentLatitude;
+  double? currentLongitude;
 
   @override
   Widget build(BuildContext context) {
+    bool isEmergency = widget.isEmergency;
+    bool winch = widget.winch;
+    String? mechanicId= widget.mechanicId;
+
     final Rx<BusinessOwnerModel?> businessOwner = Rx<BusinessOwnerModel?>(null);
-    // Fetch the business owner details
     vm.fetchBusinessOwnerDetails(mechanicId).then((owner) {
       businessOwner.value = owner;
     });
+    // vmm.fetchBusinessOwnerDetails(mechanicId).then((owner) {
+    //   businessOwner.value = owner;
+    // });
     //bool isEmergency = true;
     return Scaffold(
       appBar: AppBar(
@@ -28,7 +50,8 @@ class MechanicDetails extends StatelessWidget {
         child: Column(
           children: [
             Obx(
-                  () => businessOwner.value != null
+                  () =>
+              businessOwner.value != null
                   ? Container(
                 margin: EdgeInsets.fromLTRB(30, 25, 30, 30),
                 child: Card(
@@ -63,7 +86,8 @@ class MechanicDetails extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Icon(Icons.star, size: 18, color: Colors.yellow),
+                                  Icon(Icons.star, size: 18,
+                                      color: Colors.yellow),
                                   SizedBox(width: 8),
                                 ],
                               ),
@@ -76,12 +100,48 @@ class MechanicDetails extends StatelessWidget {
                         SizedBox(height: 10),
                         ElevatedButton.icon(
                           onPressed: () {
-                            // if (isEmergency) {
-                            //   Navigator.pushNamed(context, 'EmergencyRoadHelp');
-                            // } else {
-                            //   Navigator.pushNamed(context, 'AppointmentForMaintenance');
-                            // }
-
+                            if (isEmergency && !winch) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      EmergencyRoadHelp()
+                                ),
+                              );
+                            } else if (!isEmergency && !winch) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        AppointmentForMaintenance( mechanicId: mechanicId,
+                                          businessOwnerId: businessOwner.value!.id,)
+                                ),
+                              );
+                            }
+                            else if (!isEmergency && winch) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      Google_map(
+                                        onLocationSelected: updateLocation,
+                                        emergency: false,
+                                        mechanicId: mechanicId,
+                                        businessOwnerId: businessOwner.value!.id,
+                                      ),
+                                ),
+                              );
+                              //   await showDialog<String>(
+                              // context: context,
+                              // builder: (BuildContext context) => AlertDialog(
+                              // content: const Text('Request has been send'),
+                              // actions: <Widget>[
+                              // TextButton(
+                              // onPressed: () => Navigator.pop(context, 'OK'),
+                              // child: const Text('OK'),
+                              // ),],),);
+                              //   Navigator.pushNamed(context, 'ServicesScreen');
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Color(0xFFFC5448),
@@ -147,4 +207,12 @@ class MechanicDetails extends StatelessWidget {
       ),
     );
   }
+
+  void updateLocation(double? latitude, double? longitude) {
+    setState(() {
+      currentLatitude = latitude;
+      currentLongitude = longitude;
+    });
+  }
+
 }

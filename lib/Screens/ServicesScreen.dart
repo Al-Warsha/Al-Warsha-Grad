@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/Controller/auth_controller.dart';
 import 'package:myapp/Screens/search.dart';
+import 'package:myapp/Screens/viewMechanicsForAppointment.dart';
 import 'package:myapp/Screens/viewMechanicsForEmergency.dart';
+import 'package:myapp/Screens/winchService.dart';
 
 class ServicesScreen extends StatefulWidget {
   static const String routeName = 'ServicesScreen';
@@ -120,22 +122,24 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => viewMechanicsForEmergency(
-                        ),
+                        builder: (context) => viewMechanicsForEmergency(),
                       ),
                     );
                   }
-                  // else if (checkedIndex == 1)
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (context) => viewMechanicsForAppointment(
-                  //         isEmergency: false,
-                  //       ),
-                  //     ),
-                  //   );
-                  // else if (cardNames==2)
-                  //   Navigator.pushNamed(context, 'AppointmentForMaintenance');
+                  else if (checkedIndex == 1)
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => viewMechanicsForAppointment(),
+                      ),
+                    );
+                  else if (checkedIndex==2)
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => winchService(),
+                      ),
+                    );
                   // else Navigator.pushNamed(context, 'AppointmentForMaintenance');
                   setState(() {});
                 },

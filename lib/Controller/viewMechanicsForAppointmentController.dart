@@ -1,5 +1,6 @@
 import '../Models/businessOwner_model.dart';
 import 'package:get/get.dart';
+import '../Models/user_model.dart';
 import '../Shared/network/local/firebase_utils.dart';
 
 class viewMechanicsForAppointmentController extends GetxController{
@@ -37,5 +38,6 @@ class viewMechanicsForAppointmentController extends GetxController{
       isLoading.value = false;
     }
   }
+
 
 }

@@ -1,7 +1,8 @@
-class emergencyAppointment {
+class winchAppointment {
   String id;
+  String? mechanicid;
+  String? userid;
   String car;
-  String description;
   double latitude;
   double longitude;
   int hour; // New field for hour component
@@ -11,18 +12,18 @@ class emergencyAppointment {
   String state;
   bool done;
 
-  // 30.0519305   latitude   37.4219983
-  // 31.1871632   longitude   -122.084
 
-  emergencyAppointment({this.id='',required this.car, required this.description,required this.latitude, required this.longitude,
+  winchAppointment({this.id='', this.car='car 3 l7d mzbotha',required this.mechanicid,required this.userid,
+    required this.latitude, required this.longitude,
     required this.hour, required this.minute, this.rateDescription='null', this.rate=0, this.state='pending',
     this.done=false});
 
   Map<String, dynamic>toJson(){
     return{
       "id": id,
+      "mechanicid": mechanicid,
+      "userid": userid,
       "car": car,
-      "description": description,
       "latitude": latitude,
       "longitude": longitude,
       "hour":hour,
@@ -31,14 +32,14 @@ class emergencyAppointment {
       "rate":rate,
       "state":state,
       "done":done
-
     };
   }
 
-  emergencyAppointment.fromJson(Map <String, dynamic> json):this(
+  winchAppointment.fromJson(Map <String, dynamic> json):this(
       id: json['id'],
+      mechanicid: json['mechanicid'],
+      userid: json['userid'],
       car: json['car'],
-      description: json['description'],
       latitude: json['latitude'],
       longitude: json['longitude'],
       hour: json['hour'],
@@ -49,3 +50,5 @@ class emergencyAppointment {
       done: json['done']
   );
 }
+
+
