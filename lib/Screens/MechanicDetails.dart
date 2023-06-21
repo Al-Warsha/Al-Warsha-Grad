@@ -163,45 +163,6 @@ class _MechanicDetails extends State<MechanicDetails> {
               )
                   : CircularProgressIndicator(),
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     GestureDetector(
-            //       onTap: handleRejectedIconClick,
-            //       child: Container(
-            //         margin: EdgeInsets.only(right: 10),
-            //         width: 50,
-            //         height: 50,
-            //         decoration: BoxDecoration(
-            //           shape: BoxShape.circle,
-            //           color: Colors.red,
-            //         ),
-            //         child: Icon(
-            //           Icons.close,
-            //           color: Colors.white,
-            //           size: 30,
-            //         ),
-            //       ),
-            //     ),
-            //     GestureDetector(
-            //       onTap: handleVerifiedIconClick,
-            //       child: Container(
-            //         margin: EdgeInsets.only(left: 100),
-            //         width: 50,
-            //         height: 50,
-            //         decoration: BoxDecoration(
-            //           shape: BoxShape.circle,
-            //           color: Colors.green,
-            //         ),
-            //         child: Icon(
-            //           Icons.check,
-            //           color: Colors.white,
-            //           size: 30,
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
           ],
         ),
       ),

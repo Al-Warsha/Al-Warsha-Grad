@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
+import 'AppointmentForMaintenance.dart';
+import 'MechanicDetails.dart';
 import 'car_center_details_page.dart';
 
 class Search extends StatefulWidget {
@@ -331,13 +333,21 @@ class _SearchPageState extends State<Search> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CarCenterDetailsPage(
-                            carCenterId: carCenterId,
-                            deviceLatitude: deviceLatitude,
-                            deviceLongitude: deviceLongitude,
+                          builder: (context) => MechanicDetails(
+                            mechanicId: carCenterId, isEmergency: false, winch: false,
                           ),
                         ),
                       );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => CarCenterDetailsPage(
+                      //       carCenterId: carCenterId,
+                      //       deviceLatitude: deviceLatitude,
+                      //       deviceLongitude: deviceLongitude,
+                      //     ),
+                      //   ),
+                      // );
                     },
                   );
                 },

@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 import '../Controller/viewMechanicsForAppointmentController.dart';
@@ -7,7 +10,6 @@ import '../Models/businessOwner_model.dart';
 import 'MechanicDetails.dart';
 
 class viewMechanicsForEmergency extends StatefulWidget {
-  static const String routeName='viewMechanicsForEmergency';
 
   const viewMechanicsForEmergency ({Key? key}) : super(key: key);
 
@@ -17,6 +19,50 @@ class viewMechanicsForEmergency extends StatefulWidget {
 
 class viewMechanicsForEmergency_State extends State<viewMechanicsForEmergency> {
   final viewMechanicsForAppointmentController _controller = Get.put(viewMechanicsForAppointmentController());
+  double deviceLatitude = 0.0;
+  double deviceLongitude = 0.0;
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  void _getCurrentLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition();
+      setState(() {
+        deviceLatitude = position.latitude;
+        deviceLongitude = position.longitude;
+      });
+    } catch (error) {
+      print('Error getting current position: $error');
+    }
+  }
+
+  num _calculateDistance(
+      num startLatitude,
+      num startLongitude,
+      num endLatitude,
+      num endLongitude,
+      ) {
+    const int earthRadius = 6371; // Radius of the Earth in kilometers
+
+    num lat1 = startLatitude * pi / 180;
+    num lon1 = startLongitude * pi / 180;
+    num lat2 = endLatitude * pi / 180;
+    num lon2 = endLongitude * pi / 180;
+
+    num dLat = lat2 - lat1;
+    num dLon = lon2 - lon1;
+
+    num a = sin(dLat / 2) * sin(dLat / 2) +
+        cos(lat1) * cos(lat2) * sin(dLon / 2) * sin(dLon / 2);
+    num c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    num distanceInKm = earthRadius * c;
+    return distanceInKm;
+  }
+
   @override
   Widget build(BuildContext context) {
     double baseWidth = 360;
@@ -25,6 +71,23 @@ class viewMechanicsForEmergency_State extends State<viewMechanicsForEmergency> {
     List<BusinessOwnerModel> BusinessOwners = _controller.businessOwners
         .where((businessOwner) => businessOwner.type == 'mechanic')
         .toList();
+
+    BusinessOwners.sort((a, b) {
+      num distanceA = _calculateDistance(
+        deviceLatitude,
+        deviceLongitude,
+        a.latitude,
+        a.longitude,
+      );
+      num distanceB = _calculateDistance(
+        deviceLatitude,
+        deviceLongitude,
+        b.latitude,
+        b.longitude,
+      );
+      return distanceA.compareTo(distanceB);
+    });
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -71,6 +134,14 @@ class viewMechanicsForEmergency_State extends State<viewMechanicsForEmergency> {
               ),
               itemBuilder: (context, index) {
                 BusinessOwnerModel businessOwner = BusinessOwners[index];
+                num latitude = businessOwner.latitude;
+                num longitude = businessOwner.longitude;
+                num distanceInKm = _calculateDistance(
+                  deviceLatitude,
+                  deviceLongitude,
+                  latitude,
+                  longitude,
+                );
                 return Container(
                   width: double.infinity,
                   margin: EdgeInsets.symmetric(vertical: 7 * fem, horizontal: 12 * fem),
@@ -143,10 +214,10 @@ class viewMechanicsForEmergency_State extends State<viewMechanicsForEmergency> {
                                     ),
                                   ),
                                   Container(
-                                    alignment: Alignment.bottomCenter,
+                                    alignment: Alignment.bottomRight,
                                     width: double.infinity,
                                     child: Text(
-                                      'oryb aw b3ed',
+                                      '${distanceInKm.toStringAsFixed(2)} km away',
                                       style: TextStyle(
                                         fontSize: 13 * ffem,
                                         fontWeight: FontWeight.w700,

@@ -2,7 +2,7 @@ class winchAppointment {
   String id;
   String? mechanicid;
   String? userid;
-  String car;
+  //String car;
   double latitude;
   double longitude;
   int hour; // New field for hour component
@@ -12,8 +12,8 @@ class winchAppointment {
   String state;
   bool done;
 
-
-  winchAppointment({this.id='', this.car='car 3 l7d mzbotha',required this.mechanicid,required this.userid,
+//, this.car='car 3 l7d mzbotha'
+  winchAppointment({this.id='',required this.mechanicid,required this.userid,
     required this.latitude, required this.longitude,
     required this.hour, required this.minute, this.rateDescription='null', this.rate=0, this.state='pending',
     this.done=false});
@@ -23,7 +23,7 @@ class winchAppointment {
       "id": id,
       "mechanicid": mechanicid,
       "userid": userid,
-      "car": car,
+      //"car": car,
       "latitude": latitude,
       "longitude": longitude,
       "hour":hour,
@@ -39,7 +39,7 @@ class winchAppointment {
       id: json['id'],
       mechanicid: json['mechanicid'],
       userid: json['userid'],
-      car: json['car'],
+      //car: json['car'],
       latitude: json['latitude'],
       longitude: json['longitude'],
       hour: json['hour'],
