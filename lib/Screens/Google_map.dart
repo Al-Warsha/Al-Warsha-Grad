@@ -9,6 +9,7 @@ import '../Models/winchAppointment.dart';
 import '../Shared/network/local/firebase_utils.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'BottomNavigationBarExample.dart';
 import 'ServicesScreen.dart';
 
 
@@ -76,10 +77,11 @@ class _Google_mapState extends State<Google_map> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           if (emergency) {
-            Navigator.push(
+            Navigator.pop(
               context,
               MaterialPageRoute(
-                builder: (context) => EmergencyRoadHelp(),
+                builder: (context) => EmergencyRoadHelp(mechanicId: businessOwnerId!,
+                  businessOwnerId: businessOwnerId!,),
               ),
             );
           } else if (!emergency) {
@@ -106,7 +108,7 @@ class _Google_mapState extends State<Google_map> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ServicesScreen(),
+                builder: (context) => BottomNavigationBarExample(),
               ),
             );
           }

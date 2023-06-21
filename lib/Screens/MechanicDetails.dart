@@ -105,7 +105,8 @@ class _MechanicDetails extends State<MechanicDetails> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      EmergencyRoadHelp()
+                                      EmergencyRoadHelp(mechanicId: mechanicId,
+                                        businessOwnerId: businessOwner.value!.id,)
                                 ),
                               );
                             } else if (!isEmergency && !winch) {

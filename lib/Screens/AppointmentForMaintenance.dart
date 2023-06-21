@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Models/scheduleAppointment.dart';
 import '../Shared/network/local/firebase_utils.dart';
+import 'BottomNavigationBarExample.dart';
 import 'ServicesScreen.dart';
 import 'add_car.dart';
 
@@ -250,7 +251,7 @@ class _AppointmentForMaintenance extends State<AppointmentForMaintenance> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ServicesScreen(),
+                      builder: (context) => BottomNavigationBarExample(),
                     ),
                   );
                 },

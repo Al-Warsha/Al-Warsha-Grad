@@ -11,12 +11,13 @@ class winchAppointment {
   int rate;
   String state;
   bool done;
+  num notification_sent;
 
 //, this.car='car 3 l7d mzbotha'
   winchAppointment({this.id='',required this.mechanicid,required this.userid,
     required this.latitude, required this.longitude,
     required this.hour, required this.minute, this.rateDescription='null', this.rate=0, this.state='pending',
-    this.done=false});
+    this.done=false, this.notification_sent=0});
 
   Map<String, dynamic>toJson(){
     return{
@@ -31,7 +32,8 @@ class winchAppointment {
       "rateDescription": rateDescription,
       "rate":rate,
       "state":state,
-      "done":done
+      "done":done,
+      "notification_sent":notification_sent
     };
   }
 
@@ -47,7 +49,8 @@ class winchAppointment {
       rateDescription: json['rateDescription'],
       rate: json['rate'],
       state: json['state'],
-      done: json['done']
+      done: json['done'],
+      notification_sent: json['notification_sent']
   );
 }
 

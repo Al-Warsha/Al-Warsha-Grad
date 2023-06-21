@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/Screens/BottomNavigationBarExample.dart';
 import '../Models/emegencyAppointment.dart';
 import '../Shared/network/local/firebase_utils.dart';
 import 'Google_map.dart';
@@ -8,8 +11,10 @@ import 'add_car.dart';
 
 
 class EmergencyRoadHelp extends StatefulWidget {
-
-  const EmergencyRoadHelp({Key? key}) : super(key: key);
+  final String? mechanicId;
+  final String? businessOwnerId;
+  const EmergencyRoadHelp({Key? key,required this.mechanicId,
+    required this.businessOwnerId,}) : super(key: key);
 
   @override
   State<EmergencyRoadHelp> createState() => _EmergencyRoadHelp();
@@ -17,7 +22,7 @@ class EmergencyRoadHelp extends StatefulWidget {
 
 class _EmergencyRoadHelp extends State<EmergencyRoadHelp> {
 
-  List<String> cars = ['car1', 'car2', 'add new car'];
+  List<String> cars = [];
   String? selectedcar;
   var descriptionController= TextEditingController();
   //GeoPoint? currentLocation;
@@ -25,6 +30,53 @@ class _EmergencyRoadHelp extends State<EmergencyRoadHelp> {
   double? currentLatitude;
   double? currentLongitude;
   TimeOfDay selectedtime = TimeOfDay.now();
+
+  late String? userId;
+  late String? businessOwnerId;
+
+  @override
+  void initState() {
+    super.initState();
+    // Retrieve the current user ID
+    User? user = FirebaseAuth.instance.currentUser;
+    userId = user?.uid;
+    // Retrieve the business owner ID from the widget parameters
+    businessOwnerId = widget.businessOwnerId;
+
+    fetchUserCars().then((userCars) {
+      setState(() {
+        cars = [...userCars, 'add new car'];
+        selectedcar = userCars.isNotEmpty ? userCars[0] : null;
+      });
+    });
+  }
+
+  Future<List<String>> fetchUserCars() async {
+    List<String> userCars = [];
+
+    try {
+      // Fetch the user's cars from Firestore using the correct user ID
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('cars')
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      querySnapshot.docs.forEach((doc) {
+        // Add each car to the list
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        String? carName = data['model'];
+        if (carName != null) {
+          userCars.add(carName);
+        }
+      });
+    } catch (error) {
+      // Handle any errors that occur during the fetch process
+      print('Error fetching user cars: $error');
+    }
+
+    return userCars;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -66,21 +118,19 @@ class _EmergencyRoadHelp extends State<EmergencyRoadHelp> {
                   Container(
                     alignment: Alignment.center,
                     child: DropdownButton<String>(
-                        value: selectedcar,
-                        items: cars.map((car) => DropdownMenuItem(value: car,
-                            child: Text(car, style: TextStyle(fontSize: 22),)))
-                            .toList(),
-                        onChanged: (String? car) {
-                          if(car == 'add new car')
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => AddCar(fromSchedule: false,)),
-                            );
-                          setState(() {
-                            selectedcar = car;
-                          });
-                        }
-                    ),
+                      value: selectedcar,
+                      items: cars.map((car) => DropdownMenuItem(value: car, child: Text(car, style: TextStyle(fontSize: 22)))).toList(),
+                      onChanged: (String? car) {
+                        if (car == 'add new car')
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => AddCar(fromSchedule: true,)),
+                          );
+                        setState(() {
+                          selectedcar = car;
+                        });
+                      },
+                    )
                   ),
                   //const SizedBox(height: 20),
                   Padding(
@@ -138,8 +188,9 @@ class _EmergencyRoadHelp extends State<EmergencyRoadHelp> {
                         car: selectedcar!,
                         latitude: currentLatitude!,
                         longitude: currentLongitude!,
-                        hour: selectedtime.hour, minute: selectedtime.minute,);
-                      addemergencyToFireStore(appointment);
+                        hour: selectedtime.hour, minute: selectedtime.minute,
+                          userid: userId, mechanicid: businessOwnerId!);
+                      addemergencyToFirestore(appointment);
                       await showDialog<String>(
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
@@ -156,7 +207,7 @@ class _EmergencyRoadHelp extends State<EmergencyRoadHelp> {
                       Navigator.push(
                       context,
                       MaterialPageRoute(
-                      builder: (context) => ServicesScreen(),
+                      builder: (context) => BottomNavigationBarExample(),
                       ),
                       );
                     },
