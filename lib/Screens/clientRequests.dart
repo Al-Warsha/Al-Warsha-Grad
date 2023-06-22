@@ -1,31 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/Screens/Requests.dart';
+import 'package:myapp/Controller/Requests.dart';
+import 'package:myapp/Screens/BottomNavigationBarExample.dart';
+import 'package:myapp/Screens/viewRequest.dart';
+import '../Controller/adminMechaniDetailsController.dart';
+import '../Controller/auth_controller.dart';
 
 
-class clientRequests extends StatefulWidget {
+class ClientRequests extends StatefulWidget {
 
   static const String routeName = 'requests';
+  const ClientRequests({Key? key}) : super(key: key);
+
 
   @override
-  State<clientRequests> createState() => _clientRequestsState();
+  State<ClientRequests> createState() => _clientRequestsState();
 }
 
-class _clientRequestsState extends State<clientRequests> {
+class _clientRequestsState extends State<ClientRequests> {
   int selection = 1;
+  String name= '';
+  AdminMechanicDetailsController controller = AdminMechanicDetailsController();
+  String? userId = AuthController.instance.currentUserUid;
   late List<DocumentSnapshot<Map<String, dynamic>>> dataList = [];
+
+
 
   @override
   Widget build(BuildContext context) {
     double baseWidth = 360;
     double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         title: Text('Requests', textAlign: TextAlign.left, style: TextStyle(color: Colors.black),),
-        leading: IconButton(icon: Icon(Icons.arrow_back), color: Colors.black,onPressed: (){}),
+        leading: IconButton(icon: Icon(Icons.arrow_back), color: Colors.black,onPressed: (){                        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => BottomNavigationBarExample())
+        );
+        }),
       ),
       body: Column(
         children: [
@@ -34,10 +48,11 @@ class _clientRequestsState extends State<clientRequests> {
             children: [
               Expanded(
                 child: ElevatedButton(
-                  onPressed: (){
+                  onPressed: () async {
+                    List<DocumentSnapshot<Map<String, dynamic>>> temp = await Requests().emergencyRequests(userId!);
                     setState(() {
                       selection = 1;
-                      dataList = [];
+                      dataList = temp;
                     });
                     },
                   child: Text("Emergency"),
@@ -50,7 +65,7 @@ class _clientRequestsState extends State<clientRequests> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () async {
-                    List<DocumentSnapshot<Map<String, dynamic>>> temp = await Requests().scheduleRequests("v60m86fmKUQYkHtVtChAQPmQQ2w1");
+                    List<DocumentSnapshot<Map<String, dynamic>>> temp = await Requests().scheduleRequests(userId!);
                     setState(() {
                       selection = 2;
                       dataList = temp;
@@ -67,7 +82,7 @@ class _clientRequestsState extends State<clientRequests> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () async {
-                    List<DocumentSnapshot<Map<String, dynamic>>> temp = await Requests().winchRequests("v60m86fmKUQYkHtVtChAQPmQQ2w1");
+                    List<DocumentSnapshot<Map<String, dynamic>>> temp = await Requests().winchRequests(userId!);
                     setState(() {
                       selection = 3;
                       dataList = temp;
@@ -101,10 +116,32 @@ class _clientRequestsState extends State<clientRequests> {
                     shadowColor: Color(0xff6f6f6f),
                     child: Padding(
                     padding: EdgeInsets.all(20),
-                    child: ListTile(
-                    title: Text(data?['mechanicid']?? 'N/A'),
-                    subtitle: Text(data?['state']?? 'N/A'),
-                    ),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ViewRequest(
+                                Id: data?['id'],
+                                selection: selection,
+                              ),
+                            ),
+                          );
+                        },
+                        child: ListTile(
+                          title: FutureBuilder<String>(
+                            future: Requests().getName(data?['mechanicid']),
+                            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                              if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else {
+                                return Text(snapshot.data ?? '');
+                              }
+                            },
+                          ),
+                          subtitle: Text(data?['state']?? 'N/A'),
+                        ),
+                      ),
                     )
                   );
                 }, separatorBuilder: (BuildContext context, int index) =>  Divider(

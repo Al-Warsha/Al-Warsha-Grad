@@ -5,6 +5,7 @@ import 'Notification.dart';
 import 'ServicesScreen.dart';
 import 'add_car.dart';
 import 'car_page.dart';
+import 'clientRequests.dart';
 
 class BottomNavigationBarExample extends StatefulWidget {
   static const String routeName = 'BottomNavigationBarExample';
@@ -26,6 +27,7 @@ class _BottomNavigationBarExampleState
     AddCar(fromSchedule: false,),
     UserProfileScreen(),
     ServicesScreen(),
+    ClientRequests(),
     Text(
       'screen 4',
       style: optionStyle,
