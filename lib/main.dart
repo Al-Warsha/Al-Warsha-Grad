@@ -3,16 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:myapp/Screens/splash_screen.dart';
-
 import 'Controller/auth_controller.dart';
 
 
 
 void main() async{
-  
-  double? selectedLatitude;
-  double? selectedLongitude;
-  
+
  WidgetsFlutterBinding.ensureInitialized();
  //Firebase.initializeApp();
  await Firebase.initializeApp().then((value) => Get.put(AuthController()));
@@ -48,5 +44,5 @@ class MyApp extends StatelessWidget {
     );
   }
 
-
 }
+

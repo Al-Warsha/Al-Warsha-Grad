@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/Controller/auth_controller.dart';
+import 'package:myapp/Screens/Chatbot.dart';
 import 'package:myapp/Screens/search.dart';
 import 'package:myapp/Screens/viewMechanicsForAppointment.dart';
 import 'package:myapp/Screens/viewMechanicsForEmergency.dart';
@@ -12,7 +13,7 @@ class ServicesScreen extends StatefulWidget {
   static const String routeName = 'ServicesScreen';
 
   const ServicesScreen({Key? key}) : super(key: key);
-  final String adminEmail = 'admin@email.com';
+  final String adminEmail = 'alwarsha.grad@gmail.com';
 
   @override
   State<ServicesScreen> createState() => _ServicesScreenState();
@@ -167,6 +168,13 @@ class _ServicesScreenState extends State<ServicesScreen> {
                         builder: (context) => winchService(),
                       ),
                     );
+                  else if (checkedIndex == 3)
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Chatbot(),
+                      ),
+                    );
                   // else Navigator.pushNamed(context, 'AppointmentForMaintenance');
                   setState(() {});
                 },
@@ -264,9 +272,10 @@ _launchEmail(String email) async {
 
   String url = params.toString();
 
-  if (await canLaunch(url)) {
+  try {
     await launch(url);
-  } else {
-    throw 'Could not launch email';
+  } catch (e) {
+    throw 'Could not launch email: $e';
   }
 }
+
