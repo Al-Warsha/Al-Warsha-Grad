@@ -5,12 +5,14 @@ import 'package:myapp/Screens/search.dart';
 import 'package:myapp/Screens/viewMechanicsForAppointment.dart';
 import 'package:myapp/Screens/viewMechanicsForEmergency.dart';
 import 'package:myapp/Screens/winchService.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../Repositories/notification_service.dart';
 
 class ServicesScreen extends StatefulWidget {
   static const String routeName = 'ServicesScreen';
 
   const ServicesScreen({Key? key}) : super(key: key);
+  final String adminEmail = 'admin@email.com';
 
   @override
   State<ServicesScreen> createState() => _ServicesScreenState();
@@ -52,29 +54,34 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   children: [
                     BackButton(color: Colors.black),
                     Container(
-                      margin: EdgeInsets.only(right: 150), // Adjust the margin as needed
+                      margin: EdgeInsets.only(right: 150),
                       child: Text(
                         'Services',
                         style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                            color: Colors.black),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      margin: EdgeInsets.only(right: 40, top: 20),
-                      child: IconButton(
-                        icon: Icon(Icons.manage_search, size: 32),
-                        onPressed: () {
-                          // Redirect to the search page
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Search()));
-                        },
-                      ),
-                    )
+                    IconButton(
+                      icon: Icon(Icons.mail_outline_rounded, size: 32), // Add the mail icon
+                      onPressed: () {
+                        // Handle mail icon button press
+                        _launchEmail(widget.adminEmail);
+                      },
+                    ),
+
+                    IconButton(
+                      icon: Icon(Icons.manage_search, size: 32),
+                      onPressed: () {
+                        // Redirect to the search page
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Search()),
+                        );
+                      },
+                    ),
                   ],
                 ),
                 Container(
@@ -247,5 +254,19 @@ class _ServicesScreenState extends State<ServicesScreen> {
         ],
       ),
     );
+  }
+}
+_launchEmail(String email) async {
+  final Uri params = Uri(
+    scheme: 'mailto',
+    path: email,
+  );
+
+  String url = params.toString();
+
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch email';
   }
 }

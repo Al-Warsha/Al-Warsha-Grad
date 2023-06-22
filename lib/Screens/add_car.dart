@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myapp/Screens/AppointmentForMaintenance.dart';
 
+import 'BottomNavigationBarExample.dart';
 import 'car_page.dart';
 
 class AddCar extends StatefulWidget {
@@ -84,7 +85,7 @@ class _AddCarState extends State<AddCar> {
       else{
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => CarPage()),
+          MaterialPageRoute(builder: (context) => BottomNavigationBarExample()),
         );
       }
 

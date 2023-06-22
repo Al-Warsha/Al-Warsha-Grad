@@ -3,6 +3,7 @@ import 'package:myapp/Screens/user_profile_screen.dart';
 
 import 'Notification.dart';
 import 'ServicesScreen.dart';
+import 'add_car.dart';
 import 'car_page.dart';
 
 class BottomNavigationBarExample extends StatefulWidget {
@@ -22,7 +23,7 @@ class _BottomNavigationBarExampleState
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
-    CarPage(),
+    AddCar(fromSchedule: false,),
     UserProfileScreen(),
     ServicesScreen(),
     Text(
