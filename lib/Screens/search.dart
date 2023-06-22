@@ -3,10 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-
-import 'AppointmentForMaintenance.dart';
 import 'MechanicDetails.dart';
-import 'car_center_details_page.dart';
+
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);

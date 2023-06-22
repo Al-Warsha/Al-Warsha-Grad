@@ -10,6 +10,7 @@ import 'package:myapp/Screens/user_profile_screen.dart';
 
 import '../Screens/BottomNavigationBarExample.dart';
 import '../Screens/admin-homepage.dart';
+import '../Screens/email_verification_screen.dart';
 
 //import 'admin_home_page.dart';
 
@@ -31,10 +32,15 @@ class AuthController extends GetxController {
     if (user == null) {
       print("login page");
       Get.offAll(() => LoginPage());
+    } else if (!user.emailVerified) {
+      print("email verification page");
+      Get.offAll(() => EmailVerificationPage());
     } else {
+      print("main app screen");
       Get.offAll(() => BottomNavigationBarExample());
     }
   }
+
 
   Future<void> register(String fullName, String email, String password, String phoneNumber) async {
     try {
