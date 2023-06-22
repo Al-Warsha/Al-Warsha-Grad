@@ -10,9 +10,11 @@ class SplashScreenPage extends StatefulWidget {
   State<SplashScreenPage> createState() => _SplashScreenPageState();
 }
 class _SplashScreenPageState extends State<SplashScreenPage>{
-  startSplashTimer() async{
-    Timer(const Duration(seconds: 3), () => {
-      Navigator.of(context).push(MaterialPageRoute(builder: (_)=>  LoginPage()))
+  startSplashTimer() async {
+    Timer(const Duration(seconds: 3), () {
+      if (mounted) {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => LoginPage()));
+      }
     });
   }
 
