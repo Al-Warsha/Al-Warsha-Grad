@@ -3,6 +3,7 @@ import 'package:myapp/Screens/user_profile_screen.dart';
 
 import 'ServicesScreen.dart';
 import 'car_page.dart';
+import 'clientRequests.dart';
 
 class BottomNavigationBarExample extends StatefulWidget {
   static const String routeName = 'BottomNavigationBarExample';
@@ -25,6 +26,7 @@ class _BottomNavigationBarExampleState
     CarPage(),
     UserProfileScreen(),
     ServicesScreen(),
+    ClientRequests(),
     Text(
       'screen 4',
       style: optionStyle,

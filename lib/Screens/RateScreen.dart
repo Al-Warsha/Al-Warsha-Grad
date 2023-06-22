@@ -3,24 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class RateScreen extends StatefulWidget{
-
+  final String id;
   static const String routeName = 'rating';
 
+  RateScreen({required this.id});
+
+
   @override
-  State<RateScreen> createState() => _RateScreenState();
+  State<RateScreen> createState() => _RateScreenState(id);
 }
 
 class _RateScreenState extends State<RateScreen> {
+  String id;
   late num rate;
   late String description;
   final db = FirebaseFirestore.instance;
   final textController = TextEditingController();
 
+  _RateScreenState(this.id);
+
   Future<void> updateDocument(num rate, String description) async {
     List<String> collections = ['emergencyAppointment', 'scheduleAppointment']; // Replace with your collection names
 
     for (String collection in collections) {
-      QuerySnapshot querySnapshot = await db.collection(collection).where('id', isEqualTo: "hgFeyJjnnjJBvPNKGvFZ").get();
+      QuerySnapshot querySnapshot = await db.collection(collection).where('id', isEqualTo: id).get();
 
       for (QueryDocumentSnapshot snapshot in querySnapshot.docs) {
         DocumentReference documentRef = snapshot.reference;
@@ -42,8 +48,9 @@ class _RateScreenState extends State<RateScreen> {
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         title: Text('Rate Service', textAlign: TextAlign.left, style: TextStyle(color: Colors.black),),
-        leading: IconButton(icon: Icon(Icons.arrow_back), color: Colors.black,onPressed: (){}),
-      ),
+        leading: BackButton(
+          color: Colors.black,
+        ),),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -95,9 +102,8 @@ class _RateScreenState extends State<RateScreen> {
             child: ElevatedButton(
               onPressed: ()async{
                 description = textController.text;
-                // final instance = db.collection("emergencyAppointment").doc("hgFeyJjnnjJBvPNKGvFZ");
-                // await instance.update({'rate': rating, 'rateDescription': description});
                 updateDocument(rate, description);
+                Navigator.pop(context);
               },
               child: Text("Submit"),
               style: ElevatedButton.styleFrom(
