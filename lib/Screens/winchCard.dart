@@ -11,7 +11,7 @@ class WinchCard extends StatelessWidget{
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getRequest(String id) async {
     final request = await FirebaseFirestore.instance
-        .collection('scheduleAppointment')
+        .collection('winchAppointment')
         .doc(id)
         .get();
 

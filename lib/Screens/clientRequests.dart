@@ -25,6 +25,21 @@ class _clientRequestsState extends State<ClientRequests> {
   late List<DocumentSnapshot<Map<String, dynamic>>> dataList = [];
 
 
+  Future<void> _loadEmergencyRequests() async {
+  List<DocumentSnapshot<Map<String, dynamic>>> temp =
+  await Requests().emergencyRequests(userId!);
+  setState(() {
+  selection = 1;
+  dataList = temp;
+  });
+  }
+
+  @override
+  void initState() {
+  super.initState();
+  // Initialize dataList with emergency requests
+  _loadEmergencyRequests();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -157,5 +172,5 @@ class _clientRequestsState extends State<ClientRequests> {
       )
 
     );
-  }
-}
+
+}}
