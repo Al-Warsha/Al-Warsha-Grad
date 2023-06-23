@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../Controller/auth_controller.dart';
+import 'business_history.dart';
+import 'businessowner_current_requests.dart';
+import 'car_page.dart';
 
 class BusinessOwnerHomepage extends StatefulWidget {
   static const String routeName = 'businessOwnerHomepage';
@@ -92,10 +95,18 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
               padding: EdgeInsets.only(top: 0, bottom: 20, left: 80, right: 80),
               child: InkWell(
                 onTap: () {
-                  if (checkedIndex == 0)
-                    Navigator.pushNamed(context, 'EmergencyRoadHelp');
-                  else if (checkedIndex == 1)
-                    Navigator.pushNamed(context, 'AppointmentForMaintenance');
+                  if (checkedIndex == 0){
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => BusinessCurrentRequests()),
+                    );
+                  }
+                  else if (checkedIndex == 1){
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => BusinessHistory()),
+                    );
+                  }
                   setState(() {});
                 },
                 child: Container(
