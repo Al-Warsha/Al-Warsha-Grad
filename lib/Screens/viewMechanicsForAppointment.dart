@@ -44,7 +44,7 @@ class viewMechanicsForAppointment_State extends State<viewMechanicsForAppointmen
                     Row(
                       children: [
                         BackButton( color: Colors.black,),
-                        Text('Displaying for "Area detected', style: TextStyle(fontSize: 18, color: Colors.black)),
+                        Text('Displaying All Mechanic', style: TextStyle(fontSize: 18, color: Colors.black)),
                       ],
                     ),
                   ],
@@ -74,37 +74,36 @@ class viewMechanicsForAppointment_State extends State<viewMechanicsForAppointmen
                 return Container(
                   width: double.infinity,
                   margin: EdgeInsets.symmetric(vertical: 7 * fem, horizontal: 12 * fem),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10* fem),
-                    ),
-                    elevation: 5,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MechanicDetails(
-                              mechanicId: businessOwner.id, isEmergency: false, winch: false,
-                            ),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 12 * fem, horizontal: 10 * fem),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.fromLTRB(2 * fem, 0 * fem, 0 * fem, 13.5 * fem),
-                              width: 140 * fem,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 35 * fem, 3 * fem),
-                                    width: double.infinity,
-                                    child: Text(
+                  child: Stack(
+                    children: [
+                      Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10 * fem),
+                        ),
+                        elevation: 5,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MechanicDetails(
+                                  mechanicId: businessOwner.id,
+                                  isEmergency: false,
+                                  winch: false,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding:
+                            EdgeInsets.symmetric(vertical: 12 * fem, horizontal: 10 * fem),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
                                       businessOwner.name,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
@@ -112,10 +111,8 @@ class viewMechanicsForAppointment_State extends State<viewMechanicsForAppointmen
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                  ),
-                                  Container(
-                                    width: double.infinity,
-                                    child: Text(
+                                    SizedBox(height: 10,),
+                                    Text(
                                       'PhoneNumber: ${businessOwner.phone}',
                                       style: TextStyle(
                                         fontSize: 13 * ffem,
@@ -124,10 +121,18 @@ class viewMechanicsForAppointment_State extends State<viewMechanicsForAppointmen
                                         color: Color(0xff6f6f6f),
                                       ),
                                     ),
-                                  ),
-                                  Container(
-                                    width: double.infinity,
-                                    child: Row(
+                                    SizedBox(height: 10,),
+                                    Text(
+                                      'Address: ${businessOwner.address}',
+                                      style: TextStyle(
+                                        fontSize: 13 * ffem,
+                                        fontWeight: FontWeight.w700,
+                                        height: 1.4000000272 * ffem / fem,
+                                        color: Color(0xff6f6f6f),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10,),
+                                    Row(
                                       children: [
                                         Icon(Icons.star, size: 18, color: Colors.yellow,),
                                         Text(
@@ -141,17 +146,18 @@ class viewMechanicsForAppointment_State extends State<viewMechanicsForAppointmen
                                         ),
                                       ],
                                     ),
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 );
               },
+
             ),
           ],
         ),

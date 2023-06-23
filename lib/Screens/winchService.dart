@@ -88,40 +88,32 @@ class _winchServiceState extends State<winchService> {
     });
 
     return Scaffold(
-      body:
-
-      SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              margin:
-              EdgeInsets.fromLTRB(221.34 * fem, 0 * fem, 0 * fem, 8 * fem),
+              margin: EdgeInsets.fromLTRB(221.34 * fem, 0 * fem, 0 * fem, 8 * fem),
               width: 22.34 * fem,
               height: 22.34 * fem,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 25,
-                ),
+                const SizedBox(height: 25,),
                 Column(
                   children: [
                     Row(
                       children: [
-                        BackButton(
-                          color: Colors.black,
-                        ),
-                        Text('Displaying for "Area detected',
-                            style:
-                            TextStyle(fontSize: 18, color: Colors.black)),
+                        BackButton( color: Colors.black,),
+                        Text('Displaying for Area detected', style: TextStyle(fontSize: 18, color: Colors.black)),
                       ],
                     ),
                   ],
                 ),
               ],
             ),
+
             ListView.separated(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -149,47 +141,39 @@ class _winchServiceState extends State<winchService> {
                   latitude,
                   longitude,
                 );
-
                 return Container(
                   width: double.infinity,
-                  margin: EdgeInsets.symmetric(
-                      vertical: 7 * fem, horizontal: 12 * fem),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10 * fem),
-                    ),
-                    elevation: 5,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MechanicDetails(
-                              mechanicId: businessOwner.id,
-                              isEmergency: false,
-                              winch: true,
-                            ),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding:
-                        EdgeInsets.symmetric(vertical: 12 * fem, horizontal: 10 * fem),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Container(
-                              margin:
-                              EdgeInsets.fromLTRB(2 * fem, 0 * fem, 0 * fem, 13.5 * fem),
-                              width: 140 * fem,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin:
-                                    EdgeInsets.fromLTRB(0 * fem, 0 * fem, 35 * fem, 3 * fem),
-                                    width: double.infinity,
-                                    child: Text(
+                  margin: EdgeInsets.symmetric(vertical: 7 * fem, horizontal: 12 * fem),
+                  child: Stack(
+                    children: [
+                      Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10 * fem),
+                        ),
+                        elevation: 5,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MechanicDetails(
+                                  mechanicId: businessOwner.id,
+                                  isEmergency: false,
+                                  winch: true,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding:
+                            EdgeInsets.symmetric(vertical: 12 * fem, horizontal: 10 * fem),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
                                       businessOwner.name,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
@@ -197,10 +181,8 @@ class _winchServiceState extends State<winchService> {
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                  ),
-                                  Container(
-                                    width: double.infinity,
-                                    child: Text(
+                                    SizedBox(height: 10,),
+                                    Text(
                                       'PhoneNumber: ${businessOwner.phone}',
                                       style: TextStyle(
                                         fontSize: 13 * ffem,
@@ -209,10 +191,18 @@ class _winchServiceState extends State<winchService> {
                                         color: Color(0xff6f6f6f),
                                       ),
                                     ),
-                                  ),
-                                  Container(
-                                    width: double.infinity,
-                                    child: Row(
+                                    SizedBox(height: 10,),
+                                    Text(
+                                      'Address: ${businessOwner.address}',
+                                      style: TextStyle(
+                                        fontSize: 13 * ffem,
+                                        fontWeight: FontWeight.w700,
+                                        height: 1.4000000272 * ffem / fem,
+                                        color: Color(0xff6f6f6f),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10,),
+                                    Row(
                                       children: [
                                         Icon(Icons.star, size: 18, color: Colors.yellow,),
                                         Text(
@@ -226,34 +216,36 @@ class _winchServiceState extends State<winchService> {
                                         ),
                                       ],
                                     ),
-                                  ),
-                                  Container(
-                                    alignment: Alignment.bottomRight,
-                                    //width: double.infinity,
-                                    child: Text(
-                                      '${distanceInKm.toStringAsFixed(2)} km away',
-                                      style: TextStyle(
-                                        fontSize: 13 * ffem,
-                                        fontWeight: FontWeight.w700,
-                                        height: 1.4000000272 * ffem / fem,
-                                        color: Color(0xff6f6f6f),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                      Positioned(
+                        bottom: 10 * fem,
+                        right: 10 * fem,
+                        child: Text(
+                          '${distanceInKm.toStringAsFixed(2)} km away',
+                          style: TextStyle(
+                            fontSize: 13 * ffem,
+                            fontWeight: FontWeight.w700,
+                            height: 1.4000000272 * ffem / fem,
+                            color: Color(0xff6f6f6f),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 );
               },
+
             ),
           ],
         ),
       ),
     );
   }
+
 }

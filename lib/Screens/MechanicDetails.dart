@@ -67,6 +67,10 @@ class _MechanicDetails extends State<MechanicDetails> {
                           subtitle: Text('${businessOwner.value!.name}'),
                         ),
                         ListTile(
+                          title: Text('Address'),
+                          subtitle: Text('${businessOwner.value!.address}'),
+                        ),
+                        ListTile(
                           title: Text('Phone'),
                           subtitle:
                           Text('${businessOwner.value!.phone}'),
