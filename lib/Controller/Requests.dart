@@ -54,6 +54,7 @@ class Requests {
   }
 
     Future<String> getName(String docId) {
+      print('ID $docId');
       // Replace with your Firestore query to retrieve the string
       return FirebaseFirestore.instance
           .collection('BusinessOwners')

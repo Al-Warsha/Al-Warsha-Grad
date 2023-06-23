@@ -11,7 +11,7 @@ class EmergencyCard extends StatelessWidget{
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getRequest(String id) async {
     final request = await FirebaseFirestore.instance
-        .collection('scheduleAppointment')
+        .collection('emergencyAppointment')
         .doc(id)
         .get();
 
@@ -43,7 +43,6 @@ class EmergencyCard extends StatelessWidget{
         } else {
           // The document exists, use its data in your widget
           final data = snapshot.data!.data();
-
 
           return Container(
             padding: EdgeInsets.only(top: 60, left: 30, right: 30),
