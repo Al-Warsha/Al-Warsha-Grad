@@ -28,10 +28,6 @@ class _BottomNavigationBarExampleState
     UserProfileScreen(),
     ServicesScreen(),
     ClientRequests(),
-    Text(
-      'screen 4',
-      style: optionStyle,
-    ),
     Notifications(),
   ];
 
