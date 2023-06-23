@@ -40,35 +40,35 @@ Future<void> addWinchToFireStore(winchAppointment appointment){
 
 }
 
-// CollectionReference getemergencyCollection()
-// {
-//   return FirebaseFirestore.instance.collection('emergencyAppointment').withConverter<emergencyAppointment>
-//     (fromFirestore: (snapshot, options)
-//   => emergencyAppointment.fromJson(snapshot.data()!),
-//     toFirestore: (value, options) => value.toJson(),
-//   );
-// }
-//
-// Future<void> addemergencyToFireStore(emergencyAppointment appointment){
-//   var collection=getemergencyCollection();
-//   var docRef= collection.doc();
-//   appointment.id=docRef.id;
-//   return docRef.set(appointment);
-//
-// }
-
-CollectionReference getEmergencyCollection() {
-  return FirebaseFirestore.instance.collection('emergencyAppointment');
+CollectionReference getemergencyCollection()
+{
+  return FirebaseFirestore.instance.collection('emergencyAppointment').withConverter<emergencyAppointment>
+    (fromFirestore: (snapshot, options)
+  => emergencyAppointment.fromJson(snapshot.data()!),
+    toFirestore: (value, options) => value.toJson(),
+  );
 }
 
-Future<void> addemergencyToFirestore(emergencyAppointment appointment) async {
-  try {
-    CollectionReference collection = getEmergencyCollection();
-    await collection.add(appointment.toJson());
-  } catch (error) {
-    print('Error adding emergency appointment to Firestore: $error');
-  }
+Future<void> addemergencyToFireStore(emergencyAppointment appointment){
+  var collection=getemergencyCollection();
+  var docRef= collection.doc();
+  appointment.id=docRef.id;
+  return docRef.set(appointment);
+
 }
+
+// CollectionReference getEmergencyCollection() {
+//   return FirebaseFirestore.instance.collection('emergencyAppointment');
+// }
+//
+// Future<void> addemergencyToFirestore(emergencyAppointment appointment) async {
+//   try {
+//     CollectionReference collection = getEmergencyCollection();
+//     await collection.add(appointment.toJson());
+//   } catch (error) {
+//     print('Error adding emergency appointment to Firestore: $error');
+//   }
+// }
 
 
 Future<List<BusinessOwnerModel>> getAllBusinessOwners() async {

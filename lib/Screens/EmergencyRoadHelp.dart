@@ -6,7 +6,6 @@ import 'package:myapp/Screens/BottomNavigationBarExample.dart';
 import '../Models/emegencyAppointment.dart';
 import '../Shared/network/local/firebase_utils.dart';
 import 'Google_map.dart';
-import 'ServicesScreen.dart';
 import 'add_car.dart';
 
 
@@ -190,7 +189,7 @@ class _EmergencyRoadHelp extends State<EmergencyRoadHelp> {
                         longitude: currentLongitude!,
                         hour: selectedtime.hour, minute: selectedtime.minute,
                           userid: userId, mechanicid: businessOwnerId!);
-                      addemergencyToFirestore(appointment);
+                      addemergencyToFireStore(appointment);
                       await showDialog<String>(
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
