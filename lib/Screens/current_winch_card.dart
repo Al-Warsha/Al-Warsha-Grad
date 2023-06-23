@@ -133,7 +133,7 @@ class _CurrentWinchCardState extends State<CurrentWinchCard> {
 
                     ListTile(
                       title: Text('Request Type'),
-                      subtitle: Text('Scheduled appointment'),
+                      subtitle: Text('winch service'),
                     ),
 
                     SizedBox(height: 30),
