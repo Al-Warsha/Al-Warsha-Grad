@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-
 import '../Models/businessOwner_model.dart';
-
 
 class BusinessOwnerRepository extends GetxController {
   static BusinessOwnerRepository get instance => Get.find();
@@ -12,11 +10,14 @@ class BusinessOwnerRepository extends GetxController {
   Future<List<BusinessOwnerModel>> getAllBusinessOwners() async {
     final snapshot = await _db.collection("BusinessOwners").get();
     final businessOwnerData = snapshot.docs
-        .map((e) => BusinessOwnerModel.fromSnapshot(e))
+        .map((e) => BusinessOwnerModel.fromSnapshot(
+      e,
+
+
+    ))
         .toList();
     return businessOwnerData.cast<BusinessOwnerModel>();
   }
-
 
   Future<List<BusinessOwnerModel>> getAllUnverifiedBusinessOwners() async {
     final snapshot = await _db
@@ -25,7 +26,11 @@ class BusinessOwnerRepository extends GetxController {
         .where("rejected", isEqualTo: false)
         .get();
     final businessOwnerData = snapshot.docs
-        .map((e) => BusinessOwnerModel.fromSnapshot(e))
+        .map((e) => BusinessOwnerModel.fromSnapshot(
+      e,
+
+
+    ))
         .toList();
     return businessOwnerData.cast<BusinessOwnerModel>();
   }
@@ -59,6 +64,7 @@ class BusinessOwnerRepository extends GetxController {
       // Handle the error accordingly
     }
   }
+
   Future<void> deleteBusinessOwner(BusinessOwnerModel owner) async {
     try {
       final ownerRef = _db.collection("BusinessOwners").doc(owner.id);

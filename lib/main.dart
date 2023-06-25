@@ -2,16 +2,21 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:myapp/Screens/splash_screen.dart';
 import 'Controller/auth_controller.dart';
-
-
+import 'Screens/Shared Screens/splash_screen.dart';
 
 void main() async{
 
  WidgetsFlutterBinding.ensureInitialized();
- //Firebase.initializeApp();
- await Firebase.initializeApp().then((value) => Get.put(AuthController()));
+
+  // Initialize Firebase
+  await Firebase.initializeApp();
+
+  // Initialize controller
+  AuthController authController = AuthController();
+
+  //Putting the controller using Get.put()
+  Get.put<AuthController>(authController);
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
@@ -27,10 +32,6 @@ void main() async{
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  get selectedLatitude => null;
-
-  get selectedLongitude => null;
 
   @override
   Widget build(BuildContext context) {
