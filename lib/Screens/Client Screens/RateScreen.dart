@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:myapp/Screens/Client%20Screens/scheduleCard.dart';
 
 class RateScreen extends StatefulWidget{
   final String id;
@@ -55,7 +56,7 @@ class _RateScreenState extends State<RateScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Container(
-            padding: EdgeInsets.only(top: 50, bottom: 50),
+            // padding: EdgeInsets.only(top: 50, bottom: 50),
             child: RatingBar.builder(
               initialRating: 0,
               minRating: 1,
@@ -73,27 +74,27 @@ class _RateScreenState extends State<RateScreen> {
             ),
           ),
           Divider(
-            color: Color.fromRGBO(252,84, 72, 1.0),
-            indent: 30,
-            endIndent: 30,
-            thickness: 3
+              color: Color.fromRGBO(252,84, 72, 1.0),
+              indent: 30,
+              endIndent: 30,
+              thickness: 3
           ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 15),
             child: TextFormField(
-              controller: textController,
-              maxLines: 5,
-              decoration: const InputDecoration(
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                      width: 3,
-                      color: Color.fromRGBO(252,84, 72, 1.0)),
-                ),
-                hoverColor: Color.fromRGBO(252,84, 72, 1.0),
-                labelText: 'Description',
-                labelStyle: TextStyle(color: Colors.black)
+                controller: textController,
+                maxLines: 5,
+                decoration: const InputDecoration(
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: 3,
+                          color: Color.fromRGBO(252,84, 72, 1.0)),
+                    ),
+                    hoverColor: Color.fromRGBO(252,84, 72, 1.0),
+                    labelText: 'Description',
+                    labelStyle: TextStyle(color: Colors.black)
 
-                  )
+                )
             ),
           ),
           Container(
@@ -103,7 +104,8 @@ class _RateScreenState extends State<RateScreen> {
               onPressed: ()async{
                 description = textController.text;
                 updateDocument(rate, description);
-                Navigator.pop(context);
+                // Navigator.pop(context);
+                Navigator.popUntil(context, (route) => route.settings.name == ScheduleCard.routeName);
               },
               child: Text("Submit"),
               style: ElevatedButton.styleFrom(

@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:myapp/Screens/Client%20Screens/RateScreen.dart';
 import '../../Controller/Requests.dart';
 
-class ScheduleCard extends StatelessWidget{
+class ScheduleCard extends StatefulWidget{
+  static const String routeName = 'schedule';
+
   final String Id;
   ScheduleCard({required this.Id});
 
+  @override
+  State<ScheduleCard> createState() => _ScheduleCardState();
+}
 
+class _ScheduleCardState extends State<ScheduleCard> {
   Future<DocumentSnapshot<Map<String, dynamic>>> getRequest(String id) async {
     final request = await FirebaseFirestore.instance
         .collection('scheduleAppointment')
@@ -29,11 +35,10 @@ class ScheduleCard extends StatelessWidget{
     return date;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-      future: getRequest(Id),
+      future: getRequest(widget.Id),
       builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // Show a loading indicator while fetching the data
@@ -86,8 +91,8 @@ class ScheduleCard extends StatelessWidget{
                       subtitle: Text(numToDate(data?['date']).toString()),
                     ),
                     ListTile(
-                      title: Text('Rated'),
-                      subtitle: data?['rate'] == 0? Text('No rating yet'):Text(data!['rate'].toString())
+                        title: Text('Rated'),
+                        subtitle: data?['rate'] == 0? Text('No rating yet'):Text(data!['rate'].toString())
                     ),
                     SizedBox(height: 30),
                     ElevatedButton.icon(
@@ -95,7 +100,7 @@ class ScheduleCard extends StatelessWidget{
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => RateScreen(id: data?['id'],)
+                              builder: (context) => RateScreen(id: data?['id'],)
                           ),
                         );
                       },
@@ -121,6 +126,4 @@ class ScheduleCard extends StatelessWidget{
       },
     );
   }
-
-
 }
