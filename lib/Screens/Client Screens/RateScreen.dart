@@ -74,27 +74,27 @@ class _RateScreenState extends State<RateScreen> {
             ),
           ),
           Divider(
-            color: Color.fromRGBO(252,84, 72, 1.0),
-            indent: 30,
-            endIndent: 30,
-            thickness: 3
+              color: Color.fromRGBO(252,84, 72, 1.0),
+              indent: 30,
+              endIndent: 30,
+              thickness: 3
           ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 15),
             child: TextFormField(
-              controller: textController,
-              maxLines: 5,
-              decoration: const InputDecoration(
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                      width: 3,
-                      color: Color.fromRGBO(252,84, 72, 1.0)),
-                ),
-                hoverColor: Color.fromRGBO(252,84, 72, 1.0),
-                labelText: 'Description',
-                labelStyle: TextStyle(color: Colors.black)
+                controller: textController,
+                maxLines: 5,
+                decoration: const InputDecoration(
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: 3,
+                          color: Color.fromRGBO(252,84, 72, 1.0)),
+                    ),
+                    hoverColor: Color.fromRGBO(252,84, 72, 1.0),
+                    labelText: 'Description',
+                    labelStyle: TextStyle(color: Colors.black)
 
-                  )
+                )
             ),
           ),
           Container(

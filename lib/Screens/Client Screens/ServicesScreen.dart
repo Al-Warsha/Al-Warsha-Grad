@@ -23,6 +23,8 @@ class ServicesScreen extends StatefulWidget {
 class _ServicesScreenState extends State<ServicesScreen> {
   final NotificationService _notificationService = NotificationService();
 
+  String get adminEmail => adminEmail;
+
   @override
   void initState() {
     super.initState();
@@ -71,83 +73,116 @@ class _ServicesScreenState extends State<ServicesScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: CupertinoColors.white,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        titleSpacing: 0,
+        toolbarHeight: kToolbarHeight,
+        title: Row(
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 14), // Add right margin to create a space
+              child: ElevatedButton(
+                onPressed: () {
+                  // Redirect to the search page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Search()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.grey[300],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0), // Increase the border radius for more rounded edges
+                  ),
+                  elevation: 0, // Remove the button elevation
+                  padding: EdgeInsets.zero, // Remove the default button padding
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: 30),
+                      child: Icon(Icons.search_rounded, size: 32, color: Colors.grey),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width - 160, // Adjust the width as needed
+                      child: TextField(
+                        readOnly: true,
+                        onTap: () {
+                          // Redirect to the search page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Search()),
+                          );
+                        },
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(vertical: 0), // Adjust the vertical padding for a narrower height
+                          hintText: 'Search...',
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: IconButton(
+                icon: Icon(Icons.mail_outline_rounded, size: 32, color: Colors.black),
+                onPressed: () {
+                  // Handle mail icon button press
+                  _launchEmail(adminEmail);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(height: 25),
             Column(
               children: [
-                Row(
-                  children: [
-                    BackButton(color: Colors.transparent),
-                    Container(
-                      margin: EdgeInsets.only(right: 150),
-                      child: Text(
-                        'Services',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.mail_outline_rounded, size: 32), // Add the mail icon
-                      onPressed: () {
-                        // Handle mail icon button press
-                        _launchEmail(widget.adminEmail);
-                      },
-                    ),
 
-                    IconButton(
-                      icon: Icon(Icons.manage_search, size: 32),
-                      onPressed: () {
-                        // Redirect to the search page
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Search()),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-                Container(
+            Container(
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(
                       left: 40, top: 35), // Adjust the left margin as needed
                   child: Text(
-                    'Service For',
+                    'Hi, $userName',
                     style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.grey,
+                      fontSize: 22,
+                      color: Colors.black,
                       fontWeight:
-                      FontWeight.bold, // Make the text bold
+                      FontWeight.w500, // Make the text bold
                     ),
                   ),
                 ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(
-                      left: 40, top: 5), // Adjust the left margin as needed
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            right: 8.0), // Adjust the right padding as needed
-                        child: Text(
-                          'Default car',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight:
-                            FontWeight.bold, // Make the text bold
-                          ),
-                        ),
-                      ),
-                      Icon(Icons.keyboard_arrow_down_outlined),
-                    ],
-                  ),
-                ),
+                // Container(
+                //   alignment: Alignment.topLeft,
+                //   margin: EdgeInsets.only(
+                //       left: 40, top: 5), // Adjust the left margin as needed
+                //   child: Row(
+                //     children: [
+                //       Padding(
+                //         padding: const EdgeInsets.only(
+                //             right: 8.0), // Adjust the right padding as needed
+                //         child: Text(
+                //           'Default car',
+                //           style: TextStyle(
+                //             fontSize: 20,
+                //             color: Colors.black,
+                //             fontWeight:
+                //             FontWeight.bold, // Make the text bold
+                //           ),
+                //         ),
+                //       ),
+                //       Icon(Icons.keyboard_arrow_down_outlined),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
             Padding(

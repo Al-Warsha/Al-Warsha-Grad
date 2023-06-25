@@ -91,8 +91,8 @@ class _ScheduleCardState extends State<ScheduleCard> {
                       subtitle: Text(numToDate(data?['date']).toString()),
                     ),
                     ListTile(
-                      title: Text('Rated'),
-                      subtitle: data?['rate'] == 0? Text('No rating yet'):Text(data!['rate'].toString())
+                        title: Text('Rated'),
+                        subtitle: data?['rate'] == 0? Text('No rating yet'):Text(data!['rate'].toString())
                     ),
                     SizedBox(height: 30),
                     ElevatedButton.icon(
@@ -100,7 +100,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => RateScreen(id: data?['id'],)
+                              builder: (context) => RateScreen(id: data?['id'],)
                           ),
                         );
                       },

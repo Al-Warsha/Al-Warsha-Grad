@@ -87,7 +87,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> register(String fullName, String email, String password, String phoneNumber) async {
-    try {
+
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -97,7 +97,6 @@ class AuthController extends GetxController {
         uid: userCredential.user!.uid,
         fullName: fullName,
         email: email,
-        password: password,
         phoneNumber: phoneNumber,
         isEmailVerified: false,
         isLoggedIn: false,
@@ -121,46 +120,9 @@ class AuthController extends GetxController {
             ),
           ),
         );
-      } else {
-        Get.snackbar(
-          "Verify Email",
-          "Please verify your email address to complete registration",
-          backgroundColor: Colors.redAccent,
-          snackPosition: SnackPosition.BOTTOM,
-          titleText: Text(
-            "Registration successful",
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        );
       }
-
-      if (user != null) {
-        await user.updateDisplayName(fullName);
-        await user.updatePhoneNumber(PhoneAuthProvider.credential(verificationId: phoneNumber, smsCode: ""));
-      }
-    } catch (e) {
-      Get.snackbar(
-        "Failed to register",
-        "User message",
-        backgroundColor: Colors.redAccent,
-        snackPosition: SnackPosition.BOTTOM,
-        titleText: Text(
-          "Failed to register",
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        messageText: Text(
-          e.toString(),
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-      );
-    }
   }
+
 
   Future<void> login(String email, String password) async {
     try {

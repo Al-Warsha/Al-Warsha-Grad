@@ -2,7 +2,6 @@ class UserModel {
   late String uid;
   late String fullName;
   late String email;
-  late String password;
   late String phoneNumber;
   late bool isEmailVerified;
   late bool isLoggedIn;
@@ -12,7 +11,6 @@ class UserModel {
     required this.uid,
     required this.fullName,
     required this.email,
-    required this.password,
     required this.phoneNumber,
     required this.isEmailVerified,
     required this.isLoggedIn,
@@ -24,7 +22,6 @@ class UserModel {
       'uid': uid,
       'fullName': fullName,
       'email': email,
-      'password': password,
       'phoneNumber': phoneNumber,
       'isEmailVerified': isEmailVerified,
       'isLoggedIn': isLoggedIn,
@@ -37,7 +34,6 @@ class UserModel {
       uid: map['uid'],
       fullName: map['fullName'],
       email: map['email'],
-      password: map['password'],
       phoneNumber: map['phoneNumber'],
       isEmailVerified: map['isEmailVerified'],
       isLoggedIn: map['isLoggedIn'],
