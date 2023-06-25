@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:myapp/Screens/scheduleCard.dart';
+import 'package:myapp/Screens/Client%20Screens/scheduleCard.dart';
 
 class RateScreen extends StatefulWidget{
   final String id;
