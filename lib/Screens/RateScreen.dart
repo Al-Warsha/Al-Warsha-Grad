@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:myapp/Screens/scheduleCard.dart';
 
 class RateScreen extends StatefulWidget{
   final String id;
@@ -55,7 +56,7 @@ class _RateScreenState extends State<RateScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Container(
-            padding: EdgeInsets.only(top: 50, bottom: 50),
+            // padding: EdgeInsets.only(top: 50, bottom: 50),
             child: RatingBar.builder(
               initialRating: 0,
               minRating: 1,
@@ -103,7 +104,8 @@ class _RateScreenState extends State<RateScreen> {
               onPressed: ()async{
                 description = textController.text;
                 updateDocument(rate, description);
-                Navigator.pop(context);
+                // Navigator.pop(context);
+                Navigator.popUntil(context, (route) => route.settings.name == ScheduleCard.routeName);
               },
               child: Text("Submit"),
               style: ElevatedButton.styleFrom(
