@@ -70,7 +70,6 @@ Future<void> addemergencyToFireStore(emergencyAppointment appointment){
 //   }
 // }
 
-
 Future<List<BusinessOwnerModel>> getAllBusinessOwners() async {
   final snapshot = await FirebaseFirestore.instance
       .collection("BusinessOwners")
@@ -78,20 +77,30 @@ Future<List<BusinessOwnerModel>> getAllBusinessOwners() async {
       .where("rejected", isEqualTo: false)
       .get();
   final businessOwnerData = snapshot.docs
-      .map((e) => BusinessOwnerModel.fromSnapshot(e))
-      .toList();
+      .map((e) => BusinessOwnerModel.fromSnapshot(
+    e,
+
+  )).toList();
   return businessOwnerData.cast<BusinessOwnerModel>();
 }
 
 Future<BusinessOwnerModel?> getBusinessOwnerDetails(String? id) async {
   final snapshot = await FirebaseFirestore.instance.collection("BusinessOwners").doc(id).get();
-  final businessOwnerData = BusinessOwnerModel.fromSnapshot(snapshot);
+  final businessOwnerData = BusinessOwnerModel.fromSnapshot(
+    snapshot,
+
+
+  );
   return businessOwnerData;
 }
 
 Future<String?> getBusinessOwnerId(String? id) async {
   final snapshot = await FirebaseFirestore.instance.collection("BusinessOwners").doc(id).get();
-  final businessOwnerData = BusinessOwnerModel.fromSnapshot(snapshot);
+  final businessOwnerData = BusinessOwnerModel.fromSnapshot(
+    snapshot,
+
+
+  );
   return businessOwnerData?.id;
 }
 
@@ -107,6 +116,5 @@ Future<Map<String, dynamic>> getUserData(String userId) async {
     return {};
   }
 }
-
 
 

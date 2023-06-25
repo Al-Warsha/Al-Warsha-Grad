@@ -1,22 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 class BusinessOwnerModel {
-  final String? id;
-  final String email;
-  final String name;
-  final String password;
-  final String phone;
-  final String type;
+  late String id;
+  late String email;
+  late String name;
+  late String password;
+  late String phone;
+  late String? type;
   bool verified;
   List<String> brands;
   bool rejected;
-  final num rate;
-  final num latitude;
-  final num longitude;
-  final String address;
+  late num rate;
+  late num latitude;
+  late num longitude;
+  late String address;
+  late bool isLoggedIn;
+  late bool isSignedOut;
+  late String documentURL;
+  late String imageURL;
 
   BusinessOwnerModel({
-    this.id,
+    required this.id,
     required this.email,
     required this.name,
     required this.password,
@@ -29,10 +32,16 @@ class BusinessOwnerModel {
     required this.latitude,
     required this.longitude,
     required this.address,
+    required this.isLoggedIn,
+    required this.isSignedOut,
+    required this.documentURL,
+    required this.imageURL,
   });
 
-  toJson() {
+  Map<String, dynamic> toJson() {
     return {
+      'ownerId': id,
+
       'email': email,
       'name': name,
       'password': password,
@@ -45,11 +54,14 @@ class BusinessOwnerModel {
       'latitude':latitude,
       'longitude':longitude,
       'address':address,
+      'isLoggedIn':isLoggedIn,
+      'isSignedOut':isSignedOut,
+      'downloadURL':documentURL,
+      'imageURL':imageURL,
     };
   }
 
-  factory BusinessOwnerModel.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> document) {
+  factory BusinessOwnerModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data()!;
     return BusinessOwnerModel(
       id: document.id,
@@ -57,22 +69,27 @@ class BusinessOwnerModel {
       name: data["name"] as String,
       password: data["password"] as String,
       phone: data["phone"] as String,
-      verified: data["verified"] as bool,
-      rejected: data["rejected"] as bool,
+      verified: data["verified"] as bool? ?? false,
+      rejected: data["rejected"] as bool? ?? false,
       brands: List<String>.from(data["brands"] ?? []),
-      type: data["type"],
+      type: data["type"] as String?,
       rate: (data["rate"] as num?) ?? 0,
       latitude: data["latitude"] as num,
       longitude: data["longitude"] as num,
-      address: data["address"] as String
-
+      address: data["address"] as String,
+      isLoggedIn: data["isLoggedIn"] as bool? ?? false,
+      isSignedOut: data["isSignedOut"] as bool? ?? false,
+      documentURL: data["documentURL"] as String, // Use the provided documentURL parameter
+      imageURL: data["imageURL"] as String, // Use the provided imageURL parameter
     );
   }
 
   void setRejected(bool value) {
     rejected = value;
   }
+
   void setVerified(bool value) {
     verified = value;
   }
+
 }
