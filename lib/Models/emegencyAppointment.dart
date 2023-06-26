@@ -12,7 +12,8 @@ class emergencyAppointment {
   int rate;
   String state;
   bool done;
-  num notification_sent;
+  num Unotification_sent;
+  num Bnotification_sent;
 
   // 30.0519305   latitude   37.4219983
   // 31.1871632   longitude   -122.084
@@ -20,7 +21,7 @@ class emergencyAppointment {
   emergencyAppointment({this.id='',required this.car, required this.mechanicid,required this.userid,
     required this.description,required this.latitude, required this.longitude,
     required this.hour, required this.minute, this.rateDescription='null', this.rate=0, this.state='pending',
-    this.done=false, this.notification_sent=0});
+    this.done=false, this.Unotification_sent=0,this.Bnotification_sent=0});
 
   Map<String, dynamic>toJson(){
     return{
@@ -37,7 +38,8 @@ class emergencyAppointment {
       "rate":rate,
       "state":state,
       "done":done,
-      "notification_sent":notification_sent
+      "Unotification_sent":Unotification_sent,
+      "Bnotification_sent":Bnotification_sent
 
     };
   }
@@ -56,6 +58,7 @@ class emergencyAppointment {
       rate: json['rate'],
       state: json['state'],
       done: json['done'],
-      notification_sent: json['notification_sent']
+      Unotification_sent: json['Unotification_sent'],
+      Bnotification_sent: json['Bnotification_sent']
   );
 }

@@ -180,8 +180,8 @@ class _Google_mapState extends State<Google_map> {
         event) { //k2no byb2a live location lek kol ma tt7rk by3ml update
       locationData = event;
       updateUserLocation();
-      print("my location: lat: ${locationData?.latitude}, long: ${locationData
-          ?.longitude}");
+     // print("my location: lat: ${locationData?.latitude}, long: ${locationData
+      //    ?.longitude}");
     });
 
     Marker usermarker = Marker(markerId: MarkerId('userLocation'),

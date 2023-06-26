@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Controller/auth_controller.dart';
+import '../../Repositories/notification_service.dart';
 import 'business_history.dart';
 import 'businessowner_current_requests.dart';
 
@@ -11,11 +12,13 @@ class BusinessOwnerHomepage extends StatefulWidget {
 
   const BusinessOwnerHomepage({Key? key}) : super(key: key);
 
+
   @override
   State<BusinessOwnerHomepage> createState() => _BusinessOwnerHomepageState();
 }
 
 class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
+  final NotificationService _notificationService = NotificationService();
   int checkedIndex = -1;
   List<String> cardNames = [
     'assets/images/b1.1.jpg',
@@ -26,6 +29,11 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
   @override
   void initState() {
     super.initState();
+    // Get the logged-in user's ID
+    final authController = AuthController();
+    final userId = authController.currentUserUid!; // Assert that it's not null
+    _notificationService.initializeNotifications2(userId);
+    //_notificationService.listenForRequestChanges2(userId);
     fetchBusinessName();
   }
 
@@ -48,9 +56,11 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
     // Use userId to fetch business name from "BusinessOwners" collection
     String fetchedBusinessName = await fetchBusinessNameFromCollection(userId!);
 
-    setState(() {
-      businessName = fetchedBusinessName;
-    });
+    if (mounted) {
+      setState(() {
+        businessName = fetchedBusinessName;
+      });
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -225,3 +235,4 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
       ),
     );
   }}
+

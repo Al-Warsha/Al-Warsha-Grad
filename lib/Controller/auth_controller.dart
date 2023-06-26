@@ -8,7 +8,7 @@ import '../Screens/Business Owner Screens/BottomNavigationBar-BusinessOwner.dart
 import '../Screens/Client Screens/BottomNavigationBarExample.dart';
 import '../Screens/Admin Screens/admin-homepage.dart';
 import '../Screens/Business Owner Screens/Login-SingUp Screens/business_pending_for_verification.dart';
-import '../Screens/Client Screens/email_verification_screen.dart';
+import '../Screens/Client Screens/Login-SignUp Screens/email_verification_screen.dart';
 import '../Screens/Shared Screens/welcome-page.dart';
 
 

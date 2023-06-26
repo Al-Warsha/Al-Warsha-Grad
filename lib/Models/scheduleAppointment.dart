@@ -11,13 +11,14 @@ class scheduleAppointment {
   int rate;
   String state;
   bool done;
-  num notification_sent;
+  num Unotification_sent;
+  num Bnotification_sent;
 
   //required this.mechanicid,required this.userid,
   scheduleAppointment({this.id='',required this.date, required this.mechanicid,required this.userid,
     required this.hour,required this.minute,
     required this.description, required this.car,  this.rateDescription='null', this.rate=0, this.state='pending',
-    this.done=false, this.notification_sent=0});
+    this.done=false, this.Unotification_sent=0, this.Bnotification_sent=0});
 
   Map<String, dynamic>toJson(){
     return{
@@ -33,7 +34,8 @@ class scheduleAppointment {
       "rate":rate,
       "state":state,
       "done":done,
-      "notification_sent":notification_sent
+      "Unotification_sent":Unotification_sent,
+      "Bnotification_sent":Bnotification_sent,
     };
   }
 
@@ -50,7 +52,8 @@ class scheduleAppointment {
       rate: json['rate'],
       state: json['state'],
       done: json['done'],
-      notification_sent: json['notification_sent']
+      Unotification_sent: json['Unotification_sent'],
+    Bnotification_sent: json['Bnotification_sent'],
   );
 }
 
