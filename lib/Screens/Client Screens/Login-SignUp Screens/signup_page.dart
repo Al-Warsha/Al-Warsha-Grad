@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Controller/auth_controller.dart';
-import '../email_verification_screen.dart';
+import 'email_verification_screen.dart';
 import 'login_page.dart';
 
 class SignUpPage extends StatefulWidget {

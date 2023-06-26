@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../Shared/Notification.dart';
 import 'businessOwner_homepage.dart';
 
 class BottomNavigationBarBusinessOwner extends StatefulWidget {
@@ -17,18 +18,13 @@ class _BottomNavigationBarBusinessOwnerState
 
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     Text(
       'screen 1',
       style: optionStyle,
     ),
     BusinessOwnerHomepage(),
-    Text(
-      'screen 3',
-      style: optionStyle,
-    ),
-
-
+    Notifications(),
   ];
 
   void _onItemTapped(int index) {

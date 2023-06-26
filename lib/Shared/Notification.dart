@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myapp/Controller/auth_controller.dart';
-import '../../Controller/Notification-controller.dart';
-import '../../Models/notification_model.dart';
+import '../Controller/Notification-controller.dart';
+import '../Models/notification_model.dart';
 
 class Notifications extends StatelessWidget {
   final NotificationsController _notificationsController =

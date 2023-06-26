@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Screens/Client%20Screens/user_profile_screen.dart';
-import 'Notification.dart';
+import '../../Shared/Notification.dart';
 import 'ServicesScreen.dart';
 import 'add_car.dart';
 import 'car_page.dart';
@@ -22,11 +22,11 @@ class _BottomNavigationBarExampleState
 
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     AddCar(fromSchedule: false,),
-    UserProfileScreen(),
-    ServicesScreen(),
-    ClientRequests(),
+    const UserProfileScreen(),
+    const ServicesScreen(),
+    const ClientRequests(),
     Notifications(),
   ];
 
@@ -96,7 +96,7 @@ class _BottomNavigationBarExampleState
                 height: 24,
               ),
             ),
-            label: 'Old Requests',
+            label: 'Requests',
           ),
           BottomNavigationBarItem(
             icon: ColorFiltered(
