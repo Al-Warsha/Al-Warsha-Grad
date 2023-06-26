@@ -67,7 +67,7 @@ class BusinessOwnerModel {
       id: document.id,
       email: data["email"] as String,
       name: data["name"] as String,
-      password: data["password"] as String,
+      password: data["password"] as String? ?? "",
       phone: data["phone"] as String,
       verified: data["verified"] as bool? ?? false,
       rejected: data["rejected"] as bool? ?? false,
