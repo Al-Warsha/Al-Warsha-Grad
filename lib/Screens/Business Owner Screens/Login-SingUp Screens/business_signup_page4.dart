@@ -100,10 +100,11 @@ class _BusinessOwnerPageFourState extends State<BusinessOwnerPageFour> {
         isLoading = true;
       });
 
+      // Upload the profile image to Firebase Storage
       // Generate an ID for the business owner (Firestore will generate an ID automatically when adding a new document).
       final docRef = FirebaseFirestore.instance.collection('Test').doc(businessOwnerId);
-      String ImageURL = "";
-      String DocumentURL = "";
+      String imageFilePath = "";
+      String documentFilePath = "";
 
       // Upload the profile image to Firebase Storage
       if (_image != null) {
@@ -111,13 +112,10 @@ class _BusinessOwnerPageFourState extends State<BusinessOwnerPageFour> {
         final profileImageRef = FirebaseStorage.instance.ref().child(profileImagePath);
         final profileImageUploadTask = profileImageRef.putFile(_image!);
         final profileImageSnapshot = await profileImageUploadTask.whenComplete(() {});
-        final profileImageDownloadURL = await profileImageSnapshot.ref.getDownloadURL();
-        ImageURL = profileImageDownloadURL;
+        imageFilePath = profileImagePath;
 
-
-
-        // Save the profile image download URL to Firestore
-        await docRef.update({'profileImageUrl': profileImageDownloadURL});
+        // Save the profile image file path to Firestore
+        await docRef.update({'profileImageUrl': imageFilePath});
       }
 
       // Upload the document to Firebase Storage
@@ -127,12 +125,10 @@ class _BusinessOwnerPageFourState extends State<BusinessOwnerPageFour> {
         final documentUploadTask = documentRef.putFile(File(pickedfile!.path!));
         final documentSnapshot = await documentUploadTask.whenComplete(() {});
         final documentDownloadURL = await documentSnapshot.ref.getDownloadURL();
-        DocumentURL = documentDownloadURL;
+        documentFilePath = documentPath;
 
         // Save the document download URL to Firestore
-        await docRef.update({'documentUrl': documentDownloadURL});
-
-
+        await docRef.update({'documentUrl': documentFilePath});
       }
       AuthController.instance.businessOwnerRegister(
         businessOwnerId,
@@ -145,8 +141,8 @@ class _BusinessOwnerPageFourState extends State<BusinessOwnerPageFour> {
         businessOwnerModel.address,
         businessOwnerModel.latitude,
         businessOwnerModel.longitude,
-        ImageURL,
-        DocumentURL,
+        imageFilePath,
+        documentFilePath,
 
       ).then((_) {
         Get.off(() => BusinessOwnerPendingPage());

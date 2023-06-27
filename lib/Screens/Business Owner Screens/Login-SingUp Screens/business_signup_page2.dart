@@ -39,7 +39,7 @@ class _BusinessOwnerPageTwoState extends State<BusinessOwnerPageTwo> {
     selectedType = widget.businessOwnerModel.type;
     updateNextButton();
   }*/
-  late String businessOwnerId;
+  late String businessOwnerId='';
 
   @override
   void initState() {

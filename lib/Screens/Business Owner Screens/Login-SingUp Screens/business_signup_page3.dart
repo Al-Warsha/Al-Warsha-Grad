@@ -68,8 +68,8 @@ class _BusinessOwnerPageThreeState extends State<BusinessOwnerPageThree> {
           imageURL: "",
           isLoggedIn: false,
           isSignedOut: false,
-          latitude: longitude,
-          longitude: latitude,
+          latitude: latitude,
+          longitude: longitude,
           rate: 0,
           rejected: false,
           type: businessOwnerModel.type,
@@ -222,13 +222,17 @@ class _BusinessOwnerPageThreeState extends State<BusinessOwnerPageThree> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
-                      'Latitude: ${currentLatitude ?? ''}',
-                      style: TextStyle(fontSize: 16),
+                    Expanded(
+                      child: Text(
+                        'Latitude: ${currentLatitude ?? ''}',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
-                    Text(
-                      'Longitude: ${currentLongitude ?? ''}',
-                      style: TextStyle(fontSize: 16),
+                    Expanded(
+                      child: Text(
+                        'Longitude: ${currentLongitude ?? ''}',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
                   ],
                 ),
