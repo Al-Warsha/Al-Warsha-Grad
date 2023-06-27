@@ -24,7 +24,7 @@ class ViewRequest extends StatelessWidget{
       EmergencyCard(Id: Id):
           selection == 2?
           ScheduleCard(Id: Id):
-              WinchCard(Id: Id),
+              WinchCard(id: Id),
 
     );
   }
