@@ -10,7 +10,12 @@ import 'current_requests.dart';
 class BusinessCurrentRequests extends StatefulWidget {
   static const String routeName = 'requests';
 
-  const BusinessCurrentRequests({Key? key}) : super(key: key);
+  final int initialSelection;
+
+  const BusinessCurrentRequests({
+    Key? key,
+    required this.initialSelection,
+  }) : super(key: key);
 
   @override
   State<BusinessCurrentRequests> createState() =>
@@ -18,27 +23,36 @@ class BusinessCurrentRequests extends StatefulWidget {
 }
 
 class _BusinessCurrentRequestsState extends State<BusinessCurrentRequests> {
-  int selection = 1;
+  int selection =1;
   String name = '';
   AdminMechanicDetailsController controller = AdminMechanicDetailsController();
   String? userId = AuthController.instance.currentUserUid;
   List<DocumentSnapshot<Map<String, dynamic>>> dataList = [];
 
   Future<void> _loadEmergencyRequests() async {
-    List<DocumentSnapshot<Map<String, dynamic>>> temp =
-    await CurrentRequests().pendingRequests(userId!);
-    setState(() {
-      selection = 1;
-      dataList = temp;
-    });
+    if (selection == 1) {
+      List<DocumentSnapshot<Map<String, dynamic>>> temp =
+      await CurrentRequests().pendingRequests(userId!);
+      setState(() {
+        dataList = temp;
+      });
+    } else if (selection == 2) {
+      List<DocumentSnapshot<Map<String, dynamic>>> temp =
+      await CurrentRequests().acceptedRequests(userId!);
+      setState(() {
+        dataList = temp;
+      });
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    // Initialize dataList with emergency requests
+    // Set the initial selection based on the value passed to the widget
+    selection = widget.initialSelection;
     _loadEmergencyRequests();
   }
+
 
   @override
   Widget build(BuildContext context) {

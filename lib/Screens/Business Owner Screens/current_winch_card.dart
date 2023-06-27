@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'businessowner_current_requests.dart';
 import 'current_requests.dart';
 
 class CurrentWinchCard extends StatefulWidget {
@@ -141,7 +142,16 @@ class _CurrentWinchCardState extends State<CurrentWinchCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           GestureDetector(
-                            onTap: () => updateState('rejected'),
+                            onTap: () async {
+                              updateState('rejected');
+                              // await currentRequests.pendingRequests(userId!);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BusinessCurrentRequests(initialSelection: 1,),
+                                ),
+                              );
+                            },
                             child: Container(
                               margin: EdgeInsets.only(right: 10),
                               width: 50,
@@ -158,9 +168,15 @@ class _CurrentWinchCardState extends State<CurrentWinchCard> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               updateState('accepted');
-                              Navigator.pop(context, true);
+                              // await currentRequests.pendingRequests(userId!);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BusinessCurrentRequests(initialSelection: 1,),
+                                ),
+                              );
                             },
                             child: Container(
                               margin: EdgeInsets.only(left: 10),
@@ -184,9 +200,14 @@ class _CurrentWinchCardState extends State<CurrentWinchCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               updateDone(true);
-                              Navigator.pop(context, true);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BusinessCurrentRequests(initialSelection: 2,),
+                                ),
+                              );
                             },
                             child: Container(
                               margin: EdgeInsets.only(left: 10),

@@ -138,7 +138,7 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
                   if (checkedIndex == 0){
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => BusinessCurrentRequests()),
+                      MaterialPageRoute(builder: (context) => BusinessCurrentRequests(initialSelection: 1,)),
                     );
                   }
                   else if (checkedIndex == 1){
