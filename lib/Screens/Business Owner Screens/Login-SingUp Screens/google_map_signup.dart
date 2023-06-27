@@ -180,5 +180,8 @@ class GoogleMapSignupState extends State<GoogleMapSignup> {
 
     print('Selected Latitude: $selectedLatitude');
     print('Selected Longitude: $selectedLongitude');
+
+    widget.onLocationSelected(selectedLatitude!, selectedLongitude!);
   }
+
 }

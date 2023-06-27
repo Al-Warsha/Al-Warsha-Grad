@@ -60,7 +60,7 @@ class _AdminHomepageState extends State<AdminHomepage> {
                   style: TextStyle(fontFamily: "Poppins",fontSize:40, fontWeight: FontWeight.bold),
                 ),
                 Image.asset(
-                  "img/breakLogin.jpg",
+                  "assets/images/breakLogin.jpg",
                   width: w * 0.5,
                   height: h * 0.01,
                 ),

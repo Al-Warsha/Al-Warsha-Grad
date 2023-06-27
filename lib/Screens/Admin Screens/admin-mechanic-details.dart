@@ -1,15 +1,19 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:myapp/Screens/Admin%20Screens/pdf_api.dart';
+import 'package:myapp/Screens/Admin%20Screens/pdf_viewer_page.dart';
 import '../../Controller/adminHomepageController.dart';
 import '../../Controller/adminMechaniDetailsController.dart';
 import '../../Models/businessOwner_model.dart';
-import 'dart:ui';
-
 
 class MechanicDetails extends StatelessWidget {
   final String? mechanicId;
-  final AdminMechanicDetailsController _controller = Get.put(AdminMechanicDetailsController());
-  final AdminHomepageController _controller2 = Get.put(AdminHomepageController());
+  final AdminMechanicDetailsController _controller =
+  Get.put(AdminMechanicDetailsController());
+  final AdminHomepageController _controller2 =
+  Get.put(AdminHomepageController());
   MechanicDetails({required this.mechanicId});
 
   @override
@@ -22,19 +26,26 @@ class MechanicDetails extends StatelessWidget {
 
     void handleRejectedIconClick() async {
       businessOwner.value?.setRejected(true);
-      await _controller.updateBusinessOwner(businessOwner.value!, isVerification: false);
+      await _controller.updateBusinessOwner(businessOwner.value!,
+          isVerification: false);
       await _controller2.fetchBusinessOwners();
       Navigator.pop(context);
     }
 
     void handleVerifiedIconClick() async {
       businessOwner.value?.setVerified(true);
-      await _controller.updateBusinessOwner(businessOwner.value!, isVerification: true);
+      await _controller.updateBusinessOwner(businessOwner.value!,
+          isVerification: true);
       await _controller2.fetchBusinessOwners();
       Navigator.pop(context);
     }
 
 
+    void openPDF(BuildContext context, File file) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => PDFViewerPage(file: file, key: UniqueKey())),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -85,7 +96,8 @@ class MechanicDetails extends StatelessWidget {
                         ),
                         ListTile(
                           title: Text('Type'),
-                          subtitle: Text('${businessOwner.value!.type}'),
+                          subtitle:
+                          Text('${businessOwner.value!.type}'),
                         ),
                         ListTile(
                           title: Text('Supported Brands'),
@@ -94,8 +106,15 @@ class MechanicDetails extends StatelessWidget {
                         ),
                         SizedBox(height: 10),
                         ElevatedButton.icon(
-                          onPressed: () {
-                            // Navigate to view document
+                          onPressed: () async {
+                            // Call the navigateToDocument method with the document URL
+                            final url=businessOwner.value!.documentURL;
+                            final file= await PDFApi.loadFirebase(url);
+                            if (file ==null)return;
+                            openPDF(context,file as File);
+
+
+
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Color(0xFFFC5448),
@@ -118,47 +137,50 @@ class MechanicDetails extends StatelessWidget {
                   : CircularProgressIndicator(),
             ),
             Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: handleRejectedIconClick,
-                    child: Container(
-                      margin: EdgeInsets.only(right: 10),
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.red,
-                      ),
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.white,
-                        size: 30,
-                      ),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: handleRejectedIconClick,
+                  child: Container(
+                    margin: EdgeInsets.only(right: 10),
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red,
+                    ),
+                    child: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 30,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: handleVerifiedIconClick,
-                    child: Container(
-                      margin: EdgeInsets.only(left: 100),
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.green,
-                      ),
-                      child: Icon(
-                        Icons.check,
-                        color: Colors.white,
-                        size: 30,
-                      ),
+                ),
+                GestureDetector(
+                  onTap: handleVerifiedIconClick,
+                  child: Container(
+                    margin: EdgeInsets.only(left: 100),
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.green,
+                    ),
+                    child: Icon(
+                      Icons.check,
+                      color: Colors.white,
+                      size: 30,
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
-      );
+      ),
+    );
   }
+}
+
+class _storeFile {
 }
