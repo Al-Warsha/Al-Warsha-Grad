@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:myapp/Screens/Admin%20Screens/pending-signUp-requests.dart';
+import '../../Controller/adminHomepageController.dart';
+import '../../Controller/all-business-accounts-Controller.dart';
 import '../../Controller/auth_controller.dart';
 import 'all-business-accounts.dart';
 
@@ -22,11 +26,43 @@ class _AdminHomepageState extends State<AdminHomepage> {
   ];
   @override
   Widget build(BuildContext context) {
+    final AdminHomepageController _controller2 = Get.put(AdminHomepageController());
+    final AllBusinessOwnersPageController _controller = Get.put(AllBusinessOwnersPageController());
     double baseWidth = 360;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
     final double w = MediaQuery.of(context).size.width;
     final double h = MediaQuery.of(context).size.height;
+    Future<void> index0() async {
+      await _controller2.fetchBusinessOwners();
+    }
+
+    Future<void> index1() async {
+      await _controller.fetchAllBusinessOwners();
+    }
+    void handleIndex0() async {
+      await index0();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PendingSignUpRequests(),
+        ),
+      );
+      setState(() {});
+    }
+
+    void handleIndex1() async {
+      await index1();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AllBusinessOwnerAccount(),
+        ),
+      );
+      setState(() {});
+    }
+
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: CupertinoColors.white,
@@ -82,27 +118,11 @@ class _AdminHomepageState extends State<AdminHomepage> {
               padding: EdgeInsets.only(top: ffem*20, bottom: 20, left: 80, right: 80),
               child: InkWell(
                 onTap: () {
-                  if (checkedIndex == 0)
-                  {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PendingSignUpRequests(
-                        ),
-                      ),
-                    );
+                  if (checkedIndex == 0) {
+                    handleIndex0();
+                  } else if (checkedIndex == 1) {
+                    handleIndex1();
                   }
-                  else if (checkedIndex == 1)
-                  {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AllBusinessOwnerAccount(
-                        ),
-                      ),
-                    );
-                  }
-                  setState(() {});
                 },
                 child: Container(
                   width: double.infinity,

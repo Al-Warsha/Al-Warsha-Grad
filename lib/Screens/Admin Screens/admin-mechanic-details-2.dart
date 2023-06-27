@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myapp/Screens/Admin%20Screens/pdf_api.dart';
+import 'package:myapp/Screens/Admin%20Screens/pdf_viewer_page.dart';
 import 'dart:ui';
 import '../../Controller/adminMechanicDetailsController2.dart';
 import '../../Controller/all-business-accounts-Controller.dart';
 import '../../Models/businessOwner_model.dart';
-
+import 'dart:io';
 
 class MechanicDetails2 extends StatelessWidget {
   final String? mechanicId;
@@ -27,6 +29,12 @@ class MechanicDetails2 extends StatelessWidget {
       }
       await _controller2.fetchAllBusinessOwners();
       Navigator.pop(context);
+    }
+
+    void openPDF(BuildContext context, File file) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => PDFViewerPage(file: file, key: UniqueKey())),
+      );
     }
     return Scaffold(
       appBar: AppBar(
@@ -86,8 +94,15 @@ class MechanicDetails2 extends StatelessWidget {
                         ),
                         SizedBox(height: 10),
                         ElevatedButton.icon(
-                          onPressed: () {
-                            // Navigate to view document
+                          onPressed: () async {
+                            // Call the navigateToDocument method with the document URL
+                            final url=businessOwner.value!.documentURL;
+                            final file= await PDFApi.loadFirebase(url);
+                            if (file ==null)return;
+                            openPDF(context,file as File);
+
+
+
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Color(0xFFFC5448),
