@@ -1,8 +1,12 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/Controller/auth_controller.dart';
+import 'businessowner_current_requests.dart';
 import 'current_requests.dart';
 
 class CurrentScheduleCard extends StatefulWidget {
+
   final String appointmentId;
   final String appointmentState;
 
@@ -17,7 +21,8 @@ class CurrentScheduleCard extends StatefulWidget {
 
 class _CurrentScheduleCardState extends State<CurrentScheduleCard> {
   String currentState = "";
-
+ // CurrentRequests currentRequests=new CurrentRequests();
+  String? userId=AuthController.instance.currentUserUid;
   @override
   void initState() {
     super.initState();
@@ -29,6 +34,7 @@ class _CurrentScheduleCardState extends State<CurrentScheduleCard> {
     await FirebaseFirestore.instance.collection('scheduleAppointment').doc(id).get();
     return request;
   }
+
 
   Future<void> updateState(String newState) async {
     try {
@@ -63,6 +69,7 @@ class _CurrentScheduleCardState extends State<CurrentScheduleCard> {
       print('Error updating state: $e');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +154,16 @@ class _CurrentScheduleCardState extends State<CurrentScheduleCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           GestureDetector(
-                            onTap: () => updateState('rejected'),
+                            onTap: () async {
+                              updateState('rejected');
+                              // await currentRequests.pendingRequests(userId!);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BusinessCurrentRequests(initialSelection: 1,),
+                                ),
+                              );
+                            },
                             child: Container(
                               margin: EdgeInsets.only(right: 10),
                               width: 50,
@@ -164,9 +180,15 @@ class _CurrentScheduleCardState extends State<CurrentScheduleCard> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               updateState('accepted');
-                              Navigator.pop(context, true);
+                             // await currentRequests.pendingRequests(userId!);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BusinessCurrentRequests(initialSelection: 1,),
+                                ),
+                              );
                             },
                             child: Container(
                               margin: EdgeInsets.only(left: 10),
@@ -190,10 +212,17 @@ class _CurrentScheduleCardState extends State<CurrentScheduleCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               updateDone(true);
-                              Navigator.pop(context, true);
+                              // await currentRequests.pendingRequests(userId!);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BusinessCurrentRequests(initialSelection: 2,),
+                                ),
+                              );
                             },
+
                             child: Container(
                               margin: EdgeInsets.only(left: 10),
                               width: 50,
