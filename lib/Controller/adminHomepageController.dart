@@ -2,11 +2,9 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+
 import '../Models/businessOwner_model.dart';
 import '../Repositories/businessOwner_repository.dart';
-
-
-
 
 class AdminHomepageController extends GetxController {
   static AdminHomepageController get instance => Get.find();
@@ -19,14 +17,14 @@ class AdminHomepageController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    fetchBusinessOwners();
+    fetchBusinessOwners(); // Fetch data initially
   }
 
   Future<void> fetchBusinessOwners() async {
     try {
       isLoading.value = true;
       List<BusinessOwnerModel> owners = await _businessOwnerRepo.getAllUnverifiedBusinessOwners();
-      businessOwners.value = owners;
+      businessOwners.assignAll(owners); // Assign the new data to the RxList
     } catch (error, stackTrace) {
       print(error);
       print(stackTrace);
@@ -34,7 +32,4 @@ class AdminHomepageController extends GetxController {
       isLoading.value = false;
     }
   }
-
-
-
 }

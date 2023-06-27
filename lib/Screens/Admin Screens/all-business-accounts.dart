@@ -11,7 +11,7 @@ import 'admin-mechanic-details-2.dart';
 
 class AllBusinessOwnerAccount extends StatelessWidget {
   final AllBusinessOwnersPageController _controller = Get.put(AllBusinessOwnersPageController());
-
+  //final BusinessOwnerController _controller = Get.find<BusinessOwnerController>();
   @override
   Widget build(BuildContext context) {
     double baseWidth = 360;
