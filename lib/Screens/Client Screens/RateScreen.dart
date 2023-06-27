@@ -1,27 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:myapp/Screens/Client%20Screens/scheduleCard.dart';
+import 'package:myapp/Screens/Client%20Screens/viewRequest.dart';
 
 class RateScreen extends StatefulWidget{
   final String id;
+  final int selection;
+
   static const String routeName = 'rating';
 
-  RateScreen({required this.id});
+  RateScreen({required this.id, required this.selection});
 
 
   @override
-  State<RateScreen> createState() => _RateScreenState(id);
+  State<RateScreen> createState() => _RateScreenState(id, selection);
 }
 
 class _RateScreenState extends State<RateScreen> {
   String id;
+  final int selection;
   late num rate;
   late String description;
   final db = FirebaseFirestore.instance;
   final textController = TextEditingController();
 
-  _RateScreenState(this.id);
+  _RateScreenState(this.id, this.selection);
 
   Future<void> updateDocument(num rate, String description) async {
     List<String> collections = ['emergencyAppointment', 'scheduleAppointment']; // Replace with your collection names
@@ -105,8 +108,12 @@ class _RateScreenState extends State<RateScreen> {
                 description = textController.text;
                 updateDocument(rate, description);
                 // Navigator.pop(context);
-                Navigator.popUntil(context, (route) => route.settings.name == ScheduleCard.routeName);
-              },
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ViewRequest(Id: id, selection: selection),)
+
+                );              },
               child: Text("Submit"),
               style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromRGBO(252,84, 72, 1.0)

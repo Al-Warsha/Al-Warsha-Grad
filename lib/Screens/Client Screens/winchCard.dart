@@ -87,7 +87,7 @@ class WinchCard extends StatelessWidget{
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => RateScreen(id: data?['id'],)
+                              builder: (context) => RateScreen(id: data?['id'],selection: 3,)
                           ),
                         );
                       },

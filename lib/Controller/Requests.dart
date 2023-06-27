@@ -53,22 +53,47 @@ class Requests {
     }
   }
 
-    Future<String> getName(String docId) {
-      print('ID $docId');
-      // Replace with your Firestore query to retrieve the string
-      return FirebaseFirestore.instance
-          .collection('BusinessOwners')
-          .doc(docId)
-          .get()
-          .then((DocumentSnapshot snapshot) {
-        if (snapshot.exists) {
-          return snapshot.get('name') as String;
-        } else {
-          return '';
-        }
-      });
+
+  Future<String> getName(String docId) {
+    // Replace with your Firestore query to retrieve the string
+    return FirebaseFirestore.instance
+        .collection('BusinessOwners')
+        .doc(docId)
+        .get()
+        .then((DocumentSnapshot snapshot) {
+      if (snapshot.exists) {
+        return snapshot.get('name') as String;
+      } else {
+        return '';
+      }
+    });
   }
 
+  Future<String> getRate(String id) async {
+    // Specify the collection names to search in
+    List<String> collectionNames = ['emergencyAppointment', 'scheduleAppointment', 'winchAppointment'];
 
+    dynamic rate = '';
+    // Perform queries on each collection
+    for (String collectionName in collectionNames) {
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+          .collection(collectionName)
+          .doc(id)
+          .get();
+
+      if (snapshot.exists) {
+        rate = snapshot.get('rate');
+        break; // Exit the loop if the rate is found
+      }
+    }
+
+    if (rate == 0){
+      rate = 'No rating yet';
+    }
+
+    return rate.toString();
+
+
+  }
 }
 

@@ -92,15 +92,25 @@ class _ScheduleCardState extends State<ScheduleCard> {
                     ),
                     ListTile(
                         title: Text('Rated'),
-                        subtitle: data?['rate'] == 0? Text('No rating yet'):Text(data!['rate'].toString())
+                        subtitle: FutureBuilder<String>(
+                          future: Requests().getRate(data?['id']),
+                          builder:
+                              (BuildContext context, AsyncSnapshot<String> snapshot) {
+                            if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              return Text(snapshot.data ?? '');
+                            }
+                          },
+                        ),
                     ),
                     SizedBox(height: 30),
                     ElevatedButton.icon(
-                      onPressed: isButtonDisabled(data?['state']) ? null :  () {
-                        Navigator.push(
+                      onPressed: !data?['done'] ? null :  () {
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => RateScreen(id: data?['id'],)
+                              builder: (context) => RateScreen(id: data?['id'],selection: 2,)
                           ),
                         );
                       },

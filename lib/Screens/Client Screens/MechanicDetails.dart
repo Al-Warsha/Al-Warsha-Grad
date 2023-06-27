@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myapp/Screens/Client%20Screens/EmergencyRoadHelp.dart';
+import 'package:myapp/Screens/Client%20Screens/reviewPage.dart';
 import 'dart:ui';
 import '../../Controller/viewMechanicsForAppointmentController.dart';
 import '../../Models/businessOwner_model.dart';
@@ -10,8 +11,8 @@ import 'Google_map.dart';
 
 class MechanicDetails extends StatefulWidget {
   final String? mechanicId;
-  bool isEmergency;
-  bool winch;
+  final bool isEmergency;
+  final bool winch;
   MechanicDetails({Key? key, required this.mechanicId, required this.isEmergency, required this.winch }) : super(key: key);
 
 
@@ -100,6 +101,29 @@ class _MechanicDetails extends State<MechanicDetails> {
                             ],
                           ),
                         ),
+                        SizedBox(height: 10),
+
+                        ElevatedButton(
+                          onPressed:  () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ReviewPage(mechanicId!)
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Color(0xFFFC5448),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                          child: Text(
+                            'View Reviews',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
 
                         SizedBox(height: 10),
                         ElevatedButton.icon(
@@ -149,8 +173,8 @@ class _MechanicDetails extends State<MechanicDetails> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Color(0xFFFC5448),
-                            onPrimary: Colors.white,
+                            foregroundColor: Colors.white,
+                            backgroundColor: Color(0xFFFC5448),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
