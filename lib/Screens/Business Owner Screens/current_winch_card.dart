@@ -135,6 +135,10 @@ class _CurrentWinchCardState extends State<CurrentWinchCard> {
                       title: Text('Request Type'),
                       subtitle: Text('winch service'),
                     ),
+                    ListTile(
+                      title: Text('Date'),
+                      subtitle: Text(data?['timestamp']),
+                    ),
 
                     SizedBox(height: 30),
                     if (currentState == 'pending')
