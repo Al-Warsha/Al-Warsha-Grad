@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../Shared/Notification.dart';
+import '../Shared Screens/Notification.dart';
 import 'businessOwner_homepage.dart';
 
 class BottomNavigationBarBusinessOwner extends StatefulWidget {
