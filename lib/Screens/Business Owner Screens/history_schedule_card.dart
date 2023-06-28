@@ -108,6 +108,10 @@ class _HistoryScheduleCardState extends State<HistoryScheduleCard> {
                       title: Text('Description'),
                       subtitle: Text(data?['description']),
                     ),
+                    ListTile(
+                      title: Text('Date'),
+                      subtitle: Text(data?['timestamp']),
+                    ),
                     SizedBox(height: 30),
 
                   ],

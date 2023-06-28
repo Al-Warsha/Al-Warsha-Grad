@@ -225,13 +225,13 @@ class _BusinessOwnerPageThreeState extends State<BusinessOwnerPageThree> {
                     Expanded(
                       child: Text(
                         'Latitude: ${currentLatitude ?? ''}',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 15),
                       ),
                     ),
                     Expanded(
                       child: Text(
                         'Longitude: ${currentLongitude ?? ''}',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 15),
                       ),
                     ),
                   ],
@@ -244,7 +244,14 @@ class _BusinessOwnerPageThreeState extends State<BusinessOwnerPageThree> {
                   onPressed: () {
                     goToGoogleMapSignup();
                   },
-                  child: const Text("Get Current Location"),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.location_on, color: Colors.white), // Map pin icon
+                      SizedBox(width: 8), // Adjust the spacing between the icon and text
+                      Text("Get Current Location"),
+                    ],
+                  ),
                 ),
 
                 SizedBox(height: h * 0.05),

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:myapp/Screens/Admin%20Screens/pdf_api.dart';
 import 'package:myapp/Screens/Admin%20Screens/pdf_viewer_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../Controller/adminHomepageController.dart';
 import '../../Controller/adminMechaniDetailsController.dart';
 import '../../Models/businessOwner_model.dart';
@@ -46,6 +47,28 @@ class MechanicDetails extends StatelessWidget {
         MaterialPageRoute(builder: (context) => PDFViewerPage(file: file, key: UniqueKey())),
       );
     }
+    _launchEmail(String email, String subject, String body) async {
+      final Uri emailUri = Uri(
+        scheme: 'mailto',
+        path: email,
+        queryParameters: {
+          'subject': Uri.encodeComponent(subject),
+          'body': Uri.encodeComponent(body),
+        },
+      );
+
+      String url = emailUri.toString();
+      url = Uri.decodeComponent(url);
+
+      try {
+        await launch(url);
+      } catch (e) {
+        throw 'Could not launch email: $e';
+      }
+    }
+
+
+
 
     return Scaffold(
       appBar: AppBar(
@@ -140,7 +163,14 @@ class MechanicDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: handleRejectedIconClick,
+                  onTap: () {
+                    handleRejectedIconClick();
+                    _launchEmail(
+                        businessOwner.value?.email ?? '',
+                        'Your Business Account in El-Warsha has been Rejected.',
+                        'Hello Dear,  \n\n Sorry to let you know that you have not been verified due to your documents not being up to bar. Looking forward to reviewing your account again once they have been re-submitted! \n\n Warmest Regards,\nEl-Warsha Team '
+                    );
+                  },
                   child: Container(
                     margin: EdgeInsets.only(right: 10),
                     width: 50,
@@ -157,7 +187,14 @@ class MechanicDetails extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: handleVerifiedIconClick,
+                  onTap: () {
+                    handleVerifiedIconClick();
+                    _launchEmail(
+                        businessOwner.value?.email ?? '',
+                        'Your Business Account in El-Warsha has been Approved.',
+                        'Hello Dear, \n\n Glad to let you know that you have been verified and part of our application now. Looking forward to growing our application with you! \n\n Warmest Regards,\nEl-Warsha Team '
+                    );
+                  },
                   child: Container(
                     margin: EdgeInsets.only(left: 100),
                     width: 50,
@@ -182,5 +219,3 @@ class MechanicDetails extends StatelessWidget {
   }
 }
 
-class _storeFile {
-}

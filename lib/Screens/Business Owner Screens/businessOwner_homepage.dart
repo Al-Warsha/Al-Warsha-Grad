@@ -197,8 +197,8 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Container(
-          width: 165,
-          height: 165,
+          width: 163,
+          height: 163,
           child: Stack(
             children: <Widget>[
               ColorFiltered(

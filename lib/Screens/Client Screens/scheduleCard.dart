@@ -87,22 +87,26 @@ class _ScheduleCardState extends State<ScheduleCard> {
                       subtitle: Text(data?['state'] ?? 'N/A'),
                     ),
                     ListTile(
-                      title: Text('Date'),
-                      subtitle: Text(numToDate(data?['date']).toString()),
+                      title: Text('Car'),
+                      subtitle: Text(data?['car']),
                     ),
                     ListTile(
-                        title: Text('Rated'),
-                        subtitle: FutureBuilder<String>(
-                          future: Requests().getRate(data?['id']),
-                          builder:
-                              (BuildContext context, AsyncSnapshot<String> snapshot) {
-                            if (snapshot.hasError) {
-                              return Text('Error: ${snapshot.error}');
-                            } else {
-                              return Text(snapshot.data ?? '');
-                            }
-                          },
-                        ),
+                      title: Text('Date'),
+                      subtitle: Text(data!['timestamp'].toString()),
+                    ),
+                    ListTile(
+                      title: Text('Rated'),
+                      subtitle: FutureBuilder<String>(
+                        future: Requests().getRate(data?['id']),
+                        builder:
+                            (BuildContext context, AsyncSnapshot<String> snapshot) {
+                          if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            return Text(snapshot.data ?? '');
+                          }
+                        },
+                      ),
                     ),
                     SizedBox(height: 30),
                     ElevatedButton.icon(

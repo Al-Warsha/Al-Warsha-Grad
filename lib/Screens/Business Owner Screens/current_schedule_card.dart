@@ -148,6 +148,10 @@ class _CurrentScheduleCardState extends State<CurrentScheduleCard> {
                       title: Text('Description'),
                       subtitle: Text(data?['description']),
                     ),
+                    ListTile(
+                      title: Text('Date'),
+                      subtitle: Text(data?['timestamp']),
+                    ),
                     SizedBox(height: 30),
                     if (currentState == 'pending')
                       Row(

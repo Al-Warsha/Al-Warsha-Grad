@@ -94,6 +94,10 @@ class HistoryWinchCard extends StatelessWidget {
                       title: Text('Request Type'),
                       subtitle: Text('Winch service'),
                     ),
+                    ListTile(
+                      title: Text('Date'),
+                      subtitle: Text(data?['timestamp']),
+                    ),
 
                     SizedBox(height: 30),
 

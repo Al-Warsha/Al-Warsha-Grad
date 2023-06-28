@@ -9,6 +9,7 @@ import '../Screens/Client Screens/BottomNavigationBarExample.dart';
 import '../Screens/Admin Screens/admin-homepage.dart';
 import '../Screens/Business Owner Screens/Login-SingUp Screens/business_pending_for_verification.dart';
 import '../Screens/Client Screens/Login-SignUp Screens/email_verification_screen.dart';
+import '../Screens/Shared Screens/splash_screen.dart';
 import '../Screens/Shared Screens/welcome-page.dart';
 
 
@@ -29,7 +30,7 @@ class AuthController extends GetxController {
   _initialScreen(User? user) async {
     if (user == null) {
       print("login page");
-      Get.offAll(() => WelcomePage());
+      Get.offAll(() => SplashScreenPage());
     } else {
       bool isUserInUsersCollection = await _checkUserInCollection('users', user.uid);
       bool isUserInBusinessOwnersCollection = await _checkUserInCollection('BusinessOwners', user.uid);
@@ -212,7 +213,7 @@ class AuthController extends GetxController {
       }
 
       await auth.signOut();
-      Get.offAll(() => LoginPage());
+      Get.offAll(() => WelcomePage());
     } catch (e) {
       print("Error logging out: $e");
     }

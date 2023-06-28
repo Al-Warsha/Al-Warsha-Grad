@@ -195,14 +195,20 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: TextField(
                     controller: fullNameController,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person, color: Color(0xFFFC5448)),
+                      prefixIcon: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Icon(Icons.person, color: Color(0xFFFC5448)),
+                      ),
                       hintText: "Full Name",
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      // Center hint text vertically
+                      contentPadding: EdgeInsets.symmetric(vertical: 14),
                     ),
                   ),
                 ),
                 SizedBox(height: h * 0.04),
+                // ...
+
                 Container(
                   width: w * 0.9,
                   height: h * 0.07,
@@ -220,14 +226,20 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: TextField(
                     controller: emailController,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email, color: Color(0xFFFC5448)),
+                      prefixIcon: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Icon(Icons.email, color: Color(0xFFFC5448)),
+                      ),
                       hintText: "Email",
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      // Center hint text vertically
+                      contentPadding: EdgeInsets.symmetric(vertical: 14),
                     ),
                   ),
                 ),
+
                 SizedBox(height: h * 0.04),
+
                 Container(
                   width: w * 0.9,
                   height: h * 0.07,
@@ -246,14 +258,20 @@ class _SignUpPageState extends State<SignUpPage> {
                     controller: passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock, color: Color(0xFFFC5448)),
+                      prefixIcon: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Icon(Icons.lock, color: Color(0xFFFC5448)),
+                      ),
                       hintText: "Password",
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      // Center hint text vertically
+                      contentPadding: EdgeInsets.symmetric(vertical: 14),
                     ),
                   ),
                 ),
+
                 SizedBox(height: h * 0.04),
+
                 Container(
                   width: w * 0.9,
                   height: h * 0.07,
@@ -271,13 +289,18 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: TextField(
                     controller: phoneNumberController,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.phone, color: Color(0xFFFC5448)),
+                      prefixIcon: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Icon(Icons.phone, color: Color(0xFFFC5448)),
+                      ),
                       hintText: "Phone Number",
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      // Center hint text vertically
+                      contentPadding: EdgeInsets.symmetric(vertical: 14),
                     ),
                   ),
                 ),
+
                 SizedBox(height: h * 0.04),
                 Container(
                   width: w * 0.4,

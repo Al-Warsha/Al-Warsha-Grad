@@ -12,19 +12,19 @@ class ViewRequest extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          title: Text('Request Details', textAlign: TextAlign.left, style: TextStyle(color: Colors.black),),
-          leading: BackButton(
+      appBar: AppBar(
+        backgroundColor: Color(0xFFFC5448),
+        shadowColor: Colors.transparent,
+        title: Text('Request Details', textAlign: TextAlign.left, style: TextStyle(color: Colors.black),),
+        leading: BackButton(
           color: Colors.black,
         ),
-          ),
+      ),
       body: selection == 1?
       EmergencyCard(Id: Id):
-          selection == 2?
-          ScheduleCard(Id: Id):
-              WinchCard(id: Id),
+      selection == 2?
+      ScheduleCard(Id: Id):
+      WinchCard(Id: Id),
 
     );
   }
