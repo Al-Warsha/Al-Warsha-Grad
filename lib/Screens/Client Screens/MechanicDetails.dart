@@ -16,7 +16,6 @@ class MechanicDetails extends StatefulWidget {
   MechanicDetails({Key? key, required this.mechanicId, required this.isEmergency, required this.winch }) : super(key: key);
 
 
-  //MechanicDetails({required this.mechanicId, required this.isEmergency, required this.winch });
   @override
   State<MechanicDetails> createState() => _MechanicDetails();
 }
@@ -24,7 +23,6 @@ class MechanicDetails extends StatefulWidget {
 class _MechanicDetails extends State<MechanicDetails> {
   viewMechanicsForAppointmentController vm = new viewMechanicsForAppointmentController();
 
-  //viewMechanicsForEmergencyController vmm = new viewMechanicsForEmergencyController();
   double? currentLatitude;
   double? currentLongitude;
 
@@ -38,10 +36,8 @@ class _MechanicDetails extends State<MechanicDetails> {
     vm.fetchBusinessOwnerDetails(mechanicId).then((owner) {
       businessOwner.value = owner;
     });
-    // vmm.fetchBusinessOwnerDetails(mechanicId).then((owner) {
-    //   businessOwner.value = owner;
-    // });
-    //bool isEmergency = true;
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Mechanic Details'),
@@ -86,20 +82,16 @@ class _MechanicDetails extends State<MechanicDetails> {
                           Text('${businessOwner.value!.brands}'),
                         ),
                         ListTile(
-                          title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          title:
+                          Row(
                             children: [
-                              Row(
-                                children: [
-                                  Icon(Icons.star, size: 18,
-                                      color: Colors.yellow),
-                                  SizedBox(width: 8),
-                                ],
-                              ),
-                              SizedBox(height: 4),
+                              Icon(Icons.star, size: 18,
+                                  color: Colors.yellow),
+                              SizedBox(width: 8),
                               Text('${businessOwner.value!.rate}'),
                             ],
                           ),
+
                         ),
                         SizedBox(height: 10),
 
@@ -132,9 +124,9 @@ class _MechanicDetails extends State<MechanicDetails> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      EmergencyRoadHelp(mechanicId: mechanicId,
-                                        businessOwnerId: businessOwner.value!.id,)
+                                    builder: (context) =>
+                                        EmergencyRoadHelp(mechanicId: mechanicId,
+                                          businessOwnerId: businessOwner.value!.id,)
                                 ),
                               );
                             } else if (!isEmergency && !winch) {

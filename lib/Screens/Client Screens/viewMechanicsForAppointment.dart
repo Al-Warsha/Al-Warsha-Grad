@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import '../../Controller/viewMechanicsForAppointmentController.dart';
 import '../../Models/businessOwner_model.dart';
+import '../../Shared/network/local/firebase_utils.dart';
 import 'MechanicDetails.dart';
 
 class viewMechanicsForAppointment extends StatefulWidget {
@@ -19,11 +18,35 @@ class viewMechanicsForAppointment_State
   final viewMechanicsForAppointmentController _controller =
   Get.put(viewMechanicsForAppointmentController());
 
+  List<BusinessOwnerModel> BusinessOwners = [];
+
   @override
   void initState() {
     super.initState();
     _controller.fetchBusinessOwners();
+    setRate();
   }
+
+  void setRate() async {
+    List<BusinessOwnerModel> tempOwners = _controller.businessOwners
+        .where((businessOwner) => businessOwner.type != 'Winch Service')
+        .toList();
+    List<String> businessOwnerIds = tempOwners.map((businessOwner) => businessOwner.id).toList();
+
+    // Fetch the rates for all business owners
+    Future.wait(
+      businessOwnerIds.map((id) => avgRate(id)),
+    ).then((List<num> rates) {
+      for (int i = 0; i < tempOwners.length; i++) {
+        tempOwners[i].rate = rates[i];
+      }
+
+      setState(() {
+        BusinessOwners = tempOwners;
+      });
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
