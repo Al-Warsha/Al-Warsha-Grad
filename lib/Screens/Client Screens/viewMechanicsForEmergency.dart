@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import '../../Controller/viewMechanicsForAppointmentController.dart';
 import '../../Models/businessOwner_model.dart';
+import '../../Shared/network/local/firebase_utils.dart';
 import 'MechanicDetails.dart';
 
 class viewMechanicsForEmergency extends StatefulWidget {
@@ -20,10 +21,13 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
   double deviceLatitude = 0.0;
   double deviceLongitude = 0.0;
 
+  List<BusinessOwnerModel> BusinessOwners = [];
+
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
+    setRate();
   }
 
   void _getCurrentLocation() async {
@@ -62,13 +66,33 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
     return distanceInKm;
   }
 
+
+  void setRate() async {
+    List<BusinessOwnerModel> tempOwners = _controller.businessOwners
+        .where((businessOwner) => businessOwner.type != 'Winch Service')
+        .toList();
+    List<String> businessOwnerIds = tempOwners.map((businessOwner) => businessOwner.id).toList();
+
+    // Fetch the rates for all business owners
+    Future.wait(
+      businessOwnerIds.map((id) => avgRate(id)),
+    ).then((List<num> rates) {
+      for (int i = 0; i < tempOwners.length; i++) {
+        tempOwners[i].rate = rates[i];
+      }
+
+      setState(() {
+        BusinessOwners = tempOwners;
+      });
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     double baseWidth = 360;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
-    List<BusinessOwnerModel> BusinessOwners =
-    _controller.businessOwners.where((businessOwner) => businessOwner.type != 'Winch Service').toList();
 
     BusinessOwners.sort((a, b) {
       num distanceA = _calculateDistance(

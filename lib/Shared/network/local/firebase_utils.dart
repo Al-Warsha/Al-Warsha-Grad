@@ -57,18 +57,6 @@ Future<void> addemergencyToFireStore(emergencyAppointment appointment){
 
 }
 
-// CollectionReference getEmergencyCollection() {
-//   return FirebaseFirestore.instance.collection('emergencyAppointment');
-// }
-//
-// Future<void> addemergencyToFirestore(emergencyAppointment appointment) async {
-//   try {
-//     CollectionReference collection = getEmergencyCollection();
-//     await collection.add(appointment.toJson());
-//   } catch (error) {
-//     print('Error adding emergency appointment to Firestore: $error');
-//   }
-// }
 
 Future<List<BusinessOwnerModel>> getAllBusinessOwners() async {
   final snapshot = await FirebaseFirestore.instance
@@ -101,7 +89,7 @@ Future<String?> getBusinessOwnerId(String? id) async {
 
 
   );
-  return businessOwnerData?.id;
+  return businessOwnerData.id;
 }
 
 
@@ -116,5 +104,55 @@ Future<Map<String, dynamic>> getUserData(String userId) async {
     return {};
   }
 }
+Future<List<DocumentSnapshot<Map<String, dynamic>>>> getReviews(String mechanicid) async {
+  // Specify the collection names to search in
+  List<String> collectionNames = ['emergencyAppointment', 'scheduleAppointment', 'winchAppointment'];
+
+  List<DocumentSnapshot<Map<String, dynamic>>> dataList = [];
+
+  // Perform queries on each collection
+  for (String collectionName in collectionNames) {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+        .collection(collectionName)
+        .where('mechanicid', isEqualTo: mechanicid)
+        .get();
+
+
+    for (QueryDocumentSnapshot<Map<String, dynamic>> docSnapshot in snapshot.docs) {
+      if (docSnapshot.data()['rate'] != 0) {
+        dataList.add(docSnapshot);
+      }
+    }
+  }
+  return dataList;
+}
+
+Future<num> avgRate(String mechanicId) async {
+  final db = FirebaseFirestore.instance;
+
+  List<DocumentSnapshot<Map<String, dynamic>>> reviews = await getReviews(mechanicId);
+  DocumentReference documentRef =  db.collection('BusinessOwners').doc(mechanicId);
+
+  if (reviews.isEmpty) {
+    // No reviews found
+    await documentRef.update({'rate': 0});
+    return 0;
+  }
+
+  num totalRate = 0;
+  for(int i = 0; i< reviews.length; i++){
+    totalRate += reviews[i].data()?['rate'];
+  }
+
+  num avg = totalRate/reviews.length;
+
+
+  await documentRef.update({'rate': avg});
+
+  return avg;
+
+}
+
+
 
 

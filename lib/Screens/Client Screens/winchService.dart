@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import '../../Controller/viewMechanicsForAppointmentController.dart';
 import '../../Models/businessOwner_model.dart';
+import '../../Shared/network/local/firebase_utils.dart';
 import 'MechanicDetails.dart';
 import 'dart:math';
 
@@ -19,10 +20,13 @@ class _winchServiceState extends State<winchService> {
   double deviceLatitude = 0.0;
   double deviceLongitude = 0.0;
 
+  List<BusinessOwnerModel> businessOwners = [];
+
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
+    setRate();
   }
 
   void _getCurrentLocation() async {
@@ -60,6 +64,28 @@ class _winchServiceState extends State<winchService> {
     num distanceInKm = earthRadius * c;
     return distanceInKm;
   }
+
+
+  void setRate() async {
+    List<BusinessOwnerModel> tempOwners = _controller.businessOwners
+        .where((businessOwner) => businessOwner.type == 'Winch Service')
+        .toList();
+    List<String> businessOwnerIds = tempOwners.map((businessOwner) => businessOwner.id).toList();
+
+    // Fetch the rates for all business owners
+    Future.wait(
+      businessOwnerIds.map((id) => avgRate(id)),
+    ).then((List<num> rates) {
+      for (int i = 0; i < tempOwners.length; i++) {
+        tempOwners[i].rate = rates[i];
+      }
+
+      setState(() {
+        businessOwners = tempOwners;
+      });
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {

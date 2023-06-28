@@ -27,7 +27,7 @@ class _RateScreenState extends State<RateScreen> {
   _RateScreenState(this.id, this.selection);
 
   Future<void> updateDocument(num rate, String description) async {
-    List<String> collections = ['emergencyAppointment', 'scheduleAppointment']; // Replace with your collection names
+    List<String> collections = ['emergencyAppointment', 'scheduleAppointment', 'winchAppointment']; // Replace with your collection names
 
     for (String collection in collections) {
       QuerySnapshot querySnapshot = await db.collection(collection).where('id', isEqualTo: id).get();
