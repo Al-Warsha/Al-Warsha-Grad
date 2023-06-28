@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../Models/scheduleAppointment.dart';
 import '../../Shared/network/local/firebase_utils.dart';
 import 'BottomNavigationBarExample.dart';
@@ -23,6 +24,7 @@ class _AppointmentForMaintenance extends State<AppointmentForMaintenance> {
 
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedtime = TimeOfDay.now();
+  final DateTime currentDateTime = DateTime.now();
   List<String> cars = [];
   String? selectedcar;
   var reasonController = TextEditingController();
@@ -168,6 +170,7 @@ class _AppointmentForMaintenance extends State<AppointmentForMaintenance> {
                 ),
               ),
               const SizedBox(height: 30),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -230,9 +233,11 @@ class _AppointmentForMaintenance extends State<AppointmentForMaintenance> {
 
               ElevatedButton(
                 onPressed: () async {
-                  scheduleAppointment  appointment= scheduleAppointment(date: selectedDate.microsecondsSinceEpoch,
-                      hour: selectedtime.hour, minute: selectedtime.minute,description: reasonController.text,
-                      car: selectedcar!, userid: userId, mechanicid: businessOwnerId!);
+                  final String formattedDateTime =
+                  DateFormat('MMM dd, yyyy - hh:mm a').format(currentDateTime);
+                  scheduleAppointment  appointment= scheduleAppointment(scheduleddate: selectedDate.microsecondsSinceEpoch,
+                      scheduledhour: selectedtime.hour, scheduledminute: selectedtime.minute,description: reasonController.text,
+                      car: selectedcar!, userid: userId, mechanicid: businessOwnerId!, timestamp: formattedDateTime);
                   addScheduleToFireStore(appointment);
                   await showDialog<String>(
                     context: context,

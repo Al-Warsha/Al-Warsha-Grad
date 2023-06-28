@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:myapp/Screens/Client%20Screens/EmergencyRoadHelp.dart';
 import '../../Models/winchAppointment.dart';
@@ -54,7 +55,8 @@ class _Google_mapState extends State<Google_map> {
 
   // double? currentLatitude;
   // double? currentLongitude;
-  TimeOfDay selectedtime = TimeOfDay.now();
+  //TimeOfDay selectedtime = TimeOfDay.now();
+  final DateTime currentDateTime = DateTime.now();
 
 
   @override
@@ -91,13 +93,13 @@ class _Google_mapState extends State<Google_map> {
               ),
             );
           } else if (!emergency) {
+            final String formattedDateTime =
+            DateFormat('MMM dd, yyyy - hh:mm a').format(currentDateTime);
             winchAppointment appointment = winchAppointment(
                 latitude: locationData!.latitude!,
                 longitude: locationData!.longitude!,
-                hour: selectedtime.hour,
-                minute: selectedtime.minute,
                 userid: userId,
-                mechanicid: businessOwnerId!
+                mechanicid: businessOwnerId!, timestamp: formattedDateTime
             );
             addWinchToFireStore(appointment);
             await showDialog<String>(

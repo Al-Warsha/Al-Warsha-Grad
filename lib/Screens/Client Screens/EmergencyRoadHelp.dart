@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:myapp/Screens/Client%20Screens/BottomNavigationBarExample.dart';
 import '../../Models/emegencyAppointment.dart';
 import '../../Shared/network/local/firebase_utils.dart';
@@ -28,7 +29,8 @@ class _EmergencyRoadHelp extends State<EmergencyRoadHelp> {
 
   double? currentLatitude;
   double? currentLongitude;
-  TimeOfDay selectedtime = TimeOfDay.now();
+  //TimeOfDay selectedtime = TimeOfDay.now();
+  final DateTime currentDateTime = DateTime.now();
 
   late String? userId;
   late String? businessOwnerId;
@@ -182,13 +184,14 @@ class _EmergencyRoadHelp extends State<EmergencyRoadHelp> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () async{
+                      final String formattedDateTime =
+                      DateFormat('MMM dd, yyyy - hh:mm a').format(currentDateTime);
                       emergencyAppointment appointment = emergencyAppointment(
                         description: descriptionController.text,
                         car: selectedcar!,
                         latitude: currentLatitude!,
                         longitude: currentLongitude!,
-                        hour: selectedtime.hour, minute: selectedtime.minute,
-                          userid: userId, mechanicid: businessOwnerId!);
+                          userid: userId, mechanicid: businessOwnerId!, timestamp: formattedDateTime);
                       addemergencyToFireStore(appointment);
                       await showDialog<String>(
                       context: context,
