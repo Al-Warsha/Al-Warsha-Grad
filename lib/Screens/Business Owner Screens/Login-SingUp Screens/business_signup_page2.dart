@@ -342,6 +342,7 @@ class _BusinessOwnerPageTwoState extends State<BusinessOwnerPageTwo> {
                           contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
+
                           ),
                           prefixIcon: Icon(Icons.menu, size: 20, color: Color(0xFFFC5448)),
                           prefixIconConstraints: BoxConstraints(minWidth: 27, minHeight: 40),

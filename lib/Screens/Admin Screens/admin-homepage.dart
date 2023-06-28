@@ -20,8 +20,8 @@ class AdminHomepage extends StatefulWidget {
 class _AdminHomepageState extends State<AdminHomepage> {
   int checkedIndex = -1;
   List<String> cardNames = [
-    'assets/images/a1.jpg',
     'assets/images/a2.jpg',
+    'assets/images/a1.jpg',
 
   ];
   @override
@@ -170,8 +170,8 @@ class _AdminHomepageState extends State<AdminHomepage> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Container(
-          width: 165,
-          height: 165,
+          width: 160,
+          height: 160,
           child: Stack(
             children: <Widget>[
               ColorFiltered(
@@ -181,7 +181,6 @@ class _AdminHomepageState extends State<AdminHomepage> {
                     Colors.transparent, BlendMode.srcATop),
                 child: Image.asset(
                   imagePath,
-                  fit: BoxFit.cover,
                 ),
               ),
               Positioned(

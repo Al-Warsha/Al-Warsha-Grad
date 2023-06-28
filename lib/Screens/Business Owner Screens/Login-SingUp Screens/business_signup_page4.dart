@@ -62,16 +62,17 @@ class _BusinessOwnerPageFourState extends State<BusinessOwnerPageFour> {
         allowMultiple: false,
       );
       if (result != null && result?.files != null && result!.files!.isNotEmpty) {
-        fileName = path.basename(result?.files!.first.path ?? '');
-        pickedfile = result?.files!.first;
-        fileToDisplay = File(pickedfile!.path!);
-        print("File name $fileName");
+        setState(() {
+          fileName = path.basename(result?.files!.first.path ?? '');
+          pickedfile = result?.files!.first;
+          fileToDisplay = File(pickedfile!.path!);
+          print("File name $fileName");
+        });
       }
     } catch (e) {
       print('Error picking document: $e');
     }
   }
-
 
   /*Future<void> performSignUp() async {
     AllBusinessOwnersPageController.instance.businessOwnerRegister(
@@ -129,7 +130,9 @@ class _BusinessOwnerPageFourState extends State<BusinessOwnerPageFour> {
 
         // Save the document download URL to Firestore
         await docRef.update({'documentUrl': documentFilePath});
+
       }
+
       AuthController.instance.businessOwnerRegister(
         businessOwnerId,
         businessOwnerModel.name,
@@ -288,10 +291,22 @@ class _BusinessOwnerPageFourState extends State<BusinessOwnerPageFour> {
                     ),
                   ),
                   SizedBox(height: h * 0.1),
-                  ElevatedButton(
-                    onPressed: _pickDocument,
-                    child: Text('Upload Document'),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: w*0.2),
+                    child: ElevatedButton(
+                      onPressed: _pickDocument,
+                      child: Text(
+                        'Upload Document',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                      ),
+                    ),
                   ),
+
                   if (pickedfile != null)
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -311,26 +326,30 @@ class _BusinessOwnerPageFourState extends State<BusinessOwnerPageFour> {
                         ],
                       ),
                     ),
-                  SizedBox(height: h * 0.02),
+                  SizedBox(height: h * 0.15),
                   Container(
                     width: w * 0.4,
                     height: h * 0.07,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Color(0xFFFC5448),
-                    ),
-                    child: ElevatedButton(
-                      onPressed: performSignUp,
-                      child: Text(
-                        "Sign Up",
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: w*0.2), // Adjust the margin as needed
+                        child: ElevatedButton(
+                          onPressed: performSignUp,
+                          child: Text(
+                            "Sign Up",
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xFFFC5448),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                        ),
                       ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Color(0xFFFC5448),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                      ),
-                    ),
+
                   ),
+
+
                 ],
               ),
             ),

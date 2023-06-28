@@ -314,7 +314,9 @@ class _BusinessOwnerPageOneState extends State<BusinessOwnerPageOne> {
                   width: w * 0.4,
                   height: h * 0.01,
                 ),
+
                 SizedBox(height: h * 0.04),
+
                 Container(
                   width: w * 0.9,
                   height: h * 0.07,
@@ -336,18 +338,25 @@ class _BusinessOwnerPageOneState extends State<BusinessOwnerPageOne> {
                       updateNextButtonState();
                     },
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person, color: Color(0xFFFC5448)),
+                      prefixIcon: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Icon(Icons.person, color: Color(0xFFFC5448)),
+                      ),
                       hintText: "Name",
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      // Center hint text vertically
+                      contentPadding: EdgeInsets.symmetric(vertical: 14),
                     ),
                   ),
                 ),
+
                 Text(
                   fullNameError,
                   style: TextStyle(color: Colors.red),
                 ),
+
                 SizedBox(height: h * 0.04),
+
                 Container(
                   width: w * 0.9,
                   height: h * 0.07,
@@ -369,18 +378,25 @@ class _BusinessOwnerPageOneState extends State<BusinessOwnerPageOne> {
                       updateNextButtonState();
                     },
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email, color: Color(0xFFFC5448)),
+                      prefixIcon: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Icon(Icons.email, color: Color(0xFFFC5448)),
+                      ),
                       hintText: "Email",
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      // Center hint text vertically
+                      contentPadding: EdgeInsets.symmetric(vertical: 14),
                     ),
                   ),
                 ),
+
                 Text(
                   emailError,
                   style: TextStyle(color: Colors.red),
                 ),
+
                 SizedBox(height: h * 0.04),
+
                 Container(
                   width: w * 0.9,
                   height: h * 0.07,
@@ -403,18 +419,25 @@ class _BusinessOwnerPageOneState extends State<BusinessOwnerPageOne> {
                     },
                     obscureText: true,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock, color: Color(0xFFFC5448)),
+                      prefixIcon: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Icon(Icons.lock, color: Color(0xFFFC5448)),
+                      ),
                       hintText: "Password",
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      // Center hint text vertically
+                      contentPadding: EdgeInsets.symmetric(vertical: 14),
                     ),
                   ),
                 ),
+
                 Text(
                   passwordError,
                   style: TextStyle(color: Colors.red),
                 ),
+
                 SizedBox(height: h * 0.04),
+
                 Container(
                   width: w * 0.9,
                   height: h * 0.07,
@@ -436,18 +459,25 @@ class _BusinessOwnerPageOneState extends State<BusinessOwnerPageOne> {
                       updateNextButtonState();
                     },
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.phone, color: Color(0xFFFC5448)),
+                      prefixIcon: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Icon(Icons.phone, color: Color(0xFFFC5448)),
+                      ),
                       hintText: "Phone Number",
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      // Center hint text vertically
+                      contentPadding: EdgeInsets.symmetric(vertical: 14),
                     ),
                   ),
                 ),
+
                 Text(
                   phoneNumberError,
                   style: TextStyle(color: Colors.red),
                 ),
+
                 SizedBox(height: h * 0.05),
+
                 GestureDetector(
                   onTap: isNextButtonEnabled ? () {
                     _saveDataToFirestore(context);

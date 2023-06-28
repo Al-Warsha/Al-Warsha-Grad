@@ -47,8 +47,8 @@ class _BottomNavigationBarBusinessOwnerState
                   : ColorFilter.mode(Colors.transparent, BlendMode.srcATop),
               child: Image.asset(
                 'assets/images/b2.jpg',
-                width: 24,
-                height: 24,
+                width: 25,
+                height: 25,
               ),
             ),
             label: 'Profile',
