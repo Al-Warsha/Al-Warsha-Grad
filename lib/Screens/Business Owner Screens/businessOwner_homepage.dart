@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Controller/auth_controller.dart';
-import '../../Repositories/notification_service.dart';
+import '../../Repositories/notification_service2.dart';
 import 'business_history.dart';
 import 'businessowner_current_requests.dart';
 
@@ -18,7 +18,7 @@ class BusinessOwnerHomepage extends StatefulWidget {
 }
 
 class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
-  final NotificationService _notificationService = NotificationService();
+  final NotificationService2 _notificationService = NotificationService2();
   int checkedIndex = -1;
   List<String> cardNames = [
     'assets/images/b1.1.jpg',
