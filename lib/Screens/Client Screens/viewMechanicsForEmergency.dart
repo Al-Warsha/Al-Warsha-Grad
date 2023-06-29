@@ -26,6 +26,7 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
   @override
   void initState() {
     super.initState();
+    _controller.fetchBusinessOwners();
     _getCurrentLocation();
     setRate();
   }
@@ -111,11 +112,15 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
     });
 
     return Scaffold(
-      body: Builder(
-        builder: (BuildContext context) {
-          if (deviceLatitude == 0.0 && deviceLongitude == 0.0) {
+      body: Obx(
+            (){
+          if (_controller.isNull) {
             return Center(child: CircularProgressIndicator());
           } else {
+            List<BusinessOwnerModel> businessOwners =
+            _controller.businessOwners
+                .where((businessOwner) => businessOwner.type != 'Winch Service')
+                .toList();
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -151,7 +156,7 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
                   ListView.separated(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: BusinessOwners.length,
+                    itemCount: businessOwners.length,
                     separatorBuilder: (context, index) => Container(
                       margin: EdgeInsets.symmetric(horizontal: 50 * fem),
                       width: double.infinity,
@@ -166,7 +171,7 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
                       ),
                     ),
                     itemBuilder: (context, index) {
-                      BusinessOwnerModel businessOwner = BusinessOwners[index];
+                      BusinessOwnerModel businessOwner = businessOwners[index];
                       num latitude = businessOwner.latitude;
                       num longitude = businessOwner.longitude;
                       num distanceInKm = _calculateDistance(
