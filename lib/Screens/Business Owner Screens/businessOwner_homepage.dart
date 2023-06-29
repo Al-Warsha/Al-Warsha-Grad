@@ -18,7 +18,7 @@ class BusinessOwnerHomepage extends StatefulWidget {
 }
 
 class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
-  final NotificationService2 _notificationService = NotificationService2();
+  // final NotificationService2 _notificationService = NotificationService2();
   int checkedIndex = -1;
   List<String> cardNames = [
     'assets/images/b1.1.jpg',
@@ -30,9 +30,9 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
   void initState() {
     super.initState();
     // Get the logged-in user's ID
-    final authController = AuthController();
-    final userId = authController.currentUserUid!; // Assert that it's not null
-    _notificationService.initializeNotifications2(userId);
+    // final authController = AuthController();
+    // final userId = authController.currentUserUid!; // Assert that it's not null
+    // _notificationService.initializeNotifications2(userId);
     //_notificationService.listenForRequestChanges2(userId);
     fetchBusinessName();
   }
