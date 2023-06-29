@@ -4,43 +4,41 @@ import 'history_emergency_card.dart';
 import 'history_schedule_card.dart';
 import 'history_winch_card.dart';
 
-
-
 class ViewHistory extends StatelessWidget {
   final String appointmentId;
   final String appointmentState;
-  final String userName;
-  final String phoneNumber;
-  final String hour;
-
 
   const ViewHistory({
     required this.appointmentId,
     required this.appointmentState,
-    required this.userName,
-    required this.phoneNumber,
-    required this.hour,
-
   });
 
   Future<String> getCollectionName(String appointmentId) async {
-    CollectionReference emergencyCollection = FirebaseFirestore.instance.collection('emergencyAppointment');
-    CollectionReference scheduleCollection = FirebaseFirestore.instance.collection('scheduleAppointment');
-    CollectionReference winchCollection = FirebaseFirestore.instance.collection('winchAppointment');
+    CollectionReference emergencyCollection =
+    FirebaseFirestore.instance.collection('emergencyAppointment');
+    CollectionReference scheduleCollection =
+    FirebaseFirestore.instance.collection('scheduleAppointment');
+    CollectionReference winchCollection =
+    FirebaseFirestore.instance.collection('winchAppointment');
 
-    DocumentSnapshot emergencySnapshot = await emergencyCollection.doc(appointmentId).get();
-    if (emergencySnapshot.exists) {
-      return 'emergencyAppointment';
-    }
+    List<Future<DocumentSnapshot>> futures = [
+      emergencyCollection.doc(appointmentId).get(),
+      scheduleCollection.doc(appointmentId).get(),
+      winchCollection.doc(appointmentId).get(),
+    ];
 
-    DocumentSnapshot scheduleSnapshot = await scheduleCollection.doc(appointmentId).get();
-    if (scheduleSnapshot.exists) {
-      return 'scheduleAppointment';
-    }
+    List<DocumentSnapshot> snapshots = await Future.wait(futures);
 
-    DocumentSnapshot winchSnapshot = await winchCollection.doc(appointmentId).get();
-    if (winchSnapshot.exists) {
-      return 'winchAppointment';
+    for (int i = 0; i < snapshots.length; i++) {
+      if (snapshots[i].exists) {
+        if (i == 0) {
+          return 'emergencyAppointment';
+        } else if (i == 1) {
+          return 'scheduleAppointment';
+        } else if (i == 2) {
+          return 'winchAppointment';
+        }
+      }
     }
 
     return '';
@@ -52,32 +50,46 @@ class ViewHistory extends StatelessWidget {
       future: getCollectionName(appointmentId),
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // Show loading indicator while fetching the collection name
+          return Container(
+            color: Colors.white,
+            child: Center(
+              child: SizedBox(
+                width: 20,  // Adjust the size of the circle as needed
+                height: 20,  // Adjust the size of the circle as needed
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,  // Adjust the stroke width as needed
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Color.fromRGBO(252, 84, 72, 1.0),
+                  ),
+                ),
+              ),
+            ),
+          );
         } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
           final String collectionName = snapshot.data!;
-
           Widget currentCard;
 
-          // Build the corresponding container based on the collection name
-          if (collectionName == 'emergencyAppointment') {
-            currentCard = HistoryEmergencyCard(
-              appointmentState: appointmentState,
-              appointmentId: appointmentId,
-            );
-          } else if (collectionName == 'scheduleAppointment') {
-            currentCard = HistoryScheduleCard(
-              appointmentState: appointmentState,
-              appointmentId: appointmentId,
-
-            );
-          } else if (collectionName == 'winchAppointment') {
-            currentCard = HistoryWinchCard(
-              appointmentState: appointmentState,
-              appointmentId: appointmentId,
-
-            );
-          } else {
-            return Text('Invalid collection name');
+          switch (collectionName) {
+            case 'emergencyAppointment':
+              currentCard = HistoryEmergencyCard(
+                appointmentState: appointmentState,
+                appointmentId: appointmentId,
+              );
+              break;
+            case 'scheduleAppointment':
+              currentCard = HistoryScheduleCard(
+                appointmentState: appointmentState,
+                appointmentId: appointmentId,
+              );
+              break;
+            case 'winchAppointment':
+              currentCard = HistoryWinchCard(
+                appointmentState: appointmentState,
+                appointmentId: appointmentId,
+              );
+              break;
+            default:
+              return Text('Invalid collection name');
           }
 
           return Scaffold(
@@ -101,5 +113,4 @@ class ViewHistory extends StatelessWidget {
       },
     );
   }
-
 }
