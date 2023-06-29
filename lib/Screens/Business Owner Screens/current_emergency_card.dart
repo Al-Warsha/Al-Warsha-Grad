@@ -132,7 +132,7 @@ class _CurrentEmergencyCardState extends State<CurrentEmergencyCard> {
                     ),
                     ListTile(
                       title: Text('Request Type'),
-                      subtitle: Text('Scheduled appointment'),
+                      subtitle: Text('Emergency appointment'),
                     ),
                     ListTile(
                       title: Text('Description'),
