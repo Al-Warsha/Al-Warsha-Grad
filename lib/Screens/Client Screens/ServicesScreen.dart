@@ -21,7 +21,7 @@ class ServicesScreen extends StatefulWidget {
 }
 
 class _ServicesScreenState extends State<ServicesScreen> {
-  final NotificationService _notificationService = NotificationService();
+  // final NotificationService _notificationService = NotificationService();
 
 
 
@@ -29,9 +29,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
   void initState() {
     super.initState();
     // Get the logged-in user's ID
-    final authController = AuthController();
-    final userId = authController.currentUserUid!; // Assert that it's not null
-    _notificationService.initializeNotifications1(userId);
+    // final authController = AuthController();
+    // final userId = authController.currentUserUid!; // Assert that it's not null
+    // _notificationService.initializeNotifications1(userId);
     // _notificationService.listenForRequestChanges(userId);
     fetchUserName();
   }

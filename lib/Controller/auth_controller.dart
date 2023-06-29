@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/Screens/Client%20Screens/Login-SignUp%20Screens/login_page.dart';
+import 'package:myapp/Repositories/notification_service.dart';
 import 'package:myapp/Models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../Repositories/notification_service2.dart';
 import '../Screens/Business Owner Screens/BottomNavigationBar-BusinessOwner.dart';
 import '../Screens/Client Screens/BottomNavigationBarExample.dart';
 import '../Screens/Admin Screens/admin-homepage.dart';
@@ -14,6 +15,9 @@ import '../Screens/Shared Screens/welcome-page.dart';
 
 
 class AuthController extends GetxController {
+
+  late NotificationService _notificationService;
+  late NotificationService2 _notificationService2;
   static AuthController instance = Get.find();
   late Rx<User?> _user;
   String? get currentUserUid => auth.currentUser?.uid;
@@ -145,11 +149,14 @@ class AuthController extends GetxController {
         bool isSignedOut = false;
 
         String uid = user.uid;
+        _notificationService=new NotificationService();
+        _notificationService.listenForRequestChanges(uid);
         await FirebaseFirestore.instance.collection('users').doc(uid).set({
           'isEmailVerified': isEmailVerified,
           'isLoggedIn': isLoggedIn,
           'isSignedOut': isSignedOut,
         }, SetOptions(merge: true));
+
 
         if (isEmailVerified) {
           //Get.offAll(() => HomePageScreen());
@@ -210,6 +217,9 @@ class AuthController extends GetxController {
           'isLoggedIn': false,
           'isSignedOut': true,
         }, SetOptions(merge: true));
+
+       _notificationService.destroyNotifications();
+
       }
 
       await auth.signOut();
@@ -367,13 +377,13 @@ class AuthController extends GetxController {
         String uid = user.uid;
         DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('BusinessOwners').doc(uid).get();
 
-
         if (userSnapshot.exists) {
           bool isAccepted = userSnapshot.get('verified') ?? false;
           bool isRejected = userSnapshot.get('rejected') ?? false;
           bool isLoggedIn = true;
           bool isSignedOut = false;
-
+          _notificationService2=new NotificationService2();
+          _notificationService2.listenForRequestChanges2(uid);
           if (!isAccepted && !isRejected) {
             // User not yet accepted by admin
             Get.snackbar(
@@ -465,8 +475,9 @@ class AuthController extends GetxController {
           'isLoggedIn': false,
           'isSignedOut': true,
         }, SetOptions(merge: true));
-      }
 
+       _notificationService2.destroyNotifications();
+      }
       await auth.signOut();
       Get.offAll(() => WelcomePage());
     } catch (e) {
