@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'BottomNavigationBarExample.dart';
 import 'MechanicDetails.dart';
 
 
@@ -156,18 +157,26 @@ class _SearchPageState extends State<Search> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.0, // Remove the shadow
         backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => BottomNavigationBarExample()),
+            );
+          },
+          icon: Icon(Icons.arrow_back),
+          color: Colors.black,
+        ),
         title: Text(
           'Search',
-          style: Theme.of(context).textTheme.headline6!.copyWith(
+          style: TextStyle(
             color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
         ),
-
-        iconTheme: IconThemeData(color: Colors.black),
-      ),backgroundColor: Colors.white,
-
+        centerTitle: true,
+      ),
 
       body: Padding(
         padding: const EdgeInsets.all(16.0),

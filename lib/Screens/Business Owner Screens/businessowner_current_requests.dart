@@ -23,11 +23,12 @@ class BusinessCurrentRequests extends StatefulWidget {
 }
 
 class _BusinessCurrentRequestsState extends State<BusinessCurrentRequests> {
-  int selection =1;
+  int selection = 1;
   String name = '';
   AdminMechanicDetailsController controller = AdminMechanicDetailsController();
   String? userId = AuthController.instance.currentUserUid;
   List<DocumentSnapshot<Map<String, dynamic>>> dataList = [];
+  bool isLoading = false;
 
   Future<void> _loadEmergencyRequests() async {
     if (selection == 1) {
@@ -53,7 +54,6 @@ class _BusinessCurrentRequestsState extends State<BusinessCurrentRequests> {
     _loadEmergencyRequests();
   }
 
-
   @override
   Widget build(BuildContext context) {
     double baseWidth = 360;
@@ -67,11 +67,19 @@ class _BusinessCurrentRequestsState extends State<BusinessCurrentRequests> {
           textAlign: TextAlign.left,
           style: TextStyle(color: Colors.black),
         ),
-        leading: IconButton(icon: Icon(Icons.arrow_back), color: Colors.black,onPressed: (){                        Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) =>BottomNavigationBarBusinessOwner())
-        );
-        }),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Colors.black,
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BottomNavigationBarBusinessOwner(),
+              ),
+            );
+          },
+        ),
       ),
       body: Column(
         children: [
@@ -81,11 +89,15 @@ class _BusinessCurrentRequestsState extends State<BusinessCurrentRequests> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
                     List<DocumentSnapshot<Map<String, dynamic>>> temp =
                     await CurrentRequests().pendingRequests(userId!);
                     setState(() {
                       selection = 1;
                       dataList = temp;
+                      isLoading = false;
                     });
                   },
                   child: Text("Pending"),
@@ -100,11 +112,15 @@ class _BusinessCurrentRequestsState extends State<BusinessCurrentRequests> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
                     List<DocumentSnapshot<Map<String, dynamic>>> temp =
                     await CurrentRequests().acceptedRequests(userId!);
                     setState(() {
                       selection = 2;
                       dataList = temp;
+                      isLoading = false;
                     });
                   },
                   child: Text("Accepted"),
@@ -140,10 +156,11 @@ class _BusinessCurrentRequestsState extends State<BusinessCurrentRequests> {
                         await CurrentRequests().getName(userId);
                         String phoneNumber =
                         await CurrentRequests().getNumber(userId);
-                        String car = data?['car'] ?? ''; // Replace with the correct field name
+                        String car =
+                            data?['car'] ?? ''; // Replace with the correct field name
                         String description =
                             data?['description'] ?? ''; // Replace with the correct field name
-                        String hour = data?['hour']?.toString() ?? ''; // Replace with the correct field name
+                       // Replace with the correct field name
 
                         Navigator.push(
                           context,
@@ -151,16 +168,16 @@ class _BusinessCurrentRequestsState extends State<BusinessCurrentRequests> {
                             builder: (context) => ViewCurrentRequest(
                               appointmentId: data?['id'],
                               appointmentState: data?['state'],
-                              userName: userName,
-                              phoneNumber: phoneNumber,
-                              hour: hour,
+                              
+
                             ),
                           ),
                         );
                       },
                       child: ListTile(
                         title: FutureBuilder<String>(
-                          future: CurrentRequests().getName(data?['userid']),
+                          future:
+                          CurrentRequests().getName(data?['userid']),
                           builder: (BuildContext context,
                               AsyncSnapshot<String> snapshot) {
                             if (snapshot.hasError) {
@@ -171,7 +188,8 @@ class _BusinessCurrentRequestsState extends State<BusinessCurrentRequests> {
                           },
                         ),
                         subtitle: FutureBuilder<String>(
-                          future: CurrentRequests().getNumber(data?['userid']),
+                          future:
+                          CurrentRequests().getNumber(data?['userid']),
                           builder: (BuildContext context,
                               AsyncSnapshot<String> snapshot) {
                             if (snapshot.hasError) {
@@ -194,6 +212,17 @@ class _BusinessCurrentRequestsState extends State<BusinessCurrentRequests> {
               ),
             ),
           ),
+          if (isLoading)
+            Container(
+              color: Colors.white,
+              child: Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Color.fromRGBO(252, 84, 72, 1.0),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
