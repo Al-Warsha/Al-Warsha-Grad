@@ -32,7 +32,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
     final authController = AuthController();
     final userId = authController.currentUserUid!; // Assert that it's not null
     _notificationService.initializeNotifications1(userId);
-   // _notificationService.listenForRequestChanges(userId);
+    // _notificationService.listenForRequestChanges(userId);
     fetchUserName();
   }
 
@@ -149,7 +149,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
             Column(
               children: [
 
-            Container(
+                Container(
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(
                       left: 40, top: 35), // Adjust the left margin as needed
@@ -320,4 +320,3 @@ _launchEmail(String email) async {
     throw 'Could not launch email: $e';
   }
 }
-

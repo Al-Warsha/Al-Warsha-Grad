@@ -20,8 +20,8 @@ class AdminHomepage extends StatefulWidget {
 class _AdminHomepageState extends State<AdminHomepage> {
   int checkedIndex = -1;
   List<String> cardNames = [
-    'assets/images/a2.jpg',
     'assets/images/a1.jpg',
+    'assets/images/a2.jpg',
 
   ];
   @override

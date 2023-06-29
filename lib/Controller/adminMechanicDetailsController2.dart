@@ -32,8 +32,6 @@ class AdminMechanicDetailsController2 extends GetxController {
     try {
       isLoading.value = true;
       await _businessOwnerRepo.deleteBusinessOwner(owner);
-      // Perform any additional actions after deleting the account
-      // For example, navigate to a different screen or show a success message
     } catch (error, stackTrace) {
       print(error);
       print(stackTrace);

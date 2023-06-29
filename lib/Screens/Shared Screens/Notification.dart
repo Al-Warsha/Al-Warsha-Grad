@@ -7,14 +7,10 @@ import '../../Models/notification_model.dart';
 class Notifications extends StatelessWidget {
   final NotificationsController _notificationsController =
   Get.put(NotificationsController());
-AuthController authController=new AuthController();
-
-
-
-  //Notifications({required this.userId});
+  AuthController authController = AuthController();
 
   Widget build(BuildContext context) {
-    final String userId=authController.currentUserUid!; // User ID variable
+    final String userId = authController.currentUserUid!; // User ID variable
     double baseWidth = 360;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
@@ -36,8 +32,7 @@ AuthController authController=new AuthController();
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  margin:
-                  EdgeInsets.fromLTRB(221.34 * fem, 0 * fem, 0 * fem, 8 * fem),
+                  margin: EdgeInsets.fromLTRB(221.34 * fem, 0 * fem, 0 * fem, 8 * fem),
                   width: 22.34 * fem,
                   height: 22.34 * fem,
                 ),
@@ -46,17 +41,14 @@ AuthController authController=new AuthController();
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-
                         child: IconButton(
                           icon: Icon(Icons.notifications),
                           onPressed: null,
                           color: Color(0xFFFC5448),
                         ),
                       ),
-
                       Container(
-                        margin:
-                        EdgeInsets.fromLTRB(0 * fem, 0 * fem, 120 * fem, 0 * fem),
+                        margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 120 * fem, 0 * fem),
                         child: Text(
                           'Notifications',
                           style: TextStyle(
@@ -87,8 +79,7 @@ AuthController authController=new AuthController();
                     ),
                   ),
                   itemBuilder: (context, index) {
-                    NotificationModel notification =
-                    _notificationsController.notifications[index];
+                    NotificationModel notification = _notificationsController.notifications[index];
                     return Container(
                       width: double.infinity,
                       margin: EdgeInsets.symmetric(vertical: 7 * fem, horizontal: 12 * fem),
@@ -118,17 +109,6 @@ AuthController authController=new AuthController();
                                         ),
                                       ),
                                       SizedBox(height: 3 * fem),
-                                      // Text(
-                                      //   notification.body,
-                                      //   overflow: TextOverflow.ellipsis,
-                                      //   maxLines: 1,
-                                      //   style: TextStyle(
-                                      //     fontSize: 14 * ffem,
-                                      //     fontWeight: FontWeight.w700,
-                                      //     height: 1.3 * ffem / fem,
-                                      //     color: Color(0xff6f6f6f),
-                                      //   ),
-                                      // ),
                                       SizedBox(height: 5 * fem),
                                       Text(
                                         'Type: ${notification.type}',
@@ -162,12 +142,40 @@ AuthController authController=new AuthController();
                                     ],
                                   ),
                                 ),
+                          IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('Delete Notification'),
+                                  content: Text('Are you sure you want to delete this notification?'),
+                                  actions: [
+                                    TextButton(
+                                      child: Text('Cancel'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: Text('Delete'),
+                                      onPressed: () async {
+                                        _notificationsController.deleteNotification(notification);
+                                        await _notificationsController.fetchAllUserNotifications(userId);
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            color: Colors.grey, // Set the color property to Colors.grey
+                          ),
                               ],
                             ),
                           ),
                         ),
                       ),
-
                     );
                   },
                 ),
