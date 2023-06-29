@@ -29,4 +29,15 @@ class NotificationsController extends GetxController {
       isLoading.value = false;
     }
   }
+  Future<void> deleteNotification(NotificationModel notification) async {
+    try {
+      isLoading.value = true;
+      await _notificationRepo.deletenotification(notification);
+    } catch (error, stackTrace) {
+      print(error);
+      print(stackTrace);
+    } finally {
+      isLoading.value = false;
+    }
+  }
 }

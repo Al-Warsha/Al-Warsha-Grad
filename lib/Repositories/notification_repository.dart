@@ -24,4 +24,15 @@ class NotificationRepository extends GetxController {
       throw Exception('Failed to get notifications: $e');
     }
   }
+  Future<void> deletenotification(NotificationModel notification) async {
+    try {
+      final ownerRef = _db.collection("Notifications").doc(notification.id);
+      await ownerRef.delete();
+    } catch (error, stackTrace) {
+      print(error);
+      print(stackTrace);
+      // Handle the error as per your requirement (show error message, log, etc.)
+      throw error;
+    }
+  }
 }

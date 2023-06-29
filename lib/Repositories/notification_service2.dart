@@ -140,12 +140,12 @@ class NotificationService2 {
   }
 
   void sendNotification2(
-      String userId, String state, String Name, String type, String requestId) async {
+      String userId, String state, String Name, String notificationType, String requestId) async {
     String notificationTitle;
     String notificationBody;
 
     notificationTitle = 'You have a new pending request!';
-    notificationBody = 'A $type from $Name is pending.';
+    notificationBody = 'A $notificationType from $Name is pending.';
 
     final notificationRef = FirebaseFirestore.instance.collection('Notifications');
 
@@ -153,24 +153,33 @@ class NotificationService2 {
     final String formattedDateTime =
     DateFormat('MMM dd, yyyy - hh:mm a').format(currentDateTime);
 
-    final newNotification = await notificationRef.add({
-      'userId': userId,
-      'type': type,
-      'timestamp': formattedDateTime,
-      'title': notificationTitle,
-      'body': notificationBody,
-      'requestId': requestId
-    });
+    // Check if a notification with the same type and request ID already exists
+    final existingNotificationSnapshot = await notificationRef
+        .where('userId', isEqualTo: userId)
+        .where('type', isEqualTo: notificationType)
+        .where('requestId', isEqualTo: requestId)
+        .get();
 
-    if (newNotification != null) {
-      AwesomeNotifications().createNotification(
-        content: NotificationContent(
-          id: 10,
-          channelKey: 'basic_channel',
-          title: notificationTitle,
-          body: notificationBody,
-        ),
-      );
+    if (existingNotificationSnapshot.docs.isEmpty) {
+      final newNotification = await notificationRef.add({
+        'userId': userId,
+        'type': notificationType,
+        'timestamp': formattedDateTime,
+        'title': notificationTitle,
+        'body': notificationBody,
+        'requestId': requestId
+      });
+
+      if (newNotification != null) {
+        AwesomeNotifications().createNotification(
+          content: NotificationContent(
+            id: newNotification.id.hashCode,
+            channelKey: 'basic_channel',
+            title: notificationTitle,
+            body: notificationBody,
+          ),
+        );
+      }
     }
   }
 }

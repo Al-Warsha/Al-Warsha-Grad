@@ -24,11 +24,11 @@ class MechanicDetails2 extends StatelessWidget {
 
     void handleDeleteIconClick() async {
       if (businessOwner.value != null) {
-        _controller.deleteBusinessOwner(businessOwner.value!);
-
+        await _controller.deleteBusinessOwner(businessOwner.value!);
       }
       await _controller2.fetchAllBusinessOwners();
-      Navigator.pop(context);
+      Navigator.pop(context); // Pop the AlertDialog
+      Navigator.pop(context); // Pop the MechanicDetails2 page and navigate back to the previous page (All Business Accounts)
     }
 
     void openPDF(BuildContext context, File file) {
@@ -36,6 +36,7 @@ class MechanicDetails2 extends StatelessWidget {
         MaterialPageRoute(builder: (context) => PDFViewerPage(file: file, key: UniqueKey())),
       );
     }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -49,107 +50,122 @@ class MechanicDetails2 extends StatelessWidget {
           color: Colors.black,
         ),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Obx(
-                  () => businessOwner.value != null
-                  ? Container(
-                margin: EdgeInsets.fromLTRB(30, 25, 30, 30),
-                child: Card(
-                  elevation: 10,
-                  shadowColor: Color(0xFFFC5448),
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: [
-                        ListTile(
-                          title: Text('Name'),
-                          subtitle: Text('${businessOwner.value!.name}'),
-                        ),
-                        ListTile(
-                          title: Text('Email'),
-                          subtitle:
-                          Text('${businessOwner.value!.email}'),
-                        ),
-                        ListTile(
-                          title: Text('Address'),
-                          subtitle:
-                          Text('${businessOwner.value!.address}'),
-                        ),
-                        ListTile(
-                          title: Text('Phone'),
-                          subtitle:
-                          Text('${businessOwner.value!.phone}'),
-                        ),
-                        ListTile(
-                          title: Text('Type'),
-                          subtitle: Text('${businessOwner.value!.type}'),
-                        ),
-                        ListTile(
-                          title: Text('Supported Brands'),
-                          subtitle:
-                          Text('${businessOwner.value!.brands}'),
-                        ),
-                        SizedBox(height: 10),
-                        ElevatedButton.icon(
-                          onPressed: () async {
-                            // Call the navigateToDocument method with the document URL
-                            final url=businessOwner.value!.documentURL;
-                            final file= await PDFApi.loadFirebase(url);
-                            if (file ==null)return;
-                            openPDF(context,file as File);
-
-
-
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xFFFC5448),
-                            onPrimary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Obx(
+                    () => businessOwner.value != null
+                    ? Container(
+                  margin: EdgeInsets.fromLTRB(30, 25, 30, 30),
+                  child: Card(
+                    elevation: 10,
+                    shadowColor: Color(0xFFFC5448),
+                    child: Padding(
+                      padding: EdgeInsets.all(20),
+                      child: ListView(
+                        shrinkWrap: true,
+                        children: [
+                          ListTile(
+                            title: Text('Name'),
+                            subtitle: Text('${businessOwner.value!.name}'),
+                          ),
+                          ListTile(
+                            title: Text('Email'),
+                            subtitle: Text('${businessOwner.value!.email}'),
+                          ),
+                          ListTile(
+                            title: Text('Address'),
+                            subtitle: Text('${businessOwner.value!.address}'),
+                          ),
+                          ListTile(
+                            title: Text('Phone'),
+                            subtitle: Text('${businessOwner.value!.phone}'),
+                          ),
+                          ListTile(
+                            title: Text('Type'),
+                            subtitle: Text('${businessOwner.value!.type}'),
+                          ),
+                          ListTile(
+                            title: Text('Supported Brands'),
+                            subtitle: Text('${businessOwner.value!.brands}'),
+                          ),
+                          SizedBox(height: 10),
+                          ElevatedButton.icon(
+                            onPressed: () async {
+                              // Call the navigateToDocument method with the document URL
+                              final url = businessOwner.value!.documentURL;
+                              final file = await PDFApi.loadFirebase(url);
+                              if (file == null) return;
+                              openPDF(context, file as File);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Color(0xFFFC5448),
+                              onPrimary: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            icon: Icon(Icons.description),
+                            label: Text(
+                              'View Document',
+                              style: TextStyle(fontSize: 16),
                             ),
                           ),
-                          icon: Icon(Icons.description),
-                          label: Text(
-                            'View Document',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              )
-                  : CircularProgressIndicator(),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: handleDeleteIconClick,
-                  child: Container(
-                    width: 150,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Delete Account',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
+                )
+                    : CircularProgressIndicator(),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Delete Business Account'),
+                          content: Text('Are you sure you want to delete this account?'),
+                          actions: [
+                            TextButton(
+                              child: Text('Cancel'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            TextButton(
+                              child: Text('Delete'),
+                              onPressed: handleDeleteIconClick,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: 150,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Delete Account',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
