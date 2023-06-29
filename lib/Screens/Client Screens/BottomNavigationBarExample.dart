@@ -23,7 +23,7 @@ class _BottomNavigationBarExampleState
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
-    AddCar(fromSchedule: false,),
+    CarPage(),
     const UserProfileScreen(),
     const ServicesScreen(),
     const ClientRequests(),

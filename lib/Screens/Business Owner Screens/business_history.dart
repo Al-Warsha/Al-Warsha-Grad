@@ -137,9 +137,7 @@ class _BusinessCurrentRequestsState extends State<BusinessHistory> {
                             builder: (context) => ViewHistory(
                               appointmentId: data?['id'],
                               appointmentState: data?['state'],
-                              userName: userName,
-                              phoneNumber: phoneNumber,
-                              hour: hour,
+
                             ),
                           ),
                         );
