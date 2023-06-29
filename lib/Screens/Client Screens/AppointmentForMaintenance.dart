@@ -158,6 +158,9 @@ class _AppointmentForMaintenance extends State<AppointmentForMaintenance> {
                   minLines: 1,
                   decoration: InputDecoration(
                     labelText: 'Reason for Appointment',
+                    labelStyle: TextStyle(
+                      color: Colors.black87,
+                    ),
                     //contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 50),
                     focusedBorder: OutlineInputBorder(
                       //borderRadius: BorderRadius.circular(50.0),

@@ -142,6 +142,9 @@ class _EmergencyRoadHelp extends State<EmergencyRoadHelp> {
                       minLines: 1,
                       decoration: InputDecoration(
                         labelText: 'Description',
+                        labelStyle: TextStyle(
+                          color: Colors.black87,
+                        ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color.fromRGBO(252, 84, 72, 1),
