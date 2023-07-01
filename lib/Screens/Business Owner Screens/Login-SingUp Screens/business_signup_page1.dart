@@ -40,7 +40,7 @@ class _BusinessOwnerPageOneState extends State<BusinessOwnerPageOne> {
     longitude: 0,
     rate: 0,
     rejected: false,
-    type: "",
+    type: [],
     verified: false,
     id: '',
 
@@ -176,7 +176,7 @@ class _BusinessOwnerPageOneState extends State<BusinessOwnerPageOne> {
         longitude: 0,
         rate: 0,
         rejected: false,
-        type: "",
+        type: [],
         verified: false,
       );
       businessOwnerId = value.id;

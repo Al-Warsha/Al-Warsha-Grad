@@ -5,6 +5,7 @@ import 'package:multiselect_formfield/multiselect_formfield.dart';
 import 'package:myapp/Models/businessOwner_model.dart';
 import 'business_signup_page3.dart';
 
+
 class BusinessOwnerPageTwo extends StatefulWidget {
   const BusinessOwnerPageTwo({Key? key,required this.businessOwnerId,required this.businessOwnerModel}) : super(key: key);
   final BusinessOwnerModel businessOwnerModel;
@@ -17,28 +18,9 @@ class BusinessOwnerPageTwo extends StatefulWidget {
 class _BusinessOwnerPageTwoState extends State<BusinessOwnerPageTwo> {
   late BusinessOwnerModel businessOwnerModel;
   List<String> selectedBrands = [];
-  String? selectedType; // Add a default value
-  List<String> types = [
-    'General automotive mechanic',
-    'Brake and transmission technicians',
-    'Diesel mechanic',
-    'Auto body mechanics',
-    'Auto glass mechanics',
-    'Service technicians',
-    'Electrical',
-    'Tire mechanics',
-    'Winch service',
-  ];
 
   bool canNext = false;
 
-  /*@override
-  void initState() {
-    super.initState();
-    selectedBrands = widget.businessOwnerModel.brands;
-    selectedType = widget.businessOwnerModel.type;
-    updateNextButton();
-  }*/
   late String businessOwnerId='';
 
   @override
@@ -57,7 +39,6 @@ class _BusinessOwnerPageTwoState extends State<BusinessOwnerPageTwo> {
           .doc(businessOwnerId)
           .update({
         'brands': selectedBrands,
-        'type': selectedType,
       })
           .then((value) {
         final businessOwnerData = BusinessOwnerModel(
@@ -76,7 +57,7 @@ class _BusinessOwnerPageTwoState extends State<BusinessOwnerPageTwo> {
           longitude: 0,
           rate: 0,
           rejected: false,
-          type: selectedType,
+          type: [],
           verified: false,
 
 
@@ -95,7 +76,7 @@ class _BusinessOwnerPageTwoState extends State<BusinessOwnerPageTwo> {
 
   void updateNextButton() {
     setState(() {
-      canNext = selectedBrands.isNotEmpty && selectedType != null;
+      canNext = selectedBrands.isNotEmpty;
     });
   }
 
@@ -107,7 +88,6 @@ class _BusinessOwnerPageTwoState extends State<BusinessOwnerPageTwo> {
   void _updateBusinessOwnerModel(BusinessOwnerModel businessOwnerData) {
     setState(() {
       businessOwnerModel.brands = businessOwnerData.brands;
-      businessOwnerModel.type = businessOwnerData.type;
 
     });
   }
@@ -135,29 +115,6 @@ class _BusinessOwnerPageTwoState extends State<BusinessOwnerPageTwo> {
       return;
     }
 
-    // Validate DropdownButtonFormField
-    if (!isDropdownMenuItemValid(selectedType)) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text("Selecting an item is required for Types."),
-            actions: [
-              TextButton(
-                child: Text("OK"),
-                onPressed: () {
-                  updateNextButton();
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-      return;
-    }
-
     // Both options are selected, proceed to the next page
     goToBusinessOwnerPageThree();
   }
@@ -167,10 +124,6 @@ class _BusinessOwnerPageTwoState extends State<BusinessOwnerPageTwo> {
     return selectedBrands.isNotEmpty;
   }
 
-  bool isDropdownMenuItemValid(String? selectedType) {
-    // Check if an option is selected
-    return selectedType != null && selectedType.isNotEmpty;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +144,7 @@ class _BusinessOwnerPageTwoState extends State<BusinessOwnerPageTwo> {
             ),
           ),
           Positioned(
-            top: h * 0.18,
+            top:  h * 0.18,
             left: w * 0.05,
             right: w * 0.05,
             child: Column(
@@ -205,7 +158,7 @@ class _BusinessOwnerPageTwoState extends State<BusinessOwnerPageTwo> {
                   width: w * 0.4,
                   height: h * 0.01,
                 ),
-                SizedBox(height: h * 0.01),
+                SizedBox(height: h * 0.03),
                 Container(
                   height: h * 0.35,
                   width: w * 0.9,
@@ -272,94 +225,8 @@ class _BusinessOwnerPageTwoState extends State<BusinessOwnerPageTwo> {
                     },
                   ),
                 ),
-                SizedBox(height: h * 0.02),
-                Container(
-                  height: h * 0.07,
-                  width: w * 0.9,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Builder(
-                    builder: (context) {
-                      List<DropdownMenuItem<String>> _dropdownItems() {
-                        return [
-                          DropdownMenuItem(
-                            value: 'General',
-                            child: Text('General automotive mechanic'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'Brake and transmission',
-                            child: Text('Brake and transmission technicians'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'Diesel',
-                            child: Text('Diesel mechanic'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'Auto body',
-                            child: Text('Auto body mechanics'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'Auto glass',
-                            child: Text('Auto glass mechanics'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'Service',
-                            child: Text('Service technicians'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'Electric',
-                            child: Text('Electrical'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'Tire',
-                            child: Text('Tire mechanics'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'Winch',
-                            child: Text('Winch service'),
-                          ),
-                        ];
-                      }
 
-                      String? _selectedValue = null;
-
-                      // Validate the uniqueness of values
-                      assert(Set.of(_dropdownItems().map((item) => item.value)).length == _dropdownItems().length);
-
-                      return DropdownButtonFormField<String>(
-                        value: _selectedValue,
-                        items: _dropdownItems(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedType = value; // Update the instance variable
-                          });
-                          updateNextButton();
-                        },
-
-                        decoration: InputDecoration(
-                          hintText: 'Select a type',
-                          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-
-                          ),
-                          prefixIcon: Icon(Icons.menu, size: 20, color: Color(0xFFFC5448)),
-                          prefixIconConstraints: BoxConstraints(minWidth: 27, minHeight: 40),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Selecting an item is required';
-                          }
-                          return null;
-                        },
-                      );
-                    },
-                  ),
-                ),
-
-
-                SizedBox(height: h * 0.05),
+                SizedBox(height: h * 0.1),
                 SizedBox(
                   height: h * 0.07,
                   width: w * 0.4,

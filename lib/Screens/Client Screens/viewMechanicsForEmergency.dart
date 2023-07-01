@@ -117,9 +117,10 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
           if (_controller.isNull) {
             return Center(child: CircularProgressIndicator());
           } else {
-            List<BusinessOwnerModel> businessOwners =
-            _controller.businessOwners
-                .where((businessOwner) => businessOwner.type != 'Winch Service')
+            List<BusinessOwnerModel> businessOwners = _controller.businessOwners
+                .where((businessOwner) =>
+            (businessOwner.type.contains('Winch Service') &&
+                businessOwner.type.length > 1) || !businessOwner.type.contains('Winch Service'))
                 .toList();
             return SingleChildScrollView(
               child: Column(

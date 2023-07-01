@@ -5,7 +5,7 @@ class BusinessOwnerModel {
   late String name;
   late String password;
   late String phone;
-  late String? type;
+  List<String> type;
   bool verified;
   List<String> brands;
   bool rejected;
@@ -41,7 +41,6 @@ class BusinessOwnerModel {
   Map<String, dynamic> toJson() {
     return {
       'ownerId': id,
-
       'email': email,
       'name': name,
       'password': password,
@@ -72,7 +71,7 @@ class BusinessOwnerModel {
       verified: data["verified"] as bool? ?? false,
       rejected: data["rejected"] as bool? ?? false,
       brands: List<String>.from(data["brands"] ?? []),
-      type: data["type"] as String?,
+      type: List<String>.from(data["type"] ?? []),
       rate: (data["rate"] as num?) ?? 0,
       latitude: data["latitude"] as num,
       longitude: data["longitude"] as num,
