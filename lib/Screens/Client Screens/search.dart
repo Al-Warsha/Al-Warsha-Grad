@@ -79,7 +79,8 @@ class _SearchPageState extends State<Search> {
       for (var doc in allResults) {
         String centerName = doc.data()?['name'] ?? '';
         bool verified = doc.data()?['verified'] ?? false;
-        String type = doc.data()?['type'] ?? '';
+        List<dynamic> type = doc.data()?['type'] ?? [];
+
 
         if (centerName.toLowerCase().contains(searchText.toLowerCase()) &&
             verified &&
@@ -137,7 +138,8 @@ class _SearchPageState extends State<Search> {
 
       List<DocumentSnapshot<Map<String, dynamic>>> filteredResults = results.where((doc) {
         bool verified = doc.data()?['verified'] ?? false;
-        String type = doc.data()?['type'] ?? '';
+        List<dynamic> type = doc.data()?['type'] ?? [];
+
 
         return verified && type != 'winch';
       }).toList();
