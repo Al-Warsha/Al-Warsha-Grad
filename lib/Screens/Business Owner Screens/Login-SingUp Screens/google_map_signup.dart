@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:myapp/Models/businessOwner_model.dart';
-import 'business_signup_page3.dart';
+import 'business_signup_page4.dart';
 
 class GoogleMapSignup extends StatefulWidget {
   final Function(double, double) onLocationSelected;
@@ -141,7 +141,7 @@ class GoogleMapSignupState extends State<GoogleMapSignup> {
       Navigator.pop(
         context,
         MaterialPageRoute(
-          builder: (context) => BusinessOwnerPageThree(businessOwnerModel: widget.businessOwnerModel, businessOwnerId: '',),
+          builder: (context) => BusinessOwnerPageFour(businessOwnerModel: widget.businessOwnerModel, businessOwnerId: '',),
         ),
       );
     } else {

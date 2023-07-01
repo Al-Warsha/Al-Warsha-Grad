@@ -1,23 +1,15 @@
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:myapp/Models/businessOwner_model.dart';
-import 'package:path/path.dart' as path;
-import '../../../Controller/auth_controller.dart';
-import 'business_pending_for_verification.dart';
-
+import 'business_signup_page5.dart';
+import 'google_map_signup.dart';
 
 class BusinessOwnerPageFour extends StatefulWidget {
 
-
-  const BusinessOwnerPageFour({Key? key, required this.businessOwnerModel,required this.businessOwnerId}) : super(key: key);
-
+  const BusinessOwnerPageFour({Key? key, required this.businessOwnerModel, required this.businessOwnerId}) : super(key: key);
   final BusinessOwnerModel businessOwnerModel;
   final String businessOwnerId;
 
@@ -27,180 +19,135 @@ class BusinessOwnerPageFour extends StatefulWidget {
 }
 
 class _BusinessOwnerPageFourState extends State<BusinessOwnerPageFour> {
-  File? _image;
-  final picker = ImagePicker();
-  File? fileToDisplay;
-  FilePickerResult? result;
-  bool isLoading = false;
-  String? fileName;
-  PlatformFile? pickedfile;
+  late BusinessOwnerModel businessOwnerModel ;
+  TextEditingController addressController = TextEditingController();
+  double? currentLatitude;
+  double? currentLongitude;
+  bool canNext = false;
+  String address = '';
+
+  void updateLocation(double? latitude, double? longitude) {
+    setState(() {
+      currentLatitude = latitude;
+      currentLongitude = longitude;
+    });
+  }
   late String businessOwnerId;
-  late BusinessOwnerModel businessOwnerModel;
 
   @override
   void initState() {
     super.initState();
     businessOwnerId = widget.businessOwnerId;
     businessOwnerModel = widget.businessOwnerModel;
+    // Update the document with additional data using businessOwnerId
+    updateNextButton();
   }
+  void _updateDocument() {
+    String address = addressController.text.trim();
+    double longitude = currentLongitude ?? 0;
+    double latitude = currentLatitude ?? 0;
+    if (businessOwnerId.isNotEmpty) {
+      FirebaseFirestore.instance
+          .collection('Test')
+          .doc(businessOwnerId)
+          .update({
+        'address': address,
+        'longitude': longitude,
+        'latitude' : latitude,
+      })
+          .then((value) {
+        final businessOwnerData = BusinessOwnerModel(
+          id: businessOwnerId,
+          name:businessOwnerModel.name,
+          email:businessOwnerModel.email,
+          password:businessOwnerModel.password,
+          phone:businessOwnerModel.phone,
+          address: address,
+          brands : businessOwnerModel.brands,
+          documentURL: "",
+          imageURL: "",
+          isLoggedIn: false,
+          isSignedOut: false,
+          latitude: latitude,
+          longitude: longitude,
+          rate: 0,
+          rejected: false,
+          type: businessOwnerModel.type,
+          verified: false,
 
 
 
-
-  Future<void> _pickImage(ImageSource source) async {
-    final pickedImage = await picker.getImage(source: source);
-    if (pickedImage != null) {
-      setState(() {
-        _image = File(pickedImage.path);
+        );
+        _updateBusinessOwnerModel(businessOwnerData);
+      })
+          .catchError((error) {
+        print('Failed to update document: $error');
       });
+    } else {
+      print('Invalid businessOwnerId');
     }
   }
-  Future<void> _pickDocument() async {
-    try {
-      result = await FilePicker.platform.pickFiles(
-        type: FileType.any,
-        allowMultiple: false,
-      );
-      if (result != null && result?.files != null && result!.files!.isNotEmpty) {
-        setState(() {
-          fileName = path.basename(result?.files!.first.path ?? '');
-          pickedfile = result?.files!.first;
-          fileToDisplay = File(pickedfile!.path!);
-          print("File name $fileName");
-        });
-      }
-    } catch (e) {
-      print('Error picking document: $e');
-    }
-  }
 
-  /*Future<void> performSignUp() async {
-    AllBusinessOwnersPageController.instance.businessOwnerRegister(
-      businessOwnerId,
-      businessOwnerModel.name,
-      businessOwnerModel.email,
-      businessOwnerModel.password,
-      businessOwnerModel.phone,
-      businessOwnerModel.brands,
-      businessOwnerModel.type,
-      businessOwnerModel.address,
-      businessOwnerModel.latitude,
-      businessOwnerModel.longitude,
-      _image as String,
-      fileName!,
-    ).then((_) {
-      Get.off(() => BusinessOwnerPendingPage);
-    });
-  }*/
-
-  Future<void> performSignUp() async {
-
-    try {
-
-      setState(() {
-        isLoading = true;
-      });
-
-      // Upload the profile image to Firebase Storage
-      // Generate an ID for the business owner (Firestore will generate an ID automatically when adding a new document).
-      final docRef = FirebaseFirestore.instance.collection('Test').doc(businessOwnerId);
-      String imageFilePath = "";
-      String documentFilePath = "";
-
-      // Upload the profile image to Firebase Storage
-      if (_image != null) {
-        final profileImagePath = 'profile_images/${docRef.id}.jpg';
-        final profileImageRef = FirebaseStorage.instance.ref().child(profileImagePath);
-        final profileImageUploadTask = profileImageRef.putFile(_image!);
-        final profileImageSnapshot = await profileImageUploadTask.whenComplete(() {});
-        imageFilePath = profileImagePath;
-
-        // Save the profile image file path to Firestore
-        await docRef.update({'profileImageUrl': imageFilePath});
-      }
-
-      // Upload the document to Firebase Storage
-      if (pickedfile != null && pickedfile!.path != null && pickedfile!.path!.isNotEmpty) {
-        final documentPath = 'documents/${docRef.id}.pdf';
-        final documentRef = FirebaseStorage.instance.ref().child(documentPath);
-        final documentUploadTask = documentRef.putFile(File(pickedfile!.path!));
-        final documentSnapshot = await documentUploadTask.whenComplete(() {});
-        final documentDownloadURL = await documentSnapshot.ref.getDownloadURL();
-        documentFilePath = documentPath;
-
-        // Save the document download URL to Firestore
-        await docRef.update({'documentUrl': documentFilePath});
-
-      }
-
-      AuthController.instance.businessOwnerRegister(
-        businessOwnerId,
-        businessOwnerModel.name,
-        businessOwnerModel.email,
-        businessOwnerModel.password,
-        businessOwnerModel.phone,
-        businessOwnerModel.brands,
-        businessOwnerModel.type,
-        businessOwnerModel.address,
-        businessOwnerModel.latitude,
-        businessOwnerModel.longitude,
-        imageFilePath,
-        documentFilePath,
-
-      ).then((_) {
-        Get.off(() => BusinessOwnerPendingPage());
-      });
-
-      /*// Save other data from the BusinessOwnerModel instance to Firestore
-      if (await docRef.get().then((snapshot) => snapshot.exists)) {
-        // Update the existing document
-        await docRef.update(widget.businessOwnerModel.toJson());
-      } else {
-        // Create a new document
-        await docRef.set(widget.businessOwnerModel.toJson());
-      }*/
-
-      // Check if the document was successfully created in Firestore
-      final docSnapshot = await docRef.get();
-      if (!docSnapshot.exists) {
-        throw Exception('Error: Document was not created in Firestore');
-      }
-
-      setState(() {
-        isLoading = false;
-      });
-
-      // Once the data is saved to Firestore, show the "Pending" page to the user.
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => BusinessOwnerPendingPage(),
+  void goToGoogleMapSignup() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GoogleMapSignup(
+          onLocationSelected: updateLocation,
+          businessOwnerModel: widget.businessOwnerModel,
         ),
-      );
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
-      print('Error during signup: $e');
+      ),
+    );
+  }
+
+
+  Future<void> goToBusinessOwnerPageFive() async {
+    Get.to(() => BusinessOwnerPageFive(businessOwnerModel: businessOwnerModel,
+        businessOwnerId:businessOwnerId));
+  }
+  void _updateBusinessOwnerModel(BusinessOwnerModel businessOwnerData) {
+    setState(() {
+      businessOwnerModel.address = businessOwnerData.address;
+      businessOwnerModel.longitude = businessOwnerData.longitude;
+      businessOwnerModel.latitude = businessOwnerData.latitude;
+
+    });
+  }
+  void updateNextButton() {
+    setState(() {
+      canNext = isAddressValid(address);
+    });
+  }
+
+  void checkNextEligibility(BuildContext context) {
+    if (!isAddressValid(address)) {
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text('An error occurred during signup. Please try again.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
-        ),
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("Please enter a valid address."),
+            actions: [
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
       );
+      return;
     }
+    goToBusinessOwnerPageFive();
   }
 
-
-
+  bool isAddressValid(String address) {
+    // Check if address contains only letters, numbers, and spaces
+    final RegExp addressRegExp = RegExp(r'^[a-zA-Z0-9 ]+$');
+    return addressRegExp.hasMatch(address);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -209,152 +156,135 @@ class _BusinessOwnerPageFourState extends State<BusinessOwnerPageFour> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              child: Image.asset(
-                "assets/images/login_gp.jpg",
-                width: w * 0.6,
-                height: h * 0.3,
-              ),
+      body: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            child: Image.asset(
+              "assets/images/login_gp.jpg",
+              width: w * 0.6,
+              height: h * 0.3,
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(w * 0.05, h * 0.16, w * 0.05, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(height: h * 0.05),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Stack(
-                      alignment: Alignment.center,
+          ),
+          Positioned(
+            top: h * 0.18,
+            left: w * 0.05,
+            right: w * 0.05,
+            child: Column(
+              children: [
+                Text(
+                  "Sign-up",
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                ),
+                Image.asset(
+                  "assets/images/breakLogin.jpg",
+                  width: w * 0.4,
+                  height: h * 0.01,
+                ),
+                SizedBox(height: h * 0.05),
+                SizedBox(
+                  height: h * 0.07,
+                  child: Container(
+                    width: w * 0.9,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF5F5F5),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Row(
                       children: [
-                        CircleAvatar(
-                          radius: 60,
-                          backgroundImage: _image != null
-                              ? FileImage(_image!) as ImageProvider<Object>?
-                              : AssetImage('assets/images/profile.jpg'),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFFC5448),
-                              shape: BoxShape.circle,
-                            ),
-                            child: IconButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text("Choose an option"),
-                                      content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          ListTile(
-                                            leading: Icon(Icons.photo_library),
-                                            title: Text("Choose from gallery"),
-                                            onTap: () {
-                                              _pickImage(ImageSource.gallery);
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                          ListTile(
-                                            leading: Icon(Icons.camera_alt),
-                                            title: Text("Take a picture"),
-                                            onTap: () {
-                                              _pickImage(ImageSource.camera);
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                              icon: Icon(
-                                Icons.camera_alt,
-                                color: Colors.white,
-                              ),
+                        SizedBox(width: 10),
+                        Icon(Icons.location_on,
+                            size: 20, color: Color(0xFFFC5448)),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: TextField(
+                            controller: addressController,
+                            onChanged: (value) {
+                              setState(() {
+                                address = value.trim();
+
+                                businessOwnerModel.address = address;
+                              });
+                              updateNextButton();
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'Enter your address',
+                              border: InputBorder.none,
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: h * 0.1),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: w*0.2),
-                    child: ElevatedButton(
-                      onPressed: _pickDocument,
+                ),
+                const SizedBox(height: 50),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
                       child: Text(
-                        'Upload Document',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(3),
-                        ),
+                        'Latitude: ${currentLatitude ?? ''}',
+                        style: TextStyle(fontSize: 15),
                       ),
                     ),
-                  ),
-
-                  if (pickedfile != null)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 10),
-                          Text(
-                            'Selected Document:',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 3),
-                          Text(fileName ?? 'No file selected'),
-                        ],
+                    Expanded(
+                      child: Text(
+                        'Longitude: ${currentLongitude ?? ''}',
+                        style: TextStyle(fontSize: 15),
                       ),
                     ),
-                  SizedBox(height: h * 0.15),
-                  Container(
-                    width: w * 0.4,
-                    height: h * 0.07,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: w*0.2), // Adjust the margin as needed
-                        child: ElevatedButton(
-                          onPressed: performSignUp,
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xFFFC5448),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(252, 84, 72, 1),
+                  ),
+                  onPressed: () {
+                    goToGoogleMapSignup();
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.location_on, color: Colors.white), // Map pin icon
+                      SizedBox(width: 8), // Adjust the spacing between the icon and text
+                      Text("Get Current Location"),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: h * 0.05),
+                SizedBox(
+                  height: h * 0.07,
+                  width: w * 0.4,
+                  child: ElevatedButton(
+                    onPressed: canNext
+                        ? () {
+                      checkNextEligibility(context);
+                      _updateDocument();
+                      updateNextButton();
+                    }
+                        : null,
+                    child: Text(
+                      "Next",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          canNext ? Color(0xFFFC5448) : Colors.grey),
+                    ),
                   ),
-
-
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

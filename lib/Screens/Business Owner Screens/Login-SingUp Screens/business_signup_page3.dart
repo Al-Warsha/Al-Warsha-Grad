@@ -1,38 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:multiselect_formfield/multiselect_formfield.dart';
 import 'package:myapp/Models/businessOwner_model.dart';
 import 'business_signup_page4.dart';
-import 'google_map_signup.dart';
 
 class BusinessOwnerPageThree extends StatefulWidget {
-
-  const BusinessOwnerPageThree({Key? key, required this.businessOwnerModel, required this.businessOwnerId}) : super(key: key);
+  const BusinessOwnerPageThree({Key? key,required this.businessOwnerId,required this.businessOwnerModel}) : super(key: key);
   final BusinessOwnerModel businessOwnerModel;
   final String businessOwnerId;
-
 
   @override
   _BusinessOwnerPageThreeState createState() => _BusinessOwnerPageThreeState();
 }
 
 class _BusinessOwnerPageThreeState extends State<BusinessOwnerPageThree> {
-  late BusinessOwnerModel businessOwnerModel ;
-  TextEditingController addressController = TextEditingController();
-  double? currentLatitude;
-  double? currentLongitude;
+  late BusinessOwnerModel businessOwnerModel;
+  List<String> selectedType = [];
   bool canNext = false;
-  String address = '';
-
-  void updateLocation(double? latitude, double? longitude) {
-    setState(() {
-      currentLatitude = latitude;
-      currentLongitude = longitude;
-    });
-  }
-  late String businessOwnerId;
+  late String businessOwnerId='';
 
   @override
   void initState() {
@@ -42,18 +28,14 @@ class _BusinessOwnerPageThreeState extends State<BusinessOwnerPageThree> {
     // Update the document with additional data using businessOwnerId
     updateNextButton();
   }
+
   void _updateDocument() {
-    String address = addressController.text.trim();
-    double longitude = currentLongitude ?? 0;
-    double latitude = currentLatitude ?? 0;
     if (businessOwnerId.isNotEmpty) {
       FirebaseFirestore.instance
           .collection('Test')
           .doc(businessOwnerId)
           .update({
-        'address': address,
-        'longitude': longitude,
-        'latitude' : latitude,
+        'type': selectedType,
       })
           .then((value) {
         final businessOwnerData = BusinessOwnerModel(
@@ -62,22 +44,21 @@ class _BusinessOwnerPageThreeState extends State<BusinessOwnerPageThree> {
           email:businessOwnerModel.email,
           password:businessOwnerModel.password,
           phone:businessOwnerModel.phone,
-          address: address,
+          address: "",
           brands : businessOwnerModel.brands,
           documentURL: "",
           imageURL: "",
           isLoggedIn: false,
           isSignedOut: false,
-          latitude: latitude,
-          longitude: longitude,
+          latitude: 0,
+          longitude: 0,
           rate: 0,
           rejected: false,
-          type: businessOwnerModel.type,
+          type: selectedType,
           verified: false,
 
-
-
         );
+        //businessOwnerId = value.id;
         _updateBusinessOwnerModel(businessOwnerData);
       })
           .catchError((error) {
@@ -88,49 +69,37 @@ class _BusinessOwnerPageThreeState extends State<BusinessOwnerPageThree> {
     }
   }
 
-  void goToGoogleMapSignup() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => GoogleMapSignup(
-          onLocationSelected: updateLocation,
-          businessOwnerModel: widget.businessOwnerModel,
-        ),
-      ),
-    );
+  void updateNextButton() {
+    setState(() {
+      canNext = selectedType .isNotEmpty;
+    });
   }
 
-
-  Future<void> goToBusinessOwnerPageFour() async {
+  void goToBusinessOwnerPageFour() async {
     Get.to(() => BusinessOwnerPageFour(businessOwnerModel: businessOwnerModel,
         businessOwnerId:businessOwnerId));
   }
+
   void _updateBusinessOwnerModel(BusinessOwnerModel businessOwnerData) {
     setState(() {
-      businessOwnerModel.address = businessOwnerData.address;
-      businessOwnerModel.longitude = businessOwnerData.longitude;
-      businessOwnerModel.latitude = businessOwnerData.latitude;
-
-    });
-  }
-  void updateNextButton() {
-    setState(() {
-      canNext = isAddressValid(address);
+      businessOwnerModel.type = businessOwnerData.type;
     });
   }
 
   void checkNextEligibility(BuildContext context) {
-    if (!isAddressValid(address)) {
+    // Validate MultiSelectFormField
+    if (!isMultiSelectFormFieldValidType(selectedType)) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("Error"),
-            content: Text("Please enter a valid address."),
+            content: Text("Selecting an item is required for Types."),
             actions: [
               TextButton(
                 child: Text("OK"),
                 onPressed: () {
+                  updateNextButton();
                   Navigator.of(context).pop();
                 },
               ),
@@ -140,13 +109,14 @@ class _BusinessOwnerPageThreeState extends State<BusinessOwnerPageThree> {
       );
       return;
     }
+
+    // Both options are selected, proceed to the next page
     goToBusinessOwnerPageFour();
   }
 
-  bool isAddressValid(String address) {
-    // Check if address contains only letters, numbers, and spaces
-    final RegExp addressRegExp = RegExp(r'^[a-zA-Z0-9 ]+$');
-    return addressRegExp.hasMatch(address);
+  bool isMultiSelectFormFieldValidType(List<String> selectedType) {
+    // Check if an option is selected
+    return selectedType.isNotEmpty;
   }
 
   @override
@@ -182,79 +152,76 @@ class _BusinessOwnerPageThreeState extends State<BusinessOwnerPageThree> {
                   width: w * 0.4,
                   height: h * 0.01,
                 ),
-                SizedBox(height: h * 0.05),
-                SizedBox(
-                  height: h * 0.07,
-                  child: Container(
-                    width: w * 0.9,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFF5F5F5),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Row(
-                      children: [
-                        SizedBox(width: 10),
-                        Icon(Icons.location_on,
-                            size: 20, color: Color(0xFFFC5448)),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: TextField(
-                            controller: addressController,
-                            onChanged: (value) {
-                              setState(() {
-                                address = value.trim();
 
-                                businessOwnerModel.address = address;
-                              });
-                              updateNextButton();
-                            },
-                            decoration: InputDecoration(
-                              hintText: 'Enter your address',
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 50),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Latitude: ${currentLatitude ?? ''}',
-                        style: TextStyle(fontSize: 15),
+                SizedBox(height: h * 0.03),
+                Container(
+                  height: h * 0.35,
+                  width: w * 0.9,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFF5F5F5),
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 10,
+                        offset: Offset(1, 1),
+                        color: Colors.grey.withOpacity(0.5),
                       ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        'Longitude: ${currentLongitude ?? ''}',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color.fromRGBO(252, 84, 72, 1),
-                  ),
-                  onPressed: () {
-                    goToGoogleMapSignup();
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.location_on, color: Colors.white), // Map pin icon
-                      SizedBox(width: 8), // Adjust the spacing between the icon and text
-                      Text("Get Current Location"),
                     ],
                   ),
+                  child: FormField<List<String>>(
+                    initialValue: selectedType,
+                    autovalidateMode: AutovalidateMode.always,
+                    validator: (value) {
+                      if (!isMultiSelectFormFieldValidType(value!)) {
+                        return 'Selecting an item is required';
+                      }
+                      return null;
+                    },
+                    builder: (FormFieldState<List<String>> state) {
+                      return InputDecorator(
+                        decoration: InputDecoration(
+                          hintText: '',
+                          contentPadding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          prefixIcon:
+                          Icon(Icons.menu, size: 20, color: Color(0xFFFC5448)),
+                        ),
+                        isEmpty: selectedType.isEmpty,
+                        child: MultiSelectFormField(
+                          title: Text('Type'),
+                          dataSource: [
+                            {'display': 'General automotive mechanic', 'value': 'General automotive mechanic'},
+                            {'display': 'Brake and transmission technicians', 'value': 'Brake and transmission technicians'},
+                            {'display': 'Diesel mechanic', 'value': 'Diesel mechanic'},
+                            {'display': 'Auto body mechanics', 'value': 'Auto body mechanics'},
+                            {'display': 'Auto glass mechanics', 'value': 'Auto glass mechanics'},
+                            {'display': 'Service technicians', 'value': 'Service technicians'},
+                            {'display': 'Electrical', 'value': 'Electrical'},
+                            {'display': 'Tire mechanics', 'value': 'Tire mechanics'},
+                            {'display': 'Winch service', 'value': 'Winch service'},
+                          ],
+                          textField: 'display',
+                          valueField: 'value',
+                          okButtonLabel: 'OK',
+                          cancelButtonLabel: 'CANCEL',
+                          onSaved: (value) {
+                            setState(() {
+                              selectedType = List<String>.from(value ?? []);
+
+                            });
+                            updateNextButton();
+                            // Update the "Next" button eligibility
+                          },
+                        ),
+                      );
+                    },
+                  ),
                 ),
 
-                SizedBox(height: h * 0.05),
+                SizedBox(height: h * 0.1),
                 SizedBox(
                   height: h * 0.07,
                   width: w * 0.4,

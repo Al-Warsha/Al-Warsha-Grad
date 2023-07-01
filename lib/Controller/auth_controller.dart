@@ -93,39 +93,39 @@ class AuthController extends GetxController {
 
   Future<void> register(String fullName, String email, String password, String phoneNumber) async {
 
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+    UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
 
-      UserModel userModel = UserModel(
-        uid: userCredential.user!.uid,
-        fullName: fullName,
-        email: email,
-        phoneNumber: phoneNumber,
-        isEmailVerified: false,
-        isLoggedIn: false,
-        isSignedOut: false,
-      );
+    UserModel userModel = UserModel(
+      uid: userCredential.user!.uid,
+      fullName: fullName,
+      email: email,
+      phoneNumber: phoneNumber,
+      isEmailVerified: false,
+      isLoggedIn: false,
+      isSignedOut: false,
+    );
 
-      await FirebaseFirestore.instance.collection('users').doc(userModel.uid).set(userModel.toMap());
+    await FirebaseFirestore.instance.collection('users').doc(userModel.uid).set(userModel.toMap());
 
-      User? user = FirebaseAuth.instance.currentUser;
-      if (user != null && !user.emailVerified) {
-        await user.sendEmailVerification();
-        Get.snackbar(
-          "Verify Email",
-          "A verification email has been sent to $email",
-          backgroundColor: Colors.green,
-          snackPosition: SnackPosition.BOTTOM,
-          titleText: Text(
-            "Registration successful",
-            style: TextStyle(
-              color: Colors.white,
-            ),
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null && !user.emailVerified) {
+      await user.sendEmailVerification();
+      Get.snackbar(
+        "Verify Email",
+        "A verification email has been sent to $email",
+        backgroundColor: Colors.green,
+        snackPosition: SnackPosition.BOTTOM,
+        titleText: Text(
+          "Registration successful",
+          style: TextStyle(
+            color: Colors.white,
           ),
-        );
-      }
+        ),
+      );
+    }
   }
 
 
@@ -218,7 +218,7 @@ class AuthController extends GetxController {
           'isSignedOut': true,
         }, SetOptions(merge: true));
 
-       _notificationService.destroyNotifications();
+        _notificationService.destroyNotifications();
 
       }
 
@@ -307,7 +307,7 @@ class AuthController extends GetxController {
       String password,
       String phoneNumber,
       List<String> brands,
-      String? type,
+      List<String> type,
       String address,
       num latitude,
       num longitude,
@@ -476,7 +476,7 @@ class AuthController extends GetxController {
           'isSignedOut': true,
         }, SetOptions(merge: true));
 
-       _notificationService2.destroyNotifications();
+        _notificationService2.destroyNotifications();
       }
       await auth.signOut();
       Get.offAll(() => WelcomePage());

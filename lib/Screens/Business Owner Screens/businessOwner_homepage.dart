@@ -73,20 +73,20 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
             const SizedBox(height: 25),
             Column(
               children: [
-            Container(
-              alignment: Alignment.topRight,
-              margin: EdgeInsets.only(right: 40, top:20),
-            child: ElevatedButton(
-            onPressed: () {
+                Container(
+                  alignment: Alignment.topRight,
+                  margin: EdgeInsets.only(right: 40, top:20),
+                  child: ElevatedButton(
+                    onPressed: () {
                       // Perform logout action here
-              AuthController.instance.logoutBusinessOwner();
-                   },
-                  child: Text('Logout', style: TextStyle(color: Colors.white)),
-                   style: ButtonStyle(
-                 backgroundColor: MaterialStateProperty.all<Color>(Color(0xFFFC5448)),
-            ),
-            ),
-               ),
+                      AuthController.instance.logoutBusinessOwner();
+                    },
+                    child: Text('Logout', style: TextStyle(color: Colors.white)),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Color(0xFFFC5448)),
+                    ),
+                  ),
+                ),
                 Container(
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(left: 40, top: 0),
@@ -235,4 +235,3 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
       ),
     );
   }}
-
