@@ -59,14 +59,18 @@ class _BusinessCurrentRequestsState extends State<BusinessCurrentRequests> {
     double baseWidth = 360;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     return Scaffold(
+
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         title: Text(
           'Current Requests',
-          textAlign: TextAlign.left,
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           color: Colors.black,

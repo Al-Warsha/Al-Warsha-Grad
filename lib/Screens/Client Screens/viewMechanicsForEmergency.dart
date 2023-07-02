@@ -114,6 +114,19 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
     });
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: BackButton( color: Colors.black,),
+        title: Text(
+          'Displaying for Area detected',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 19
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: Obx(
             (){
           if (_controller.isNull) {
@@ -133,28 +146,6 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
                     EdgeInsets.fromLTRB(221.34 * fem, 0 * fem, 0 * fem, 8 * fem),
                     width: 22.34 * fem,
                     height: 22.34 * fem,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              BackButton(
-                                color: Colors.black,
-                              ),
-                              Text('Displaying for Area detected',
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.black)),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
                   ),
                   ListView.separated(
                     shrinkWrap: true,
@@ -223,6 +214,21 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
                                             style: TextStyle(
                                               fontSize: 19 * ffem,
                                               fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+
+                                          Text(
+                                            'Services: '
+                                                '${businessOwner.type.join("\n")}',
+                                            style: TextStyle(
+                                              fontSize: 13 * ffem,
+                                              fontWeight: FontWeight.w700,
+                                              height:
+                                              1.4000000272 * ffem / fem,
+                                              color: Color(0xff6f6f6f),
                                             ),
                                           ),
                                           SizedBox(

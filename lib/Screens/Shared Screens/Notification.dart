@@ -21,6 +21,22 @@ class Notifications extends StatelessWidget {
     });
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading:  IconButton(
+          icon: Icon(Icons.notifications),
+          onPressed: null,
+          color: Color(0xFFFC5448),
+        ),
+        title: Text(
+          'Notifications',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: Obx(() {
         if (_notificationsController.isLoading.value) {
           return Center(
@@ -36,31 +52,31 @@ class Notifications extends StatelessWidget {
                   width: 22.34 * fem,
                   height: 22.34 * fem,
                 ),
-                Container(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        child: IconButton(
-                          icon: Icon(Icons.notifications),
-                          onPressed: null,
-                          color: Color(0xFFFC5448),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 120 * fem, 0 * fem),
-                        child: Text(
-                          'Notifications',
-                          style: TextStyle(
-                            fontFamily: 'Urbanist',
-                            fontSize: 20 * ffem,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // Container(
+                //   child: Row(
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     children: [
+                //       Container(
+                //         child: IconButton(
+                //           icon: Icon(Icons.notifications),
+                //           onPressed: null,
+                //           color: Color(0xFFFC5448),
+                //         ),
+                //       ),
+                //       Container(
+                //         margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 120 * fem, 0 * fem),
+                //         child: Text(
+                //           'Notifications',
+                //           style: TextStyle(
+                //             fontFamily: 'Urbanist',
+                //             fontSize: 20 * ffem,
+                //             fontWeight: FontWeight.w600,
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 ListView.separated(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),

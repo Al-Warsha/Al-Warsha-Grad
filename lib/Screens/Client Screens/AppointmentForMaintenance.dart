@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../Models/scheduleAppointment.dart';
 import '../../Shared/network/local/firebase_utils.dart';
@@ -94,6 +95,19 @@ class _AppointmentForMaintenance extends State<AppointmentForMaintenance> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: CupertinoColors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: BackButton( color: Colors.black,),
+        title: Text(
+          'Appointment For Maintenance',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 19
+          ),
+        ),
+        centerTitle: true,
+      ),
       body:
       Stack(
         children: [
@@ -105,28 +119,8 @@ class _AppointmentForMaintenance extends State<AppointmentForMaintenance> {
             ),
             width: 300,
           ),
-
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(height: 25,),
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      BackButton( color: Colors.black,),
-                      Text('Appointment For Maintenance', style: TextStyle(fontSize: 20, color: Colors.black)),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
           Column(
             children: [
-              const SizedBox(
-                height: 80,
-              ),
               Container(alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(left: 15, top: 20, ),
                   child: Text('Select a car or add new one', style: TextStyle(fontSize: 20),)),
@@ -236,31 +230,50 @@ class _AppointmentForMaintenance extends State<AppointmentForMaintenance> {
 
               ElevatedButton(
                 onPressed: () async {
-                  final String formattedDateTime =
-                  DateFormat('MMM dd, yyyy - hh:mm a').format(currentDateTime);
-                  scheduleAppointment  appointment= scheduleAppointment(scheduleddate: selectedDate.microsecondsSinceEpoch,
-                      scheduledhour: selectedtime.hour, scheduledminute: selectedtime.minute,description: reasonController.text,
-                      car: selectedcar!, userid: userId, mechanicid: businessOwnerId!, timestamp: formattedDateTime);
-                  addScheduleToFireStore(appointment);
-                  await showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      content: const Text('Request has been send'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, 'OK'),
-                          child: const Text('OK'),
-                        ),
-                      ],
-                    ),
-                  );
+                  {
+                    if (selectedcar == null || reasonController.text.isEmpty) {
+                      Get.snackbar(
+                        "Error",
+                        "All fields are required.",
+                        backgroundColor: Colors.red,
+                        colorText: Colors.white,
+                      );
+                    } else {
+                      final String formattedDateTime =
+                      DateFormat('MMM dd, yyyy - hh:mm a').format(
+                          currentDateTime);
+                      scheduleAppointment appointment = scheduleAppointment(
+                          scheduleddate: selectedDate.microsecondsSinceEpoch,
+                          scheduledhour: selectedtime.hour,
+                          scheduledminute: selectedtime.minute,
+                          description: reasonController.text,
+                          car: selectedcar!,
+                          userid: userId,
+                          mechanicid: businessOwnerId!,
+                          timestamp: formattedDateTime);
+                      addScheduleToFireStore(appointment);
+                      await showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            AlertDialog(
+                              content: const Text('Request has been send'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context, 'OK'),
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            ),
+                      );
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BottomNavigationBarExample(),
-                    ),
-                  );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BottomNavigationBarExample(),
+                        ),
+                      );
+                    }
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   fixedSize: const Size(200, 60),

@@ -18,42 +18,54 @@ class PendingSignUpRequests extends StatelessWidget {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: BackButton( color: Colors.black,),
+        title: Text(
+          'Sign Up Requests',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(8 * fem, 20 * fem, 0 * fem, 530 * fem),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(221.34 * fem, 0 * fem, 0 * fem, 8 * fem),
-              width: 22.34 * fem,
-              height: 22.34 * fem,
-            ),
-            Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    child: IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      onPressed: () {
-                        // Add onPressed function here
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 120 * fem, 0 * fem),
-                    child: Text('Sign Up Requests',
-                      style: TextStyle(
-                        fontFamily: 'Urbanist',
-                        fontSize: 20 * ffem,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   margin: EdgeInsets.fromLTRB(221.34 * fem, 0 * fem, 0 * fem, 8 * fem),
+            //   width: 22.34 * fem,
+            //   height: 22.34 * fem,
+            // ),
+            // Container(
+            //   child: Row(
+            //     crossAxisAlignment: CrossAxisAlignment.center,
+            //     children: [
+            //       Container(
+            //         child: IconButton(
+            //           icon: Icon(Icons.arrow_back),
+            //           onPressed: () {
+            //             // Add onPressed function here
+            //             Navigator.pop(context);
+            //           },
+            //         ),
+            //       ),
+            //       Container(
+            //         margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 120 * fem, 0 * fem),
+            //         child: Text('Sign Up Requests',
+            //           style: TextStyle(
+            //             fontFamily: 'Urbanist',
+            //             fontSize: 20 * ffem,
+            //             fontWeight: FontWeight.w600,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
 
             Obx(() {
               if (_controller.isLoading.value) {

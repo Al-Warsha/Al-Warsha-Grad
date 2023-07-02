@@ -43,8 +43,10 @@ class MechanicDetails2 extends StatelessWidget {
           'Mechanic Details',
           style: TextStyle(
             color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        centerTitle: true,
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
           color: Colors.black,

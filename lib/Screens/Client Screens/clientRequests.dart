@@ -46,16 +46,32 @@ class _clientRequestsState extends State<ClientRequests> {
     double baseWidth = 360;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        title: Text('Requests', textAlign: TextAlign.left, style: TextStyle(color: Colors.black),),
-        leading: IconButton(icon: Icon(Icons.arrow_back), color: Colors.black,onPressed: (){                        Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) => BottomNavigationBarExample())
-        );
-        }),
-      ),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+            leading: IconButton(icon: Icon(Icons.arrow_back), color: Colors.black,onPressed: (){                        Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(
+                builder: (context) => BottomNavigationBarExample())
+            );
+            }),
+          title: Text(
+            'Requests',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          centerTitle: true,
+        ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   shadowColor: Colors.transparent,
+      //   title: Text('Requests', textAlign: TextAlign.left, style: TextStyle(color: Colors.black),),
+      //   leading: IconButton(icon: Icon(Icons.arrow_back), color: Colors.black,onPressed: (){                        Navigator.pop(context);
+      //   Navigator.push(context, MaterialPageRoute(
+      //       builder: (context) => BottomNavigationBarExample())
+      //   );
+      //   }),
+      // ),
       body: Column(
         children: [
           Row(

@@ -98,9 +98,12 @@ class ViewHistory extends StatelessWidget {
               shadowColor: Colors.transparent,
               title: Text(
                 'Request Details',
-                textAlign: TextAlign.left,
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              centerTitle: true,
               leading: BackButton(
                 color: Colors.black,
               ),

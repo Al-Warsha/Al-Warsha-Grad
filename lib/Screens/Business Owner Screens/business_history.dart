@@ -49,10 +49,13 @@ class _BusinessCurrentRequestsState extends State<BusinessHistory> {
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         title: Text(
-          'Current Requests',
-          textAlign: TextAlign.left,
-          style: TextStyle(color: Colors.black),
+          'Previous Requests',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+        centerTitle: true,
         leading: IconButton(icon: Icon(Icons.arrow_back), color: Colors.black,onPressed: (){                        Navigator.pop(context);
         Navigator.push(context, MaterialPageRoute(
             builder: (context) => BottomNavigationBarBusinessOwner())

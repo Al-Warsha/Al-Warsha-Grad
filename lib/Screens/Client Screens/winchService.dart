@@ -115,6 +115,19 @@ class _winchServiceState extends State<winchService> {
     });
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: BackButton( color: Colors.black,),
+        title: Text(
+          'Displaying for Area detected',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 19
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -124,23 +137,6 @@ class _winchServiceState extends State<winchService> {
               width: 22.34 * fem,
               height: 22.34 * fem,
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(height: 25,),
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        BackButton( color: Colors.black,),
-                        Text('Displaying for Area detected', style: TextStyle(fontSize: 18, color: Colors.black)),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-
             ListView.separated(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),

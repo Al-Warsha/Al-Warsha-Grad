@@ -40,8 +40,16 @@ class _MechanicDetails extends State<MechanicDetails> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mechanic Details'),
-        backgroundColor: Color(0xFFFC5448),
+        backgroundColor: Colors.white,
+        leading: BackButton( color: Colors.black,),
+        title: Text(
+          'Mechanic Details',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: Center(
         child: Column(
