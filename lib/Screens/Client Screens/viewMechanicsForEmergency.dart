@@ -21,7 +21,7 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
   double deviceLatitude = 0.0;
   double deviceLongitude = 0.0;
 
-  List<BusinessOwnerModel> BusinessOwners = [];
+  List<BusinessOwnerModel> businessOwners = [];
 
   @override
   void initState() {
@@ -70,7 +70,9 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
 
   void setRate() async {
     List<BusinessOwnerModel> tempOwners = _controller.businessOwners
-        .where((businessOwner) => businessOwner.type != 'Winch Service')
+        .where((businessOwner) =>
+    (businessOwner.type.contains('Winch Service') &&
+        businessOwner.type.length > 1) || !businessOwner.type.contains('Winch Service'))
         .toList();
     List<String> businessOwnerIds = tempOwners.map((businessOwner) => businessOwner.id).toList();
 
@@ -83,7 +85,7 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
       }
 
       setState(() {
-        BusinessOwners = tempOwners;
+        businessOwners = tempOwners;
       });
     });
   }
@@ -95,7 +97,7 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
 
-    BusinessOwners.sort((a, b) {
+    businessOwners.sort((a, b) {
       num distanceA = _calculateDistance(
         deviceLatitude,
         deviceLongitude,
@@ -117,11 +119,7 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
           if (_controller.isNull) {
             return Center(child: CircularProgressIndicator());
           } else {
-            List<BusinessOwnerModel> businessOwners = _controller.businessOwners
-                .where((businessOwner) =>
-            (businessOwner.type.contains('Winch Service') &&
-                businessOwner.type.length > 1) || !businessOwner.type.contains('Winch Service'))
-                .toList();
+
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
