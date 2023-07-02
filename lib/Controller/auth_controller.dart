@@ -39,28 +39,35 @@ class AuthController extends GetxController {
       bool isUserInUsersCollection = await _checkUserInCollection('users', user.uid);
       bool isUserInBusinessOwnersCollection = await _checkUserInCollection('BusinessOwners', user.uid);
 
-      if (isUserInUsersCollection) {
+      if (isUserInUsersCollection && !isUserInBusinessOwnersCollection && user!=null) {
         if (!user.emailVerified) {
           print("email verification page");
-          await Get.offAll(() => EmailVerificationPage());
+          Get.offAll(() => EmailVerificationPage());
         } else {
           print("main app screen for users");
-          await Get.offAll(() => BottomNavigationBarExample());
+         // _notificationService = new NotificationService();
+         // _notificationService.listenForRequestChanges(user.uid);
+          Get.offAll(() => BottomNavigationBarExample());
         }
-      } else if (isUserInBusinessOwnersCollection) {
+        return;
+      }  else if (isUserInBusinessOwnersCollection && FirebaseAuth.instance.currentUser != null) {
         bool isBusinessOwnerVerified = await _checkBusinessOwnerVerified(user.uid);
         if (isBusinessOwnerVerified) {
           print("main app screen for verified business owners");
-          await Get.offAll(() => BottomNavigationBarBusinessOwner());
+         //_notificationService = new NotificationService();
+          //_notificationService.listenForRequestChanges(user.uid);
+          Get.offAll(() => BottomNavigationBarBusinessOwner());
         } else {
           print("business owner pending page");
-          await Get.offAll(() => BusinessOwnerPendingPage());
+          Get.offAll(() => BusinessOwnerPendingPage());
         }
       } else {
         print("user not found in any collection");
+        // Handle the case when the user is not found in any collection
       }
     }
   }
+
 
   Future<bool> _checkBusinessOwnerVerified(String uid) async {
     try {
@@ -149,17 +156,40 @@ class AuthController extends GetxController {
         bool isSignedOut = false;
 
         String uid = user.uid;
-        _notificationService=new NotificationService();
+        _notificationService = new NotificationService();
         _notificationService.listenForRequestChanges(uid);
+
+        // Check if the user exists in the "BusinessOwners" collection
+        DocumentSnapshot businessOwnerSnapshot = await FirebaseFirestore.instance
+            .collection('BusinessOwners')
+            .doc(uid)
+            .get();
+
+        if (businessOwnerSnapshot.exists) {
+          // User exists in the "BusinessOwners" collection instead of "users"
+          Get.snackbar(
+            "Incorrect Account Type",
+            "Please login using the correct account type.",
+            backgroundColor: Colors.redAccent,
+            snackPosition: SnackPosition.BOTTOM,
+            titleText: Text(
+              "Login failed",
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+          FirebaseAuth.instance.signOut();
+          return;
+        }
+
         await FirebaseFirestore.instance.collection('users').doc(uid).set({
           'isEmailVerified': isEmailVerified,
           'isLoggedIn': isLoggedIn,
           'isSignedOut': isSignedOut,
         }, SetOptions(merge: true));
 
-
         if (isEmailVerified) {
-          //Get.offAll(() => HomePageScreen());
+          // Successful login for regular user
+          // Get.offAll(() => HomePageScreen());
         } else {
           Get.snackbar(
             "Email Verification",
@@ -209,6 +239,7 @@ class AuthController extends GetxController {
     }
   }
 
+
   Future<void> logout() async {
     try {
       String uid = auth.currentUser?.uid ?? '';
@@ -218,7 +249,7 @@ class AuthController extends GetxController {
           'isSignedOut': true,
         }, SetOptions(merge: true));
 
-        _notificationService.destroyNotifications();
+       _notificationService.destroyNotifications();
 
       }
 
@@ -375,15 +406,21 @@ class AuthController extends GetxController {
       if (userCredential.user != null) {
         User user = userCredential.user!;
         String uid = user.uid;
-        DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('BusinessOwners').doc(uid).get();
 
-        if (userSnapshot.exists) {
-          bool isAccepted = userSnapshot.get('verified') ?? false;
-          bool isRejected = userSnapshot.get('rejected') ?? false;
+        // Check if the user exists in the "BusinessOwners" collection
+        DocumentSnapshot businessOwnerSnapshot = await FirebaseFirestore.instance
+            .collection('BusinessOwners')
+            .doc(uid)
+            .get();
+
+        if (businessOwnerSnapshot.exists) {
+          bool isAccepted = businessOwnerSnapshot.get('verified') ?? false;
+          bool isRejected = businessOwnerSnapshot.get('rejected') ?? false;
           bool isLoggedIn = true;
           bool isSignedOut = false;
-          _notificationService2=new NotificationService2();
+          _notificationService2 = new NotificationService2();
           _notificationService2.listenForRequestChanges2(uid);
+
           if (!isAccepted && !isRejected) {
             // User not yet accepted by admin
             Get.snackbar(
@@ -428,6 +465,40 @@ class AuthController extends GetxController {
             // Successful login as business owner
             Get.offAll(() => BottomNavigationBarBusinessOwner());
           }
+        } else {
+          // Check if the user exists in the "users" collection
+          DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(uid)
+              .get();
+
+          if (userSnapshot.exists) {
+            // User exists in the "users" collection instead of "BusinessOwners"
+            Get.snackbar(
+              "Incorrect Account Type",
+              "Please login using the correct account type.",
+              backgroundColor: Colors.redAccent,
+              snackPosition: SnackPosition.BOTTOM,
+              titleText: Text(
+                "Login failed",
+                style: TextStyle(color: Colors.white),
+              ),
+            );
+            FirebaseAuth.instance.signOut();
+            return;
+          }
+
+          // User does not exist in either "BusinessOwners" or "users" collection
+          Get.snackbar(
+            "Account Not Found",
+            "The account does not exist.",
+            backgroundColor: Colors.redAccent,
+            snackPosition: SnackPosition.BOTTOM,
+            titleText: Text(
+              "Login failed",
+              style: TextStyle(color: Colors.white),
+            ),
+          );
         }
       } else {
         Get.snackbar(
@@ -476,7 +547,7 @@ class AuthController extends GetxController {
           'isSignedOut': true,
         }, SetOptions(merge: true));
 
-        _notificationService2.destroyNotifications();
+       _notificationService2.destroyNotifications();
       }
       await auth.signOut();
       Get.offAll(() => WelcomePage());

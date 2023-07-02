@@ -68,8 +68,9 @@ class _winchServiceState extends State<winchService> {
 
   void setRate() async {
     List<BusinessOwnerModel> tempOwners = _controller.businessOwners
-        .where((businessOwner) => businessOwner.type == 'Winch Service')
+        .where((businessOwner) => businessOwner.type.contains('Winch Service'))
         .toList();
+
     List<String> businessOwnerIds = tempOwners.map((businessOwner) => businessOwner.id).toList();
 
     // Fetch the rates for all business owners

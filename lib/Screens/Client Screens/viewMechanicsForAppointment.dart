@@ -18,7 +18,7 @@ class viewMechanicsForAppointment_State
   final viewMechanicsForAppointmentController _controller =
   Get.put(viewMechanicsForAppointmentController());
 
-  List<BusinessOwnerModel> BusinessOwners = [];
+  List<BusinessOwnerModel> businessOwners = [];
 
   @override
   void initState() {
@@ -29,7 +29,9 @@ class viewMechanicsForAppointment_State
 
   void setRate() async {
     List<BusinessOwnerModel> tempOwners = _controller.businessOwners
-        .where((businessOwner) => businessOwner.type != 'Winch Service')
+        .where((businessOwner) =>
+    (businessOwner.type.contains('Winch Service') &&
+        businessOwner.type.length > 1) || !businessOwner.type.contains('Winch Service'))
         .toList();
     List<String> businessOwnerIds = tempOwners.map((businessOwner) => businessOwner.id).toList();
 
@@ -42,7 +44,7 @@ class viewMechanicsForAppointment_State
       }
 
       setState(() {
-        BusinessOwners = tempOwners;
+        businessOwners = tempOwners;
       });
     });
   }
