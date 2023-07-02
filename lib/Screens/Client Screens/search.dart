@@ -79,11 +79,12 @@ class _SearchPageState extends State<Search> {
       for (var doc in allResults) {
         String centerName = doc.data()?['name'] ?? '';
         bool verified = doc.data()?['verified'] ?? false;
-        String type = doc.data()?['type'] ?? '';
+        List<dynamic> type = doc.data()?['type'] ?? [];
+
 
         if (centerName.toLowerCase().contains(searchText.toLowerCase()) &&
             verified &&
-            type != 'winch') {
+            type != 'Winch Service') {
           filteredResults.add(doc);
         }
       }
@@ -123,32 +124,41 @@ class _SearchPageState extends State<Search> {
     String end = searchText + '\uf8ff';
 
     Query<Map<String, dynamic>> query = _firestore.collection('BusinessOwners');
-
-    Query<Map<String, dynamic>> brandQuery;
+    Query<Map<String, dynamic>> brandQuery = query;
 
     if (_selectedBrand == 'All Brands') {
-      brandQuery = query.where('name', isGreaterThanOrEqualTo: start).where('name', isLessThanOrEqualTo: end);
+      brandQuery = brandQuery
+          .where('name', isGreaterThanOrEqualTo: start)
+          .where('name', isLessThanOrEqualTo: end);
     } else {
-      brandQuery = query.where('brands', arrayContains: _selectedBrand).where('name', isGreaterThanOrEqualTo: start).where('name', isLessThanOrEqualTo: end);
+      brandQuery = brandQuery
+          .where('brands', arrayContains: _selectedBrand)
+          .where('name', isGreaterThanOrEqualTo: start)
+          .where('name', isLessThanOrEqualTo: end);
     }
 
-    brandQuery.get().then((QuerySnapshot<Map<String, dynamic>> snapshot) {
-      List<DocumentSnapshot<Map<String, dynamic>>> results = snapshot.docs;
+    brandQuery.get().then(
+          (QuerySnapshot<Map<String, dynamic>> snapshot) {
+        List<DocumentSnapshot<Map<String, dynamic>>> results = snapshot.docs;
 
-      List<DocumentSnapshot<Map<String, dynamic>>> filteredResults = results.where((doc) {
-        bool verified = doc.data()?['verified'] ?? false;
-        String type = doc.data()?['type'] ?? '';
+        List<DocumentSnapshot<Map<String, dynamic>>> filteredResults = results.where((doc) {
+          bool verified = doc.data()?['verified'] ?? false;
+          List<dynamic> type = doc.data()?['type'] ?? [];
 
-        return verified && type != 'winch';
-      }).toList();
+          return verified && !type.contains('Winch Service');
+        }).toList();
 
-      setState(() {
-        _searchResults = filteredResults;
-      });
-    }).catchError((error) {
-      print('Error searching car repair centers: $error');
-    });
+        setState(() {
+          _searchResults = filteredResults;
+        });
+      },
+    ).catchError(
+          (error) {
+        print('Error searching car repair centers: $error');
+      },
+    );
   }
+
 
 
 
