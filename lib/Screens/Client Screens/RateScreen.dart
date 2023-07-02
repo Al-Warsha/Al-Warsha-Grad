@@ -55,72 +55,74 @@ class _RateScreenState extends State<RateScreen> {
         leading: BackButton(
           color: Colors.black,
         ),),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Container(
-            // padding: EdgeInsets.only(top: 50, bottom: 50),
-            child: RatingBar.builder(
-              initialRating: 0,
-              minRating: 1,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-              itemBuilder: (context, _) => Icon(
-                Icons.star,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              // padding: EdgeInsets.only(top: 50, bottom: 50),
+              child: RatingBar.builder(
+                initialRating: 0,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                itemBuilder: (context, _) => Icon(
+                  Icons.star,
+                  color: Color.fromRGBO(252,84, 72, 1.0),
+                ),
+                onRatingUpdate: (rating) {
+                  rate = rating;
+                },
+              ),
+            ),
+            Divider(
                 color: Color.fromRGBO(252,84, 72, 1.0),
-              ),
-              onRatingUpdate: (rating) {
-                rate = rating;
-              },
+                indent: 30,
+                endIndent: 30,
+                thickness: 3
             ),
-          ),
-          Divider(
-              color: Color.fromRGBO(252,84, 72, 1.0),
-              indent: 30,
-              endIndent: 30,
-              thickness: 3
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: TextFormField(
-                controller: textController,
-                maxLines: 5,
-                decoration: const InputDecoration(
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 3,
-                          color: Color.fromRGBO(252,84, 72, 1.0)),
-                    ),
-                    hoverColor: Color.fromRGBO(252,84, 72, 1.0),
-                    labelText: 'Description',
-                    labelStyle: TextStyle(color: Colors.black)
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: TextFormField(
+                  controller: textController,
+                  maxLines: 5,
+                  decoration: const InputDecoration(
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 3,
+                            color: Color.fromRGBO(252,84, 72, 1.0)),
+                      ),
+                      hoverColor: Color.fromRGBO(252,84, 72, 1.0),
+                      labelText: 'Description',
+                      labelStyle: TextStyle(color: Colors.black)
 
-                )
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.all(30),
-            child: ElevatedButton(
-              onPressed: ()async{
-                description = textController.text;
-                updateDocument(rate, description);
-                // Navigator.pop(context);
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ViewRequest(Id: id, selection: selection),)
-
-                );              },
-              child: Text("Submit"),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromRGBO(252,84, 72, 1.0)
+                  )
               ),
             ),
-          ),
-        ],
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.all(30),
+              child: ElevatedButton(
+                onPressed: ()async{
+                  description = textController.text;
+                  updateDocument(rate, description);
+                  // Navigator.pop(context);
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ViewRequest(Id: id, selection: selection),)
+
+                  );              },
+                child: Text("Submit"),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(252,84, 72, 1.0)
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
