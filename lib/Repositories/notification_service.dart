@@ -39,111 +39,111 @@ class NotificationService {
   void listenForRequestChanges(String userId) {
     initializeNotifications();
 
-    _emergencySubscription = FirebaseFirestore.instance
-        .collection('emergencyAppointment')
-        .where('userid', isEqualTo: userId)
-        .snapshots()
-        .listen((QuerySnapshot snapshot) {
-      snapshot.docChanges.forEach((DocumentChange change) async {
-        final request = change.doc.data() as Map<String, dynamic>;
-        final state = request['state'];
-        final user_notificationSent = request['Unotification_sent'];
-        final mechanicId = request['mechanicid'];
-        final requestId = change.doc.id;
+      _emergencySubscription = FirebaseFirestore.instance
+          .collection('emergencyAppointment')
+          .where('userid', isEqualTo: userId)
+          .snapshots()
+          .listen((QuerySnapshot snapshot) {
+        snapshot.docChanges.forEach((DocumentChange change) async {
+          final request = change.doc.data() as Map<String, dynamic>;
+          final state = request['state'];
+          final user_notificationSent = request['Unotification_sent'];
+          final mechanicId = request['mechanicid'];
+          final requestId = change.doc.id;
 
-        if ((change.type == DocumentChangeType.added ||
-            change.type == DocumentChangeType.modified) &&
-            (state == 'accepted' || state == 'rejected') &&
-            user_notificationSent == 0) {
-          // Fetch the business owner document
-          final mechanicSnapshot =
-          await FirebaseFirestore.instance.collection('BusinessOwners').doc(mechanicId).get();
+          if ((change.type == DocumentChangeType.added ||
+              change.type == DocumentChangeType.modified) &&
+              (state == 'accepted' || state == 'rejected') &&
+              user_notificationSent == 0) {
+            // Fetch the business owner document
+            final mechanicSnapshot =
+            await FirebaseFirestore.instance.collection('BusinessOwners').doc(mechanicId).get();
 
-          if (mechanicSnapshot.exists) {
-            final mechanicData = mechanicSnapshot.data() as Map<String, dynamic>;
-            final mechanicName = mechanicData['name'];
+            if (mechanicSnapshot.exists) {
+              final mechanicData = mechanicSnapshot.data() as Map<String, dynamic>;
+              final mechanicName = mechanicData['name'];
 
-            // Send a notification to the user with the business owner name
-            await sendNotification(userId, state, mechanicName, 'Emergency request', requestId);
-            // Update the 'notification_sent' field to indicate that the notification has been sent
-            change.doc.reference.update({'Unotification_sent': 1});
+              // Send a notification to the user with the business owner name
+              await sendNotification(userId, state, mechanicName, 'Emergency request', requestId);
+              // Update the 'notification_sent' field to indicate that the notification has been sent
+              change.doc.reference.update({'Unotification_sent': 1});
+            }
           }
-        }
+        });
       });
-    });
 
-    _scheduleSubscription = FirebaseFirestore.instance
-        .collection('scheduleAppointment')
-        .where('userid', isEqualTo: userId)
-        .snapshots()
-        .listen((QuerySnapshot snapshot) {
-      snapshot.docChanges.forEach((DocumentChange change) async {
-        final request = change.doc.data() as Map<String, dynamic>;
-        final state = request['state'];
-        final user_notificationSent = request['Unotification_sent'];
-        final mechanicId = request['mechanicid'];
-        final requestId = change.doc.id;
+      _scheduleSubscription = FirebaseFirestore.instance
+          .collection('scheduleAppointment')
+          .where('userid', isEqualTo: userId)
+          .snapshots()
+          .listen((QuerySnapshot snapshot) {
+        snapshot.docChanges.forEach((DocumentChange change) async {
+          final request = change.doc.data() as Map<String, dynamic>;
+          final state = request['state'];
+          final user_notificationSent = request['Unotification_sent'];
+          final mechanicId = request['mechanicid'];
+          final requestId = change.doc.id;
 
-        if ((change.type == DocumentChangeType.added ||
-            change.type == DocumentChangeType.modified) &&
-            (state == 'accepted' || state == 'rejected') &&
-            user_notificationSent == 0) {
-          // Fetch the business owner document
-          final mechanicSnapshot = await FirebaseFirestore.instance
-              .collection('BusinessOwners')
-              .doc(mechanicId)
-              .get();
+          if ((change.type == DocumentChangeType.added ||
+              change.type == DocumentChangeType.modified) &&
+              (state == 'accepted' || state == 'rejected') &&
+              user_notificationSent == 0) {
+            // Fetch the business owner document
+            final mechanicSnapshot = await FirebaseFirestore.instance
+                .collection('BusinessOwners')
+                .doc(mechanicId)
+                .get();
 
-          if (mechanicSnapshot.exists) {
-            final mechanicData =
-            mechanicSnapshot.data() as Map<String, dynamic>;
-            final mechanicName = mechanicData['name'];
+            if (mechanicSnapshot.exists) {
+              final mechanicData =
+              mechanicSnapshot.data() as Map<String, dynamic>;
+              final mechanicName = mechanicData['name'];
 
-            // Send a notification to the user with the business owner name
-            await sendNotification(
-                userId, state, mechanicName, 'Scheduling request', requestId);
-            // Update the 'notification_sent' field to indicate that the notification has been sent
-            change.doc.reference.update({'Unotification_sent': 1});
+              // Send a notification to the user with the business owner name
+              await sendNotification(
+                  userId, state, mechanicName, 'Scheduling request', requestId);
+              // Update the 'notification_sent' field to indicate that the notification has been sent
+              change.doc.reference.update({'Unotification_sent': 1});
+            }
           }
-        }
+        });
       });
-    });
 
-    _winchSubscription = FirebaseFirestore.instance
-        .collection('winchAppointment')
-        .where('userid', isEqualTo: userId)
-        .snapshots()
-        .listen((QuerySnapshot snapshot) {
-      snapshot.docChanges.forEach((DocumentChange change) async {
-        final request = change.doc.data() as Map<String, dynamic>;
-        final state = request['state'];
-        final user_notificationSent = request['Unotification_sent'];
-        final mechanicId = request['mechanicid'];
-        final requestId = change.doc.id;
+      _winchSubscription = FirebaseFirestore.instance
+          .collection('winchAppointment')
+          .where('userid', isEqualTo: userId)
+          .snapshots()
+          .listen((QuerySnapshot snapshot) {
+        snapshot.docChanges.forEach((DocumentChange change) async {
+          final request = change.doc.data() as Map<String, dynamic>;
+          final state = request['state'];
+          final user_notificationSent = request['Unotification_sent'];
+          final mechanicId = request['mechanicid'];
+          final requestId = change.doc.id;
 
-        if ((change.type == DocumentChangeType.added ||
-            change.type == DocumentChangeType.modified) &&
-            (state == 'accepted' || state == 'rejected') &&
-            user_notificationSent == 0) {
-          // Fetch the business owner document
-          final mechanicSnapshot = await FirebaseFirestore.instance
-              .collection('BusinessOwners').doc(mechanicId).get();
+          if ((change.type == DocumentChangeType.added ||
+              change.type == DocumentChangeType.modified) &&
+              (state == 'accepted' || state == 'rejected') &&
+              user_notificationSent == 0) {
+            // Fetch the business owner document
+            final mechanicSnapshot = await FirebaseFirestore.instance
+                .collection('BusinessOwners').doc(mechanicId).get();
 
-          if (mechanicSnapshot.exists) {
-            final mechanicData =
-            mechanicSnapshot.data() as Map<String, dynamic>;
-            final mechanicName = mechanicData['name'];
+            if (mechanicSnapshot.exists) {
+              final mechanicData =
+              mechanicSnapshot.data() as Map<String, dynamic>;
+              final mechanicName = mechanicData['name'];
 
-            // Send a notification to the user with the business owner name
-            await sendNotification(userId, state, mechanicName, 'Winch request', requestId);
-            // Update the 'notification_sent' field to indicate that the notification has been sent
+              // Send a notification to the user with the business owner name
+              await sendNotification(userId, state, mechanicName, 'Winch request', requestId);
+              // Update the 'notification_sent' field to indicate that the notification has been sent
 
-            change.doc.reference.update({'Unotification_sent': 1});
+              change.doc.reference.update({'Unotification_sent': 1});
+            }
           }
-        }
+        });
       });
-    });
-  }
+    }
 
 
   Future<void> sendNotification(

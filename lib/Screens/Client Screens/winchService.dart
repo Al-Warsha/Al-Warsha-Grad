@@ -93,6 +93,9 @@ class _winchServiceState extends State<winchService> {
     double baseWidth = 360;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
+    List<BusinessOwnerModel> businessOwners = _controller.businessOwners
+        .where((businessOwner) => businessOwner.type.contains('Winch Service'))
+        .toList();
 
     // Sort businessOwners based on distance from user's location
     businessOwners.sort((a, b) {
