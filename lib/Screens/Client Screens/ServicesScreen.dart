@@ -74,78 +74,140 @@ class _ServicesScreenState extends State<ServicesScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: CupertinoColors.white,
-      appBar:AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        titleSpacing: 0,
-        toolbarHeight: kToolbarHeight,
-        title: Row(
-          children: [
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(left: 14),
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Redirect to the search page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Search()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.grey[300],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    elevation: 0,
-                    padding: EdgeInsets.zero,
-                  ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(right: 30),
-                        child: Icon(Icons.search_rounded, size: 32, color: Colors.grey),
-                      ),
-                      Expanded(
-                        child: TextField(
-                          readOnly: true,
-                          onTap: () {
-                            // Redirect to the search page
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Search()),
-                            );
-                          },
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(vertical: 0),
-                            hintText: 'Search...',
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: IconButton(
-                icon: Icon(Icons.mail_outline_rounded, size: 32, color: Colors.black),
-                onPressed: () {
-                  // Handle mail icon button press
-                  _launchEmail(widget.adminEmail);
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+      // appBar:AppBar(
+      //   elevation: 0,
+      //   backgroundColor: Colors.white,
+      //   titleSpacing: 0,
+      //   toolbarHeight: kToolbarHeight,
+      //   title: Row(
+      //     children: [
+      //       Expanded(
+      //         child: Container(
+      //           margin: EdgeInsets.only(left: 14),
+      //           child: ElevatedButton(
+      //             onPressed: () {
+      //               // Redirect to the search page
+      //               Navigator.push(
+      //                 context,
+      //                 MaterialPageRoute(builder: (context) => Search()),
+      //               );
+      //             },
+      //             style: ElevatedButton.styleFrom(
+      //               primary: Colors.grey[300],
+      //               shape: RoundedRectangleBorder(
+      //                 borderRadius: BorderRadius.circular(30.0),
+      //               ),
+      //               elevation: 0,
+      //               padding: EdgeInsets.zero,
+      //             ),
+      //             child: Row(
+      //               children: [
+      //                 Padding(
+      //                   padding: EdgeInsets.only(right: 30),
+      //                   child: Icon(Icons.search_rounded, size: 32, color: Colors.grey),
+      //                 ),
+      //                 Expanded(
+      //                   child: TextField(
+      //                     readOnly: true,
+      //                     onTap: () {
+      //                       // Redirect to the search page
+      //                       Navigator.push(
+      //                         context,
+      //                         MaterialPageRoute(builder: (context) => Search()),
+      //                       );
+      //                     },
+      //                     decoration: InputDecoration(
+      //                       contentPadding: EdgeInsets.symmetric(vertical: 0),
+      //                       hintText: 'Search...',
+      //                       border: InputBorder.none,
+      //                     ),
+      //                   ),
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //       Padding(
+      //         padding: EdgeInsets.only(left: 20),
+      //         child: IconButton(
+      //           icon: Icon(Icons.mail_outline_rounded, size: 32, color: Colors.black),
+      //           onPressed: () {
+      //             // Handle mail icon button press
+      //             _launchEmail(widget.adminEmail);
+      //           },
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
 
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 25),
+            const SizedBox(height: 30),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(left: 14),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Redirect to the search page
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Search()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.grey[300],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        elevation: 0,
+                        padding: EdgeInsets.zero,
+                      ),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(right: 30),
+                            child: Icon(Icons.search_rounded, size: 32, color: Colors.grey),
+                          ),
+                          Expanded(
+                            child: TextField(
+                              readOnly: true,
+                              onTap: () {
+                                // Redirect to the search page
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => Search()),
+                                );
+                              },
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(vertical: 0),
+                                hintText: 'Search...',
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 20),
+                  child: IconButton(
+                    icon: Icon(Icons.mail_outline_rounded, size: 32, color: Colors.black),
+                    onPressed: () {
+                      // Handle mail icon button press
+                      _launchEmail(widget.adminEmail);
+                    },
+                  ),
+                ),
+              ],
+            ),
+            //const SizedBox(height: 15),
             Column(
               children: [
 
