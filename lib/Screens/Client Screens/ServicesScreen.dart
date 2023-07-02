@@ -144,8 +144,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
 
       body: SingleChildScrollView(
         child: Column(
+          //mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(height: 30),
+            const SizedBox(height: 45),
             Row(
               children: [
                 Expanded(
