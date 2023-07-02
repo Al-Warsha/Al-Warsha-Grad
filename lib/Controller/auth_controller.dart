@@ -45,6 +45,8 @@ class AuthController extends GetxController {
           Get.offAll(() => EmailVerificationPage());
         } else {
           print("main app screen for users");
+          _notificationService = new NotificationService();
+          _notificationService.listenForRequestChanges(user.uid);
           Get.offAll(() => BottomNavigationBarExample());
         }
         return;
@@ -52,6 +54,8 @@ class AuthController extends GetxController {
         bool isBusinessOwnerVerified = await _checkBusinessOwnerVerified(user.uid);
         if (isBusinessOwnerVerified) {
           print("main app screen for verified business owners");
+          _notificationService = new NotificationService();
+          _notificationService.listenForRequestChanges(user.uid);
           Get.offAll(() => BottomNavigationBarBusinessOwner());
         } else {
           print("business owner pending page");
@@ -543,7 +547,7 @@ class AuthController extends GetxController {
           'isSignedOut': true,
         }, SetOptions(merge: true));
 
-        _notificationService2.destroyNotifications();
+       _notificationService2.destroyNotifications();
       }
       await auth.signOut();
       Get.offAll(() => WelcomePage());
