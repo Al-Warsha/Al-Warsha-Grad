@@ -60,7 +60,7 @@ class _ChatbotState extends State<Chatbot> {
             Expanded(child: MessagesScreen(messages: messages)),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-              child: Container(
+              child: Container(padding: EdgeInsets.only(left: 15),
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Color.fromRGBO(252, 84, 72, 1),
