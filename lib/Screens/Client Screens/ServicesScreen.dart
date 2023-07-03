@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:myapp/Controller/auth_controller.dart';
 import 'package:myapp/Screens/Client%20Screens/Chatbot.dart';
 import 'package:myapp/Screens/Client%20Screens/search.dart';
@@ -8,6 +10,7 @@ import 'package:myapp/Screens/Client%20Screens/viewMechanicsForAppointment.dart'
 import 'package:myapp/Screens/Client%20Screens/viewMechanicsForEmergency.dart';
 import 'package:myapp/Screens/Client%20Screens/winchService.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../Controller/viewMechanicsForAppointmentController.dart';
 import '../../Repositories/notification_service.dart';
 
 class ServicesScreen extends StatefulWidget {
@@ -22,7 +25,8 @@ class ServicesScreen extends StatefulWidget {
 
 class _ServicesScreenState extends State<ServicesScreen> {
   // final NotificationService _notificationService = NotificationService();
-
+  final viewMechanicsForAppointmentController _controller =
+  Get.put(viewMechanicsForAppointmentController());
 
 
   @override
@@ -34,6 +38,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
     // _notificationService.initializeNotifications1(userId);
     // _notificationService.listenForRequestChanges(userId);
     fetchUserName();
+    _controller.fetchBusinessOwners();
   }
 
   int checkedIndex = -1;

@@ -96,6 +96,11 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
     double baseWidth = 360;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
+    List<BusinessOwnerModel> businessOwners = _controller.businessOwners
+        .where((businessOwner) =>
+    (businessOwner.type.contains('Winch Service') &&
+        businessOwner.type.length > 1) || !businessOwner.type.contains('Winch Service'))
+        .toList();
 
     businessOwners.sort((a, b) {
       num distanceA = _calculateDistance(
@@ -114,115 +119,152 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
     });
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: BackButton( color: Colors.black,),
-        title: Text(
-          'Displaying for Area detected',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 19
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: BackButton( color: Colors.black,),
+          title: Text(
+            'Displaying for Area detected',
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 19
+            ),
           ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: Obx(
-            (){
-          if (_controller.isNull) {
-            return Center(child: CircularProgressIndicator());
-          } else {
-            List<BusinessOwnerModel> businessOwners = _controller.businessOwners
-                .where((businessOwner) =>
-            (businessOwner.type.contains('Winch Service') &&
-                businessOwner.type.length > 1) || !businessOwner.type.contains('Winch Service'))
-                .toList();
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    margin:
-                    EdgeInsets.fromLTRB(221.34 * fem, 0 * fem, 0 * fem, 8 * fem),
-                    width: 22.34 * fem,
-                    height: 22.34 * fem,
-                  ),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: businessOwners.length,
-                    separatorBuilder: (context, index) => Container(
-                      margin: EdgeInsets.symmetric(horizontal: 50 * fem),
-                      width: double.infinity,
-                      height: 1 * fem,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Color(0xFFFC5448),
-                            width: 3,
-                          ),
-                        ),
+        body:
+        SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                margin:
+                EdgeInsets.fromLTRB(221.34 * fem, 0 * fem, 0 * fem, 8 * fem),
+                width: 22.34 * fem,
+                height: 22.34 * fem,
+              ),
+              ListView.separated(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: businessOwners.length,
+                separatorBuilder: (context, index) => Container(
+                  margin: EdgeInsets.symmetric(horizontal: 50 * fem),
+                  width: double.infinity,
+                  height: 1 * fem,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Color(0xFFFC5448),
+                        width: 3,
                       ),
                     ),
-                    itemBuilder: (context, index) {
-                      BusinessOwnerModel businessOwner = businessOwners[index];
-                      num latitude = businessOwner.latitude;
-                      num longitude = businessOwner.longitude;
-                      num distanceInKm = _calculateDistance(
-                        deviceLatitude,
-                        deviceLongitude,
-                        latitude,
-                        longitude,
-                      );
-                      return Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.symmetric(
-                            vertical: 7 * fem, horizontal: 12 * fem),
-                        child: Stack(
-                          children: [
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10 * fem),
-                              ),
-                              elevation: 5,
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MechanicDetails(
-                                        mechanicId: businessOwner.id,
-                                        isEmergency: true,
-                                        winch: false,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 12 * fem, horizontal: 10 * fem),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                  ),
+                ),
+                itemBuilder: (context, index) {
+                  BusinessOwnerModel businessOwner = businessOwners[index];
+                  num latitude = businessOwner.latitude;
+                  num longitude = businessOwner.longitude;
+                  num distanceInKm = _calculateDistance(
+                    deviceLatitude,
+                    deviceLongitude,
+                    latitude,
+                    longitude,
+                  );
+                  return Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.symmetric(
+                        vertical: 7 * fem, horizontal: 12 * fem),
+                    child: Stack(
+                      children: [
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10 * fem),
+                          ),
+                          elevation: 5,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MechanicDetails(
+                                    mechanicId: businessOwner.id,
+                                    isEmergency: true,
+                                    winch: false,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 12 * fem, horizontal: 10 * fem),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            businessOwner.name,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 19 * ffem,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
+                                      Text(
+                                        businessOwner.name,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 19 * ffem,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
 
+                                      Text(
+                                        'Services: '
+                                            '${businessOwner.type.join("\n")}',
+                                        style: TextStyle(
+                                          fontSize: 13 * ffem,
+                                          fontWeight: FontWeight.w700,
+                                          height:
+                                          1.4000000272 * ffem / fem,
+                                          color: Color(0xff6f6f6f),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        'PhoneNumber: ${businessOwner.phone}',
+                                        style: TextStyle(
+                                          fontSize: 13 * ffem,
+                                          fontWeight: FontWeight.w700,
+                                          height:
+                                          1.4000000272 * ffem / fem,
+                                          color: Color(0xff6f6f6f),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        'Address: ${businessOwner.address}',
+                                        style: TextStyle(
+                                          fontSize: 13 * ffem,
+                                          fontWeight: FontWeight.w700,
+                                          height:
+                                          1.4000000272 * ffem / fem,
+                                          color: Color(0xff6f6f6f),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.star,
+                                            size: 18,
+                                            color: Colors.yellow,
+                                          ),
                                           Text(
-                                            'Services: '
-                                                '${businessOwner.type.join("\n")}',
+                                            ' ${businessOwner.rate}',
                                             style: TextStyle(
                                               fontSize: 13 * ffem,
                                               fontWeight: FontWeight.w700,
@@ -230,86 +272,37 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
                                               1.4000000272 * ffem / fem,
                                               color: Color(0xff6f6f6f),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Text(
-                                            'PhoneNumber: ${businessOwner.phone}',
-                                            style: TextStyle(
-                                              fontSize: 13 * ffem,
-                                              fontWeight: FontWeight.w700,
-                                              height:
-                                              1.4000000272 * ffem / fem,
-                                              color: Color(0xff6f6f6f),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Text(
-                                            'Address: ${businessOwner.address}',
-                                            style: TextStyle(
-                                              fontSize: 13 * ffem,
-                                              fontWeight: FontWeight.w700,
-                                              height:
-                                              1.4000000272 * ffem / fem,
-                                              color: Color(0xff6f6f6f),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                Icons.star,
-                                                size: 18,
-                                                color: Colors.yellow,
-                                              ),
-                                              Text(
-                                                ' ${businessOwner.rate}',
-                                                style: TextStyle(
-                                                  fontSize: 13 * ffem,
-                                                  fontWeight: FontWeight.w700,
-                                                  height:
-                                                  1.4000000272 * ffem / fem,
-                                                  color: Color(0xff6f6f6f),
-                                                ),
-                                              ),
-                                            ],
                                           ),
                                         ],
                                       ),
                                     ],
                                   ),
-                                ),
+                                ],
                               ),
                             ),
-                            Positioned(
-                              bottom: 10 * fem,
-                              right: 10 * fem,
-                              child: Text(
-                                '${distanceInKm.toStringAsFixed(2)} km away',
-                                style: TextStyle(
-                                  fontSize: 13 * ffem,
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.4000000272 * ffem / fem,
-                                  color: Color(0xff6f6f6f),
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      );
-                    },
-                  ),
-                ],
+                        Positioned(
+                          bottom: 10 * fem,
+                          right: 10 * fem,
+                          child: Text(
+                            '${distanceInKm.toStringAsFixed(2)} km away',
+                            style: TextStyle(
+                              fontSize: 13 * ffem,
+                              fontWeight: FontWeight.w700,
+                              height: 1.4000000272 * ffem / fem,
+                              color: Color(0xff6f6f6f),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
-            );
-          }
-        },
-      ),
+            ],
+          ),
+        )
     );
   }
 }

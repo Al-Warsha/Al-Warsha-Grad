@@ -26,7 +26,7 @@ class _winchServiceState extends State<winchService> {
   void initState() {
     super.initState();
     _getCurrentLocation();
-    setRate();
+    //setRate();
   }
 
   void _getCurrentLocation() async {
@@ -36,6 +36,7 @@ class _winchServiceState extends State<winchService> {
         deviceLatitude = position.latitude;
         deviceLongitude = position.longitude;
       });
+      fetchBusinessOwners();
     } catch (error) {
       print('Error getting current position: $error');
     }
@@ -65,13 +66,18 @@ class _winchServiceState extends State<winchService> {
     return distanceInKm;
   }
 
+  void fetchBusinessOwners() async {
+    await _controller.fetchBusinessOwners();
+    setRate();
+  }
 
-  void setRate() async {
+  void setRate() {
     List<BusinessOwnerModel> tempOwners = _controller.businessOwners
         .where((businessOwner) => businessOwner.type.contains('Winch Service'))
         .toList();
 
-    List<String> businessOwnerIds = tempOwners.map((businessOwner) => businessOwner.id).toList();
+    List<String> businessOwnerIds =
+    tempOwners.map((businessOwner) => businessOwner.id).toList();
 
     // Fetch the rates for all business owners
     Future.wait(
@@ -86,7 +92,6 @@ class _winchServiceState extends State<winchService> {
       });
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
