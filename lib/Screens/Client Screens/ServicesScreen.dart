@@ -31,11 +31,6 @@ class _ServicesScreenState extends State<ServicesScreen> {
   @override
   void initState() {
     super.initState();
-    // Get the logged-in user's ID
-    // final authController = AuthController();
-    // final userId = authController.currentUserUid!; // Assert that it's not null
-    // _notificationService.initializeNotifications1(userId);
-    // _notificationService.listenForRequestChanges(userId);
     fetchUserName();
     _controller.fetchBusinessOwners();
   }
