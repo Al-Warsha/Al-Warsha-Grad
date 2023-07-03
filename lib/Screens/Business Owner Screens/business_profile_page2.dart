@@ -104,6 +104,13 @@ class _BusinessProfileScreenTwoState extends State<BusinessProfileScreenTwo> {
       }
     } catch (e) {
       print('Error deleting brand: $e');
+      Get.snackbar(
+        'Error',
+        'Unable to delete brand. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 

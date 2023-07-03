@@ -87,9 +87,15 @@ class _BusinessProfileScreenOneState extends State<BusinessProfileScreenOne> {
         await _businessOwnerRepository.updateBusinessOwnerDataPhone(userId, newPhone);
         // Show a success message or navigate to another screen
       }
-    } catch (e) {
+    }  catch (e) {
       print('Error updating user data: $e');
-      // Show an error message
+      Get.snackbar(
+        'Error',
+        'Unable to update your data. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 

@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'businessowner_current_requests.dart';
 import 'current_requests.dart';
 
@@ -41,6 +44,13 @@ class _CurrentEmergencyCardState extends State<CurrentEmergencyCard> {
       // Rebuild the previous page
     } catch (e) {
       print('Error updating state: $e');
+      Get.snackbar(
+        'Error',
+        'Unable to update the state. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 

@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../Controller/auth_controller.dart';
 import '../../Repositories/user_repository.dart';
@@ -59,9 +61,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         await _userRepository.updateUserData(userId, newData);
         // Show a success message or navigate to another screen
       }
-    } catch (e) {
+    }  catch (e) {
       print('Error updating user data: $e');
-      // Show an error message
+      Get.snackbar(
+        'Error',
+        'Unable to update your data. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 

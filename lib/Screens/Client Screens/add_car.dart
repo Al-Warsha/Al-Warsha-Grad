@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:myapp/Screens/Client%20Screens/AppointmentForMaintenance.dart';
 import 'BottomNavigationBarExample.dart';
 import 'car_page.dart';
@@ -92,6 +94,13 @@ class _AddCarState extends State<AddCar> {
     } catch (e) {
       // Handle any errors that occurred while saving the car info
       print('Error saving car info: $e');
+      Get.snackbar(
+        'Error',
+        'Unable to save car information. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 

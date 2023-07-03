@@ -142,9 +142,9 @@ class _SearchPageState extends State<Search> {
         List<DocumentSnapshot<Map<String, dynamic>>> results = snapshot.docs;
 
 
-      List<DocumentSnapshot<Map<String, dynamic>>> filteredResults = results.where((doc) {
-        bool verified = doc.data()?['verified'] ?? false;
-        List<dynamic> type = doc.data()?['type'] ?? [];
+        List<DocumentSnapshot<Map<String, dynamic>>> filteredResults = results.where((doc) {
+          bool verified = doc.data()?['verified'] ?? false;
+          List<dynamic> type = doc.data()?['type'] ?? [];
 
           return verified && !type.contains('Winch Service');
         }).toList();

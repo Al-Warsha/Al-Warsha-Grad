@@ -23,13 +23,26 @@ class MechanicDetails2 extends StatelessWidget {
     });
 
     void handleDeleteIconClick() async {
-      if (businessOwner.value != null) {
-        await _controller.deleteBusinessOwner(businessOwner.value!);
+      try {
+        if (businessOwner.value != null) {
+          await _controller.deleteBusinessOwner(businessOwner.value!);
+        }
+        await _controller2.fetchAllBusinessOwners();
+        Navigator.pop(context); // Pop the AlertDialog
+        Navigator.pop(context); // Pop the MechanicDetails2 page and navigate back to the previous page (All Business Accounts)
+      } catch (e) {
+        print('Error deleting business owner: $e');
+        Get.snackbar(
+          'Error',
+          'Unable to remove business account. Please try again.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+
       }
-      await _controller2.fetchAllBusinessOwners();
-      Navigator.pop(context); // Pop the AlertDialog
-      Navigator.pop(context); // Pop the MechanicDetails2 page and navigate back to the previous page (All Business Accounts)
     }
+
 
     void openPDF(BuildContext context, File file) {
       Navigator.of(context).push(
