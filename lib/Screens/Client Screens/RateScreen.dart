@@ -55,8 +55,7 @@ class _RateScreenState extends State<RateScreen> {
         leading: BackButton(
           color: Colors.black,
         ),),
-      body: SingleChildScrollView(
-        child: Column(
+      body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
@@ -123,7 +122,7 @@ class _RateScreenState extends State<RateScreen> {
             ),
           ],
         ),
-      ),
+
     );
   }
 }
