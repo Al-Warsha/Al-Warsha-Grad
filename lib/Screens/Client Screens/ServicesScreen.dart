@@ -11,7 +11,6 @@ import 'package:myapp/Screens/Client%20Screens/viewMechanicsForEmergency.dart';
 import 'package:myapp/Screens/Client%20Screens/winchService.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Controller/viewMechanicsForAppointmentController.dart';
-import '../../Repositories/notification_service.dart';
 
 class ServicesScreen extends StatefulWidget {
   static const String routeName = 'ServicesScreen';
@@ -32,11 +31,6 @@ class _ServicesScreenState extends State<ServicesScreen> {
   @override
   void initState() {
     super.initState();
-    // Get the logged-in user's ID
-    // final authController = AuthController();
-    // final userId = authController.currentUserUid!; // Assert that it's not null
-    // _notificationService.initializeNotifications1(userId);
-    // _notificationService.listenForRequestChanges(userId);
     fetchUserName();
     _controller.fetchBusinessOwners();
   }
@@ -79,73 +73,6 @@ class _ServicesScreenState extends State<ServicesScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: CupertinoColors.white,
-      // appBar:AppBar(
-      //   elevation: 0,
-      //   backgroundColor: Colors.white,
-      //   titleSpacing: 0,
-      //   toolbarHeight: kToolbarHeight,
-      //   title: Row(
-      //     children: [
-      //       Expanded(
-      //         child: Container(
-      //           margin: EdgeInsets.only(left: 14),
-      //           child: ElevatedButton(
-      //             onPressed: () {
-      //               // Redirect to the search page
-      //               Navigator.push(
-      //                 context,
-      //                 MaterialPageRoute(builder: (context) => Search()),
-      //               );
-      //             },
-      //             style: ElevatedButton.styleFrom(
-      //               primary: Colors.grey[300],
-      //               shape: RoundedRectangleBorder(
-      //                 borderRadius: BorderRadius.circular(30.0),
-      //               ),
-      //               elevation: 0,
-      //               padding: EdgeInsets.zero,
-      //             ),
-      //             child: Row(
-      //               children: [
-      //                 Padding(
-      //                   padding: EdgeInsets.only(right: 30),
-      //                   child: Icon(Icons.search_rounded, size: 32, color: Colors.grey),
-      //                 ),
-      //                 Expanded(
-      //                   child: TextField(
-      //                     readOnly: true,
-      //                     onTap: () {
-      //                       // Redirect to the search page
-      //                       Navigator.push(
-      //                         context,
-      //                         MaterialPageRoute(builder: (context) => Search()),
-      //                       );
-      //                     },
-      //                     decoration: InputDecoration(
-      //                       contentPadding: EdgeInsets.symmetric(vertical: 0),
-      //                       hintText: 'Search...',
-      //                       border: InputBorder.none,
-      //                     ),
-      //                   ),
-      //                 ),
-      //               ],
-      //             ),
-      //           ),
-      //         ),
-      //       ),
-      //       Padding(
-      //         padding: EdgeInsets.only(left: 20),
-      //         child: IconButton(
-      //           icon: Icon(Icons.mail_outline_rounded, size: 32, color: Colors.black),
-      //           onPressed: () {
-      //             // Handle mail icon button press
-      //             _launchEmail(widget.adminEmail);
-      //           },
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
 
       body: SingleChildScrollView(
         child: Column(
@@ -166,37 +93,40 @@ class _ServicesScreenState extends State<ServicesScreen> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.grey[300],
+                        backgroundColor: Colors.grey[300],
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                         elevation: 0,
                         padding: EdgeInsets.zero,
                       ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 30),
-                            child: Icon(Icons.search_rounded, size: 32, color: Colors.grey),
-                          ),
-                          Expanded(
-                            child: TextField(
-                              readOnly: true,
-                              onTap: () {
-                                // Redirect to the search page
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => Search()),
-                                );
-                              },
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(vertical: 0),
-                                hintText: 'Search...',
-                                border: InputBorder.none,
+                      child: Container(
+                        padding: EdgeInsets.only(left: 15),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(right: 30),
+                              child: Icon(Icons.search_rounded, size: 32, color: Colors.grey),
+                            ),
+                            Expanded(
+                              child: TextField(
+                                readOnly: true,
+                                onTap: () {
+                                  // Redirect to the search page
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => Search()),
+                                  );
+                                },
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(vertical: 0),
+                                  hintText: 'Search...',
+                                  border: InputBorder.none,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
