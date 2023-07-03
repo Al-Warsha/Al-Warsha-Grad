@@ -83,13 +83,15 @@ class _winchServiceState extends State<winchService> {
     Future.wait(
       businessOwnerIds.map((id) => avgRate(id)),
     ).then((List<num> rates) {
-      for (int i = 0; i < tempOwners.length; i++) {
-        tempOwners[i].rate = rates[i];
-      }
+      if (mounted) { // Check if the widget is still mounted
+        for (int i = 0; i < tempOwners.length; i++) {
+          tempOwners[i].rate = rates[i];
+        }
 
-      setState(() {
-        businessOwners = tempOwners;
-      });
+        setState(() {
+          businessOwners = tempOwners;
+        });
+      }
     });
   }
 
