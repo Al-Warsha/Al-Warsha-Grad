@@ -26,20 +26,42 @@ class MechanicDetails extends StatelessWidget {
     });
 
     void handleRejectedIconClick() async {
-      businessOwner.value?.setRejected(true);
-      await _controller.updateBusinessOwner(businessOwner.value!,
-          isVerification: false);
-      await _controller2.fetchBusinessOwners();
-      Navigator.pop(context);
+      try {
+        businessOwner.value?.setRejected(true);
+        await _controller.updateBusinessOwner(businessOwner.value!, isVerification: false);
+        await _controller2.fetchBusinessOwners();
+        Navigator.pop(context);
+      } catch (e) {
+        print('Error rejecting business owner: $e');
+        Get.snackbar(
+          'Error',
+          'Unable to reject business owner request. Please try again.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
     }
 
     void handleVerifiedIconClick() async {
-      businessOwner.value?.setVerified(true);
-      await _controller.updateBusinessOwner(businessOwner.value!,
-          isVerification: true);
-      await _controller2.fetchBusinessOwners();
-      Navigator.pop(context);
+      try {
+        businessOwner.value?.setVerified(true);
+        await _controller.updateBusinessOwner(businessOwner.value!, isVerification: true);
+        await _controller2.fetchBusinessOwners();
+        Navigator.pop(context);
+      } catch (e) {
+        print('Error verifying business owner: $e');
+        Get.snackbar(
+          'Error',
+          'Unable to accept business owner request. Please try again.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
     }
+
+
 
     void openPDF(BuildContext context, File file) {
       Navigator.of(context).push(
@@ -168,12 +190,23 @@ class MechanicDetails extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      handleRejectedIconClick();
-                      _launchEmail(
-                        businessOwner.value?.email ?? '',
-                        'Your Business Account in El-Warsha has been Rejected.',
-                        'Hello Dear,  \n\n Sorry to let you know that you have not been verified due to your documents not being up to bar. Looking forward to reviewing your account again once they have been re-submitted! \n\n Warmest Regards,\nEl-Warsha Team ',
-                      );
+                      try {
+                        handleRejectedIconClick();
+                        _launchEmail(
+                          businessOwner.value?.email ?? '',
+                          'Your Business Account in El-Warsha has been Rejected.',
+                          'Hello Dear,  \n\n Sorry to let you know that you have not been verified due to your documents not being up to bar. Looking forward to reviewing your account again once they have been re-submitted! \n\n Warmest Regards,\nEl-Warsha Team ',
+                        );
+                      } catch (e) {
+                        print('Error occurred: $e');
+                        Get.snackbar(
+                          'Error',
+                          'An error occurred. Please try again.',
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Colors.red,
+                          colorText: Colors.white,
+                        );
+                      }
                     },
                     child: Container(
                       margin: EdgeInsets.only(right: 10),
@@ -192,12 +225,23 @@ class MechanicDetails extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      handleVerifiedIconClick();
-                      _launchEmail(
-                        businessOwner.value?.email ?? '',
-                        'Your Business Account in El-Warsha has been Approved.',
-                        'Hello Dear, \n\n Glad to let you know that you have been verified and part of our application now. Looking forward to growing our application with you! \n\n Warmest Regards,\nEl-Warsha Team ',
-                      );
+                      try {
+                        handleVerifiedIconClick();
+                        _launchEmail(
+                          businessOwner.value?.email ?? '',
+                          'Your Business Account in El-Warsha has been Approved.',
+                          'Hello Dear, \n\n Glad to let you know that you have been verified and part of our application now. Looking forward to growing our application with you! \n\n Warmest Regards,\nEl-Warsha Team ',
+                        );
+                      } catch (e) {
+                        print('Error occurred: $e');
+                        Get.snackbar(
+                          'Error',
+                          'An error occurred. Please try again.',
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Colors.red,
+                          colorText: Colors.white,
+                        );
+                      }
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: 100),
@@ -216,6 +260,7 @@ class MechanicDetails extends StatelessWidget {
                   ),
                 ],
               ),
+
             ],
           ),
         ),

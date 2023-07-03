@@ -1,6 +1,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:myapp/Controller/auth_controller.dart';
 import 'businessowner_current_requests.dart';
 import 'current_requests.dart';
@@ -48,8 +50,15 @@ class _CurrentScheduleCardState extends State<CurrentScheduleCard> {
         currentState = newState;
       });
       // Rebuild the previous page
-    } catch (e) {
+    }catch (e) {
       print('Error updating state: $e');
+      Get.snackbar(
+        'Error',
+        'Unable to update the state. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 

@@ -249,14 +249,20 @@ class AuthController extends GetxController {
           'isSignedOut': true,
         }, SetOptions(merge: true));
 
-       _notificationService.destroyNotifications();
-
+        _notificationService.destroyNotifications();
       }
 
       await auth.signOut();
       Get.offAll(() => WelcomePage());
     } catch (e) {
       print("Error logging out: $e");
+      Get.snackbar(
+        'Logout Error',
+        'Unable to logout. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 
@@ -551,8 +557,15 @@ class AuthController extends GetxController {
       }
       await auth.signOut();
       Get.offAll(() => WelcomePage());
-    } catch (e) {
+    }catch (e) {
       print("Error logging out: $e");
+      Get.snackbar(
+        'Logout Error',
+        'Unable to logout. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 
