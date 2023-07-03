@@ -77,16 +77,18 @@ class viewMechanicsForEmergencyState extends State<viewMechanicsForEmergency> {
     List<String> businessOwnerIds = tempOwners.map((businessOwner) => businessOwner.id).toList();
 
     // Fetch the rates for all business owners
-    Future.wait(
+      Future.wait(
       businessOwnerIds.map((id) => avgRate(id)),
     ).then((List<num> rates) {
-      for (int i = 0; i < tempOwners.length; i++) {
-        tempOwners[i].rate = rates[i];
-      }
+      if (mounted) { // Check if the widget is still mounted
+        for (int i = 0; i < tempOwners.length; i++) {
+          tempOwners[i].rate = rates[i];
+        }
 
-      setState(() {
-        businessOwners = tempOwners;
-      });
+        setState(() {
+          businessOwners = tempOwners;
+        });
+      }
     });
   }
 
