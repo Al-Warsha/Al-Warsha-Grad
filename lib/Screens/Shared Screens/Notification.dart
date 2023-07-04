@@ -40,9 +40,11 @@ class Notifications extends StatelessWidget {
       body: Obx(() {
         if (_notificationsController.isLoading.value) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFC5448)),
+            ),
           );
-        } else {
+        }else {
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'BottomNavigationBarExample.dart';
 import 'add_car.dart';
 
@@ -86,7 +85,7 @@ class _CarPageState extends State<CarPage> {
                   }
 
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFC5448))));
                   }
 
                   if (snapshot.hasData && snapshot.data?.docs.isEmpty == true) {
