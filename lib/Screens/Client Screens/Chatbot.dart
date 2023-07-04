@@ -31,15 +31,15 @@ class _ChatbotState extends State<Chatbot> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
-        backgroundColor: Colors.white.withOpacity(0.8),
+        backgroundColor: Colors.white,
         title: Text(
           'El-Warsha Bot',
           style: TextStyle(
-            color: Color.fromRGBO(0, 0, 0, 1.0),
-            fontWeight: FontWeight.w500,
-            fontSize: 20,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,

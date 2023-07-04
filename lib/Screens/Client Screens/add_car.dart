@@ -110,10 +110,17 @@ class _AddCarState extends State<AddCar> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
+
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        title: Text('Add car page', textAlign: TextAlign.left, style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.white,
+        title: Text(
+          'Add Car Page',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
         leading: IconButton(icon: Icon(Icons.arrow_back), color: Colors.black,onPressed: (){                        Navigator.pop(context);
         Navigator.push(context, MaterialPageRoute(
             builder: (context) => BottomNavigationBarExample())

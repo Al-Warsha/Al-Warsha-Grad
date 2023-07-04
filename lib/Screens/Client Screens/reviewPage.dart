@@ -29,10 +29,18 @@ class _ReviewPageState extends State<ReviewPage> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          title: Text('Reviews', textAlign: TextAlign.left, style: TextStyle(color: Colors.black),),
-          leading: BackButton(color: Colors.black,)
+        backgroundColor: Colors.white,
+        leading: BackButton(
+          color: Colors.black,
+        ),
+        title: Text(
+          'Reviews',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: FutureBuilder<List<DocumentSnapshot<Map<String, dynamic>>>>(
         future: reviewsFuture,

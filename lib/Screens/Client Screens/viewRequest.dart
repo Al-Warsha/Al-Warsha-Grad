@@ -13,12 +13,18 @@ class ViewRequest extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFFC5448),
-        shadowColor: Colors.transparent,
-        title: Text('Request Details', textAlign: TextAlign.left, style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.white,
         leading: BackButton(
           color: Colors.black,
         ),
+        title: Text(
+          'Request Details',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: selection == 1?
       EmergencyCard(Id: Id):
