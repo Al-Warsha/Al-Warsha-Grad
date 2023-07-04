@@ -39,7 +39,6 @@ class _ChatbotState extends State<Chatbot> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
