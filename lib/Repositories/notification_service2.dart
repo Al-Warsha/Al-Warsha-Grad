@@ -4,7 +4,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:myapp/Controller/auth_controller.dart';
+
 
 class NotificationService2 {
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _emergencySubscription;
