@@ -69,7 +69,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 31.34 * fem, 0 * fem),
+                      margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 38.5 * fem, 0 * fem),
                       child: const Text(
                         "ورشتك في ايدك",
                         style: TextStyle(
