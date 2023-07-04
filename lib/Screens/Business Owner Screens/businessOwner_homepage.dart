@@ -1,24 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import '../../Controller/auth_controller.dart';
 import '../../Repositories/notification_service2.dart';
 import 'business_history.dart';
 import 'businessowner_current_requests.dart';
-
 
 class BusinessOwnerHomepage extends StatefulWidget {
   static const String routeName = 'businessOwnerHomepage';
 
   const BusinessOwnerHomepage({Key? key}) : super(key: key);
 
+  final String adminEmail = 'alwarsha.grad@gmail.com';
 
   @override
   State<BusinessOwnerHomepage> createState() => _BusinessOwnerHomepageState();
 }
 
 class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
-  // final NotificationService2 _notificationService = NotificationService2();
   int checkedIndex = -1;
   List<String> cardNames = [
     'assets/images/b1.1.jpg',
@@ -29,14 +31,8 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
   @override
   void initState() {
     super.initState();
-    // Get the logged-in user's ID
-    // final authController = AuthController();
-    // final userId = authController.currentUserUid!; // Assert that it's not null
-    // _notificationService.initializeNotifications2(userId);
-    //_notificationService.listenForRequestChanges2(userId);
     fetchBusinessName();
   }
-
 
   Future<String> fetchBusinessNameFromCollection(String userId) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
@@ -51,9 +47,9 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
       return '';
     }
   }
+
   Future<void> fetchBusinessName() async {
     String? userId = AuthController.instance.currentUserUid;
-    // Use userId to fetch business name from "BusinessOwners" collection
     String fetchedBusinessName = await fetchBusinessNameFromCollection(userId!);
 
     if (mounted) {
@@ -62,6 +58,7 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,14 +68,22 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
         child: Column(
           children: [
             const SizedBox(height: 25),
-            Column(
+            Row( // Wrap the logout button and mail icon in a Row
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  alignment: Alignment.topRight,
-                  margin: EdgeInsets.only(right: 40, top:20),
+                  margin: EdgeInsets.only(left: 40, top: 20),
+                  child: IconButton(
+                    icon: Icon(Icons.mail_outline_rounded, size: 22, color: Colors.grey),
+                    onPressed: () {
+                      _launchEmail(widget.adminEmail);
+                    },
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 40, top: 20),
                   child: ElevatedButton(
                     onPressed: () {
-                      // Perform logout action here
                       AuthController.instance.logoutBusinessOwner();
                     },
                     child: Text('Logout', style: TextStyle(color: Colors.white)),
@@ -87,38 +92,38 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
                     ),
                   ),
                 ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(left: 40, top: 0),
-                  child: Text(
-                    'Homepage',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
+              ],
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.only(left: 40, top: 0),
+              child: Text(
+                'Homepage',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.only(left: 40, top: 5),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Text(
+                      'Hi, $businessName',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(left: 40, top: 5),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Text(
-                          'Hi,$businessName',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
             SizedBox(height: 20),
             Padding(
@@ -135,13 +140,12 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
               padding: EdgeInsets.only(top: 0, bottom: 20, left: 80, right: 80),
               child: InkWell(
                 onTap: () {
-                  if (checkedIndex == 0){
+                  if (checkedIndex == 0) {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => BusinessCurrentRequests(initialSelection: 1,)),
+                      MaterialPageRoute(builder: (context) => BusinessCurrentRequests(initialSelection: 1)),
                     );
-                  }
-                  else if (checkedIndex == 1){
+                  } else if (checkedIndex == 1) {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => BusinessHistory()),
@@ -174,7 +178,6 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
           ],
         ),
       ),
-      //bottomNavigationBar: BottomNavigationBarExample(),
     );
   }
 
@@ -182,7 +185,6 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
     bool checked = index == checkedIndex;
     String imagePath = cardNames[index];
 
-    // Check if the image path ends with '/service'
     bool isServiceImage = imagePath.contains('/service');
 
     return GestureDetector(
@@ -234,4 +236,27 @@ class _BusinessOwnerHomepageState extends State<BusinessOwnerHomepage> {
         ),
       ),
     );
-  }}
+  }
+
+  _launchEmail(String email) async {
+    final Uri params = Uri(
+      scheme: 'mailto',
+      path: email,
+    );
+
+    String url = params.toString();
+
+    try {
+      await launch(url);
+    } catch (e) {
+      print('Error launching email: $e');
+      Get.snackbar(
+        'Error',
+        'Unable to reach the mail. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+}
