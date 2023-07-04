@@ -300,12 +300,14 @@ class _BusinessOwnerPageFiveState extends State<BusinessOwnerPageFive> {
                         style: TextStyle(color: Colors.white),
                       ),
                       style: ElevatedButton.styleFrom(
+                        primary: Color(0xFFFC5448), // Set the background color of the button
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3),
                         ),
                       ),
                     ),
                   ),
+
 
                   if (pickedfile != null)
                     Padding(

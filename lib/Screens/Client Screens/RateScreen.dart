@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:myapp/Screens/Client%20Screens/viewRequest.dart';
@@ -51,18 +52,20 @@ class _RateScreenState extends State<RateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(238, 238, 238, 1.0),
+      backgroundColor: CupertinoColors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        title: Text(
-          'Rate Service',
-          textAlign: TextAlign.left,
-          style: TextStyle(color: Colors.black),
-        ),
+        backgroundColor: Colors.white,
         leading: BackButton(
           color: Colors.black,
         ),
+        title: Text(
+          'Rate Service',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
