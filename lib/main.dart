@@ -1,11 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'Controller/auth_controller.dart';
-import 'Screens/Admin Screens/admin-homepage.dart';
-import 'Screens/Business Owner Screens/businessOwner_homepage.dart';
 import 'Screens/Shared Screens/splash_screen.dart';
 
 void main() async {
