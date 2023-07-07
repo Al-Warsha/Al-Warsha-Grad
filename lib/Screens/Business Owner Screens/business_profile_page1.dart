@@ -63,7 +63,7 @@ class _BusinessProfileScreenOneState extends State<BusinessProfileScreenOne> {
         _addressController.text = businessOwnerData['address'] ?? '';
         _imageURL = businessOwnerData['imageURL'] ?? ''; // Save the image download URL
         // Load the image if imageURL is available
-        if (owner.imageURL.isNotEmpty) {
+        if (_imageURL!.isNotEmpty) {
           File? image =
           await _businessOwnerRepository.getImageFromFirebase(owner.imageURL);
           if (image != null) {
