@@ -20,9 +20,8 @@ class _BusinessProfileScreenOneState extends State<BusinessProfileScreenOne> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
-
   final BusinessOwnerRepository _businessOwnerRepository = BusinessOwnerRepository();
-  File? _image;
+  ImageProvider? _imageProvider;
   String? _imageURL;
 
   @override
@@ -36,19 +35,20 @@ class _BusinessProfileScreenOneState extends State<BusinessProfileScreenOne> {
     try {
       String? userId = AuthController.instance.currentUserUid;
       if (userId != null) {
-        BusinessOwnerModel owner = BusinessOwnerModel(id: userId,
+        BusinessOwnerModel owner = BusinessOwnerModel(
+          id: userId,
           email: "",
           name: "",
-          password:"",
-          phone:"",
+          password: "",
+          phone: "",
           type: [],
-          brands:[],
+          brands: [],
           latitude: 0,
           longitude: 0,
           address: "",
           documentURL: "",
           imageURL: "",
-          isLoggedIn:false,
+          isLoggedIn: false,
           isSignedOut: false,
           rate: 0,
           rejected: false,
@@ -62,22 +62,21 @@ class _BusinessProfileScreenOneState extends State<BusinessProfileScreenOne> {
         _phoneNumberController.text = businessOwnerData['phone'] ?? '';
         _addressController.text = businessOwnerData['address'] ?? '';
         _imageURL = businessOwnerData['imageURL'] ?? ''; // Save the image download URL
-        // Load the image if imageURL is available
-        if (_imageURL!.isNotEmpty) {
-          File? image =
-          await _businessOwnerRepository.getImageFromFirebase(owner.imageURL);
-          if (image != null) {
+        // Load the image if imageURL is available and not empty
+        if (_imageURL != null && _imageURL!.isNotEmpty) {
+          ImageProvider? imageProvider = NetworkImage(_imageURL!);
+          if (imageProvider != null) {
             setState(() {
-              _image = image;
+              _imageProvider = imageProvider;
             });
           }
         }
-
       }
     } catch (e) {
       print('Error fetching user data: $e');
     }
   }
+
 
   Future<void> updateUserProfile() async {
     try {
@@ -141,9 +140,8 @@ class _BusinessProfileScreenOneState extends State<BusinessProfileScreenOne> {
                   children: [
                     CircleAvatar(
                       radius: 60,
-                      backgroundImage: _imageURL != null && _imageURL!.isNotEmpty
-                          ? NetworkImage(_imageURL!) // Use NetworkImage with the image download URL
-                          : AssetImage('assets/images/profile.jpg') as ImageProvider<Object>?,
+                      backgroundImage: _imageProvider ?? AssetImage('assets/images/profile.jpg'),
+
                     ),
 
                     Positioned(
