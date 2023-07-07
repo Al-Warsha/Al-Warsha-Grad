@@ -1,13 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../Controller/auth_controller.dart';
 import '../../Models/businessOwner_model.dart';
 import '../../Repositories/businessOwner_repository.dart';
 import 'business_edit_type_screen.dart';
-import 'business_profile_page1.dart';
 import 'business_profile_page2.dart';
-import 'business_profile_page3.dart';
+
 
 class BusinessProfileScreenThree extends StatefulWidget {
   const BusinessProfileScreenThree({Key? key}) : super(key: key);

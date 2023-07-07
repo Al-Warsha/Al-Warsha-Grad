@@ -190,31 +190,33 @@ class _BusinessOwnerPageThreeState extends State<BusinessOwnerPageThree> {
                           Icon(Icons.menu, size: 20, color: Color(0xFFFC5448)),
                         ),
                         isEmpty: selectedType.isEmpty,
-                        child: MultiSelectFormField(
-                          title: Text('Type'),
-                          dataSource: [
-                            {'display': 'General automotive mechanic', 'value': 'General automotive mechanic'},
-                            {'display': 'Brake and transmission technicians', 'value': 'Brake and transmission technicians'},
-                            {'display': 'Diesel mechanic', 'value': 'Diesel mechanic'},
-                            {'display': 'Auto body mechanics', 'value': 'Auto body mechanics'},
-                            {'display': 'Auto glass mechanics', 'value': 'Auto glass mechanics'},
-                            {'display': 'Service technicians', 'value': 'Service technicians'},
-                            {'display': 'Electrical', 'value': 'Electrical'},
-                            {'display': 'Tire mechanics', 'value': 'Tire mechanics'},
-                            {'display': 'Winch service', 'value': 'Winch service'},
-                          ],
-                          textField: 'display',
-                          valueField: 'value',
-                          okButtonLabel: 'OK',
-                          cancelButtonLabel: 'CANCEL',
-                          onSaved: (value) {
-                            setState(() {
-                              selectedType = List<String>.from(value ?? []);
+                        child: ListView(
+                          children:[ MultiSelectFormField(
+                            title: Text('Type'),
+                            dataSource: [
+                              {'display': 'General automotive mechanic', 'value': 'General automotive mechanic'},
+                              {'display': 'Brake and transmission technicians', 'value': 'Brake and transmission technicians'},
+                              {'display': 'Diesel mechanic', 'value': 'Diesel mechanic'},
+                              {'display': 'Auto body mechanics', 'value': 'Auto body mechanics'},
+                              {'display': 'Auto glass mechanics', 'value': 'Auto glass mechanics'},
+                              {'display': 'Service technicians', 'value': 'Service technicians'},
+                              {'display': 'Electrical', 'value': 'Electrical'},
+                              {'display': 'Tire mechanics', 'value': 'Tire mechanics'},
+                              {'display': 'Winch service', 'value': 'Winch service'},
+                            ],
+                            textField: 'display',
+                            valueField: 'value',
+                            okButtonLabel: 'OK',
+                            cancelButtonLabel: 'CANCEL',
+                            onSaved: (value) {
+                              setState(() {
+                                selectedType = List<String>.from(value ?? []);
 
-                            });
-                            updateNextButton();
-                            // Update the "Next" button eligibility
-                          },
+                              });
+                              updateNextButton();
+                              // Update the "Next" button eligibility
+                            },
+                          ),],
                         ),
                       );
                     },
