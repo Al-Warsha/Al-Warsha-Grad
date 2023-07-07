@@ -8,7 +8,6 @@ import '../../Repositories/businessOwner_repository.dart';
 import 'BottomNavigationBar-BusinessOwner.dart';
 import 'business_profile_page2.dart';
 
-
 class BusinessProfileScreenOne extends StatefulWidget {
   const BusinessProfileScreenOne({Key? key}) : super(key: key);
 
@@ -24,7 +23,7 @@ class _BusinessProfileScreenOneState extends State<BusinessProfileScreenOne> {
 
   final BusinessOwnerRepository _businessOwnerRepository = BusinessOwnerRepository();
   File? _image;
-
+  String? _imageURL;
 
   @override
   void initState() {
@@ -62,6 +61,7 @@ class _BusinessProfileScreenOneState extends State<BusinessProfileScreenOne> {
         _emailController.text = businessOwnerData['email'] ?? '';
         _phoneNumberController.text = businessOwnerData['phone'] ?? '';
         _addressController.text = businessOwnerData['address'] ?? '';
+        _imageURL = businessOwnerData['imageURL'] ?? ''; // Save the image download URL
         // Load the image if imageURL is available
         if (owner.imageURL.isNotEmpty) {
           File? image =
@@ -141,10 +141,11 @@ class _BusinessProfileScreenOneState extends State<BusinessProfileScreenOne> {
                   children: [
                     CircleAvatar(
                       radius: 60,
-                      backgroundImage: _image != null
-                          ? FileImage(_image!) as ImageProvider<Object>?
+                      backgroundImage: _imageURL != null && _imageURL!.isNotEmpty
+                          ? NetworkImage(_imageURL!) // Use NetworkImage with the image download URL
                           : AssetImage('assets/images/profile.jpg') as ImageProvider<Object>?,
                     ),
+
                     Positioned(
                       bottom: 0,
                       right: 0,
@@ -158,6 +159,7 @@ class _BusinessProfileScreenOneState extends State<BusinessProfileScreenOne> {
                   ],
                 ),
               ),
+              SizedBox(height: h * 0.018),
               Container(
                 width: w * 0.7,
                 height: h * 0.07,
@@ -269,7 +271,7 @@ class _BusinessProfileScreenOneState extends State<BusinessProfileScreenOne> {
                 ),
               ),
 
-              SizedBox(height: h * 0.01),
+              SizedBox(height: h * 0.021),
               GestureDetector(
                 onTap: () {
                   updateUserProfile();

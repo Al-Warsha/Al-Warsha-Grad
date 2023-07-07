@@ -94,17 +94,13 @@ class _BusinessOwnerPageFiveState extends State<BusinessOwnerPageFive> {
   }*/
 
   Future<void> performSignUp() async {
-
     try {
-
       setState(() {
         isLoading = true;
       });
 
-      // Upload the profile image to Firebase Storage
-      // Generate an ID for the business owner (Firestore will generate an ID automatically when adding a new document).
       final docRef = FirebaseFirestore.instance.collection('Test').doc(businessOwnerId);
-      String imageFilePath = "";
+      String imageDownloadURL = ""; // Variable to store the image download URL
       String documentFilePath = "";
 
       // Upload the profile image to Firebase Storage
@@ -113,10 +109,11 @@ class _BusinessOwnerPageFiveState extends State<BusinessOwnerPageFive> {
         final profileImageRef = FirebaseStorage.instance.ref().child(profileImagePath);
         final profileImageUploadTask = profileImageRef.putFile(_image!);
         final profileImageSnapshot = await profileImageUploadTask.whenComplete(() {});
-        imageFilePath = profileImagePath;
+        final profileImageDownloadURL = await profileImageSnapshot.ref.getDownloadURL();
+        imageDownloadURL = profileImageDownloadURL; // Save the image download URL
 
-        // Save the profile image file path to Firestore
-        await docRef.update({'profileImageUrl': imageFilePath});
+        // Save the profile image download URL to Firestore
+        await docRef.update({'profileImageUrl': imageDownloadURL});
       }
 
       // Upload the document to Firebase Storage
@@ -128,9 +125,8 @@ class _BusinessOwnerPageFiveState extends State<BusinessOwnerPageFive> {
         final documentDownloadURL = await documentSnapshot.ref.getDownloadURL();
         documentFilePath = documentPath;
 
-        // Save the document download URL to Firestore
+        // Save the document file path to Firestore
         await docRef.update({'documentUrl': documentFilePath});
-
       }
 
       AuthController.instance.businessOwnerRegister(
@@ -144,21 +140,11 @@ class _BusinessOwnerPageFiveState extends State<BusinessOwnerPageFive> {
         businessOwnerModel.address,
         businessOwnerModel.latitude,
         businessOwnerModel.longitude,
-        imageFilePath,
+        imageDownloadURL, // Pass the image download URL instead of the image file path
         documentFilePath,
-
       ).then((_) {
         Get.off(() => BusinessOwnerPendingPage());
       });
-
-      /*// Save other data from the BusinessOwnerModel instance to Firestore
-      if (await docRef.get().then((snapshot) => snapshot.exists)) {
-        // Update the existing document
-        await docRef.update(widget.businessOwnerModel.toJson());
-      } else {
-        // Create a new document
-        await docRef.set(widget.businessOwnerModel.toJson());
-      }*/
 
       // Check if the document was successfully created in Firestore
       final docSnapshot = await docRef.get();
@@ -198,6 +184,7 @@ class _BusinessOwnerPageFiveState extends State<BusinessOwnerPageFive> {
       );
     }
   }
+
 
 
 
@@ -332,22 +319,22 @@ class _BusinessOwnerPageFiveState extends State<BusinessOwnerPageFive> {
                   Container(
                     width: w * 0.4,
                     height: h * 0.07,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: w*0.2), // Adjust the margin as needed
-                        child: ElevatedButton(
-                          onPressed: performSignUp,
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xFFFC5448),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: w*0.2), // Adjust the margin as needed
+                      child: ElevatedButton(
+                        onPressed: performSignUp,
+                        child: Text(
+                          "Sign Up",
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xFFFC5448),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
                           ),
                         ),
                       ),
+                    ),
 
                   ),
 
