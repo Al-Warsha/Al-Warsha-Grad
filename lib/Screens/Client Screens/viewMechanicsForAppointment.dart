@@ -30,9 +30,9 @@ class viewMechanicsForAppointment_State
   void setRate() async {
     List<BusinessOwnerModel> tempOwners = _controller.businessOwners
         .where((businessOwner) =>
-    (businessOwner.type.contains('Winch Service') &&
+    (businessOwner.type.contains('Winch service') &&
         businessOwner.type.length > 1) ||
-        !businessOwner.type.contains('Winch Service'))
+        !businessOwner.type.contains('Winch service'))
         .toList();
     List<String> businessOwnerIds = tempOwners.map((
         businessOwner) => businessOwner.id).toList();
@@ -64,9 +64,9 @@ class viewMechanicsForAppointment_State
     double ffem = fem * 0.97;
     List<BusinessOwnerModel> businessOwners = _controller.businessOwners
         .where((businessOwner) =>
-    (businessOwner.type.contains('Winch Service') &&
+    (businessOwner.type.contains('Winch service') &&
         businessOwner.type.length > 1) ||
-        !businessOwner.type.contains('Winch Service'))
+        !businessOwner.type.contains('Winch service'))
         .toList();
     return Scaffold(
       appBar: AppBar(

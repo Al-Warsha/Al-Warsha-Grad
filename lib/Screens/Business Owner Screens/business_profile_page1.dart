@@ -174,12 +174,15 @@ class _BusinessProfileScreenOneState extends State<BusinessProfileScreenOne> {
                 ),
                 child: TextField(
                   controller: _fullNameController,
+                  enabled: false,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.person, color: Color(0xFFFC5448)),
                     hintText: "Name",
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(vertical: 16), // Adjust the padding value as needed
+                    hintStyle: TextStyle(color: Colors.black),
                   ),
+                  style: TextStyle(color: Colors.black), // Set the text color
                 ),
               ),
               SizedBox(height: h * 0.04),
@@ -200,13 +203,16 @@ class _BusinessProfileScreenOneState extends State<BusinessProfileScreenOne> {
                 child: Center(
                   child: TextField(
                     controller: _emailController,
+                    enabled: false,
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.email, color: Color(0xFFFC5448)),
                       hintText: "Email",
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      hintStyle: TextStyle(color: Colors.black),
                     ),
+                    style: TextStyle(color: Colors.black), // Set the text color
                   ),
                 ),
               ),

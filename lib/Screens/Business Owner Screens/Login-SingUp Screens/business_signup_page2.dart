@@ -195,7 +195,8 @@ class _BusinessOwnerPageTwoState extends State<BusinessOwnerPageTwo> {
                           Icon(Icons.menu, size: 20, color: Color(0xFFFC5448)),
                         ),
                         isEmpty: selectedBrands.isEmpty,
-                        child: MultiSelectFormField(
+                      child: ListView(
+                      children:[ MultiSelectFormField(
                           title: Text('Brands'),
                           dataSource: [
                             {'display': 'Nissan', 'value': 'Nissan'},
@@ -225,7 +226,8 @@ class _BusinessOwnerPageTwoState extends State<BusinessOwnerPageTwo> {
                             updateNextButton();
                             // Update the "Next" button eligibility
                           },
-                        ),
+                        ),],
+                      ),
                       );
                     },
                   ),

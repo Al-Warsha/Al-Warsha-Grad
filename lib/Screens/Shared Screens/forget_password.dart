@@ -90,7 +90,11 @@ class ForgotPasswordPage extends StatelessWidget {
                     "Reset Password",
                     style: TextStyle(fontSize: 16),
                   ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Color(0xFFFC5448)),
+                  ),
                 ),
+
               ],
             ),
           ),
