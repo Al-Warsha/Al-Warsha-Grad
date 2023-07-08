@@ -157,18 +157,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 child: Center(
                   child: TextField(
                     controller: _emailController,
+                    enabled: false,
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.email, color: Color(0xFFFC5448)),
                       hintText: "Email",
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      hintStyle: TextStyle(color: Colors.black),
                     ),
+                    style: TextStyle(color: Colors.black), // Set the text color
                   ),
                 ),
+
               ),
 
-              SizedBox(height: h * 0.04),
+                SizedBox(height: h * 0.04),
               Container(
                 width: w * 0.7,
                 height: h * 0.07,

@@ -199,7 +199,8 @@ class _BusinessEditBrandScreenState extends State<BusinessEditBrandScreen> {
                         prefixIcon: Icon(Icons.menu, size: 20, color: Color(0xFFFC5448)),
                       ),
                       isEmpty: selectedBrands.isEmpty,
-                      child: MultiSelectFormField(
+                      child: ListView(
+                        children:[ MultiSelectFormField(
                         title: Text('Brands'),
                         dataSource: [
                           {'display': 'Nissan', 'value': 'Nissan'},
@@ -211,6 +212,11 @@ class _BusinessEditBrandScreenState extends State<BusinessEditBrandScreen> {
                           {'display': 'Toyota', 'value': 'Toyota'},
                           {'display': 'Jeep', 'value': 'Jeep'},
                           {'display': 'Opel', 'value': 'Opel'},
+                          {'display': 'Audi', 'value': 'Audi'},
+                          {'display': 'Mazda', 'value': 'Mazda'},
+                          {'display': 'Ford', 'value': 'Ford'},
+                          {'display': 'Seat', 'value': 'Seat'},
+                          {'display': 'Hyundai', 'value': 'Hyundai'},
                         ],
                         textField: 'display',
                         valueField: 'value',
@@ -227,7 +233,8 @@ class _BusinessEditBrandScreenState extends State<BusinessEditBrandScreen> {
                           }
                           return null;
                         },
-                      ),
+                      ),],
+                    ),
                     );
                   },
                 ),

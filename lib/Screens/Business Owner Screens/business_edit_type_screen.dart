@@ -198,7 +198,8 @@ class _BusinessEditTypeScreenState extends State<BusinessEditTypeScreen> {
                         prefixIcon: Icon(Icons.menu, size: 20, color: Color(0xFFFC5448)),
                       ),
                       isEmpty: selectedTypes.isEmpty,
-                      child: MultiSelectFormField(
+                      child: ListView(
+                        children:[ MultiSelectFormField(
                         title: Text('Types'),
                         dataSource: [
                           {'display': 'General automotive mechanic', 'value': 'General automotive mechanic'},
@@ -226,7 +227,8 @@ class _BusinessEditTypeScreenState extends State<BusinessEditTypeScreen> {
                           }
                           return null;
                         },
-                      ),
+                      ),],
+                    ),
                     );
                   },
                 ),

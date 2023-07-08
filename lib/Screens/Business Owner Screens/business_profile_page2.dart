@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../Controller/auth_controller.dart';
@@ -6,7 +5,6 @@ import '../../Models/businessOwner_model.dart';
 import '../../Repositories/businessOwner_repository.dart';
 import 'BottomNavigationBar-BusinessOwner.dart';
 import 'business_edit_brand_screen.dart';
-import 'business_profile_page1.dart';
 import 'business_profile_page3.dart';
 
 class BusinessProfileScreenTwo extends StatefulWidget {
@@ -19,6 +17,7 @@ class BusinessProfileScreenTwo extends StatefulWidget {
 class _BusinessProfileScreenTwoState extends State<BusinessProfileScreenTwo> {
   final BusinessOwnerRepository _businessOwnerRepository = BusinessOwnerRepository();
   List<String> brands = []; // List to store the brands retrieved from Firestore
+  bool isLoading = true; // Flag to track loading state
 
   @override
   void initState() {
@@ -53,10 +52,14 @@ class _BusinessProfileScreenTwoState extends State<BusinessProfileScreenTwo> {
         await _businessOwnerRepository.getBusinessOwnerData(owner);
         setState(() {
           brands = List<String>.from(businessOwnerData['brands']);
+          isLoading = false; // Data fetching completed
         });
       }
     } catch (e) {
       print('Error fetching business owner data: $e');
+      setState(() {
+        isLoading = false;
+      });
     }
   }
   Future<void> deleteBrand(String brand) async {
@@ -148,7 +151,14 @@ class _BusinessProfileScreenTwoState extends State<BusinessProfileScreenTwo> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(height: h * 0.02),
-              ListView.builder(
+              if (isLoading)
+                Center(
+                  child: CircularProgressIndicator(
+                    color: Color(0xFFFC5448),
+                  ),
+                )
+              else
+                ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: brands.length,

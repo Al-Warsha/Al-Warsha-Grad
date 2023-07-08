@@ -73,7 +73,7 @@ class _winchServiceState extends State<winchService> {
 
   void setRate() {
     List<BusinessOwnerModel> tempOwners = _controller.businessOwners
-        .where((businessOwner) => businessOwner.type.contains('Winch Service'))
+        .where((businessOwner) => businessOwner.type.contains('Winch service'))
         .toList();
 
     List<String> businessOwnerIds =
@@ -101,7 +101,7 @@ class _winchServiceState extends State<winchService> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
     List<BusinessOwnerModel> businessOwners = _controller.businessOwners
-        .where((businessOwner) => businessOwner.type.contains('Winch Service'))
+        .where((businessOwner) => businessOwner.type.contains('Winch service'))
         .toList();
 
     // Sort businessOwners based on distance from user's location

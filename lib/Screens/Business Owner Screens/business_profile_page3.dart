@@ -17,6 +17,7 @@ class BusinessProfileScreenThree extends StatefulWidget {
 class _BusinessProfileScreenThreeState extends State<BusinessProfileScreenThree> {
   final BusinessOwnerRepository _businessOwnerRepository = BusinessOwnerRepository();
   List<String> types = []; // List to store the brands retrieved from Firestore
+  bool isLoading = true; // Flag to track loading state
 
   @override
   void initState() {
@@ -51,10 +52,14 @@ class _BusinessProfileScreenThreeState extends State<BusinessProfileScreenThree>
         await _businessOwnerRepository.getBusinessOwnerData(owner);
         setState(() {
           types = List<String>.from(businessOwnerData['type']);
+          isLoading = false; // Data fetching completed
         });
       }
     } catch (e) {
       print('Error fetching business owner data: $e');
+      setState(() {
+        isLoading = false;
+      });
     }
   }
   Future<void> deleteType(String type) async {
@@ -138,7 +143,14 @@ class _BusinessProfileScreenThreeState extends State<BusinessProfileScreenThree>
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(height: h * 0.02),
-              ListView.builder(
+              if (isLoading)
+                Center(
+                  child: CircularProgressIndicator(
+                    color: Color(0xFFFC5448),
+                  ),
+                )
+              else
+                ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: types.length,
