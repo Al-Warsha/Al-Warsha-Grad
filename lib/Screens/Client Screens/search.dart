@@ -84,9 +84,10 @@ class _SearchPageState extends State<Search> {
 
         if (centerName.toLowerCase().contains(searchText.toLowerCase()) &&
             verified &&
-            type != 'Winch Service') {
+            !type.contains("Winch service")) {
           filteredResults.add(doc);
         }
+
       }
 
       if (_selectedFilter == 'Rating') {
@@ -146,7 +147,7 @@ class _SearchPageState extends State<Search> {
           bool verified = doc.data()?['verified'] ?? false;
           List<dynamic> type = doc.data()?['type'] ?? [];
 
-          return verified && !type.contains('Winch Service');
+          return verified && !type.contains('Winch service');
         }).toList();
 
         setState(() {
